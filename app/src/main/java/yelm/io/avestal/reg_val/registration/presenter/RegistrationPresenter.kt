@@ -12,9 +12,9 @@ class RegistrationPresenter(private var view: RegistrationView?) {
     fun phoneValidation(phone: String) {
         val phoneFinal = phone.replace("\\D".toRegex(), "")
         if (phoneFinal.length != 11) {
-            view?.validationPhoneError(R.string.enter_correct_phone_number)
+            view?.validationPhoneError(R.string.enterCorrectPhoneNumber)
         } else {
-            view?.validationPhoneSuccess(phoneFinal)
+            view?.validationPhoneSuccess(phone)
         }
     }
 

@@ -37,5 +37,13 @@
         <item name="android:textSize">16sp</item>
     </style>
 
+    <style name="TextStyleCode" parent="">
+        <item name="android:fontFamily">@font/golos_regular</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textColor">@color/mainColor</item>
+        <item name="android:textSize">16sp</item>
+        <item name="colorSecondary">@color/mainColor</item>
+
+    </style>
 
 </resources>
