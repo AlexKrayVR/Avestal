@@ -1,0 +1,2 @@
+rootProject.name = "Avestal"
+include ':app'
