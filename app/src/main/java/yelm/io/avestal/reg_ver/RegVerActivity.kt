@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import yelm.io.avestal.R
+import yelm.io.avestal.app_settings.SharedPreferencesSetting
 import yelm.io.avestal.databinding.RegVerActivityBinding
 import yelm.io.avestal.main.AppActivity
 import yelm.io.avestal.reg_ver.registration.view.Communicator
@@ -15,6 +16,7 @@ import yelm.io.avestal.reg_ver.verification.VerificationFragment
 
 class RegVerActivity : AppCompatActivity(), Communicator {
     private lateinit var binding: RegVerActivityBinding
+
     //var verificationCode = ""
     private var toast: Toast? = null
 
@@ -23,8 +25,18 @@ class RegVerActivity : AppCompatActivity(), Communicator {
         setTheme(R.style.Theme_Avestal)
         binding = RegVerActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        openRegistrationFragment("")
+        SharedPreferencesSetting.initSharedPreferencesSettings(this)
+        checkUser()
     }
+
+    private fun checkUser() {
+        if (SharedPreferencesSetting.getSettings().contains(SharedPreferencesSetting.USER_NAME)) {
+            startApp();
+        } else {
+            openRegistrationFragment("")
+        }
+    }
+
 
     override fun openRegistrationFragment(phone: String) {
         val registrationFragment: Fragment = LoginFragment.newInstance(phone)
@@ -32,7 +44,7 @@ class RegVerActivity : AppCompatActivity(), Communicator {
         transaction.replace(R.id.container, registrationFragment).commit()
     }
 
-    override  fun openValidationFragment(phone: String) {
+    override fun openValidationFragment(phone: String) {
         val validationFragment: Fragment = VerificationFragment.newInstance(phone)
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.container, validationFragment).commit()

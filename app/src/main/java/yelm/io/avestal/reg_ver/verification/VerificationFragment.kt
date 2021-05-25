@@ -14,9 +14,9 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import yelm.io.avestal.Logging
 import yelm.io.avestal.R
+import yelm.io.avestal.app_settings.SharedPreferencesSetting
 import yelm.io.avestal.databinding.FragmentVerificationBinding
 import yelm.io.avestal.reg_ver.registration.view.Communicator
-import java.lang.RuntimeException
 
 
 class VerificationFragment : Fragment(), OnBackPressedListener {
@@ -40,6 +40,7 @@ class VerificationFragment : Fragment(), OnBackPressedListener {
         super.onViewCreated(view, savedInstanceState)
         fillUI()
         bindAction()
+        //TODO server request
     }
 
     @Suppress("DEPRECATION")
@@ -96,6 +97,10 @@ class VerificationFragment : Fragment(), OnBackPressedListener {
 
                 if (isCodeFulled()) {
                     if (array.joinToString("") == test) {
+                        SharedPreferencesSetting.setData(
+                            SharedPreferencesSetting.USER_NAME,
+                            "USER"
+                        )
                         communicator?.startApp()
                     } else {
                         communicator?.showToast(R.string.codeIncorrect)
