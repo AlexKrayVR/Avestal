@@ -7,6 +7,9 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import yelm.io.avestal.R
+import yelm.io.avestal.database.BasketItemApplication
+import yelm.io.avestal.database.BasketItemModelFactory
+import yelm.io.avestal.database.BasketItemViewModel
 import yelm.io.avestal.databinding.ActivityAppBinding
 
 class AppActivity : AppCompatActivity() {

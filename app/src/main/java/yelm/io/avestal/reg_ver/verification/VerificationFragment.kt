@@ -144,7 +144,7 @@ class VerificationFragment : Fragment(), OnBackPressedListener {
     }
 
     override fun doBack() {
-        arguments!!.getString(PHONE)?.let {
+        requireArguments().getString(PHONE)?.let {
             communicator?.openRegistrationFragment(it)
         }
     }
