@@ -3,29 +3,29 @@
 
     <item
         android:id="@+id/navigation_services"
-        android:icon="@drawable/ic_services"
-        android:title="1" />
+        android:icon="@drawable/services_selector"
+        android:title="@string/services" />
 
 
     <item
         android:id="@+id/navigation_responses"
-        android:icon="@drawable/ic_responses"
-        android:title="2" />
+        android:icon="@drawable/responses_selector"
+        android:title="@string/responses" />
 
     <item
         android:id="@+id/navigation_home"
-        android:icon="@drawable/ic_home"
-        android:title="3" />
+        android:icon="@drawable/home_selector"
+        android:title="@string/home" />
 
     <item
         android:id="@+id/navigation_basket"
-        android:icon="@drawable/ic_basket"
-        android:title="4" />
+        android:icon="@drawable/basket_selector"
+        android:title="@string/basket" />
 
     <item
         android:id="@+id/navigation_user"
-        android:icon="@drawable/ic_user"
-        android:title="5" />
+        android:icon="@drawable/user_selector"
+        android:title="@string/user" />
 
 
 </menu>
