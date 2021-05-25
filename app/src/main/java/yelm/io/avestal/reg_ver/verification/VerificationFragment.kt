@@ -1,4 +1,4 @@
-package yelm.io.avestal.reg_val.verification
+package yelm.io.avestal.reg_ver.verification
 
 import android.content.Context
 import android.os.Bundle
@@ -15,8 +15,7 @@ import androidx.fragment.app.Fragment
 import yelm.io.avestal.Logging
 import yelm.io.avestal.R
 import yelm.io.avestal.databinding.FragmentVerificationBinding
-import yelm.io.avestal.reg_val.registration.view.Communicator
-import java.lang.Exception
+import yelm.io.avestal.reg_ver.registration.view.Communicator
 import java.lang.RuntimeException
 
 

@@ -1,4 +1,4 @@
-package yelm.io.avestal.reg_val.registration.view
+package yelm.io.avestal.reg_ver.registration.view
 
 import android.content.Context
 import android.os.Bundle
@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import yelm.io.avestal.databinding.FragmentLoginBinding
-import yelm.io.avestal.reg_val.common.PhoneTextFormatter
-import yelm.io.avestal.reg_val.registration.presenter.LoginPresenter
+import yelm.io.avestal.reg_ver.common.PhoneTextFormatter
+import yelm.io.avestal.reg_ver.registration.presenter.LoginPresenter
 import java.lang.RuntimeException
 
 class LoginFragment : Fragment(), RegistrationView {

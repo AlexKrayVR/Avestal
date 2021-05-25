@@ -1,4 +1,4 @@
-package yelm.io.avestal.reg_val.common;
+package yelm.io.avestal.reg_ver.common;
 
 import android.text.Editable;
 import android.text.InputFilter;

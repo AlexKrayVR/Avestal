@@ -1,4 +1,4 @@
-package yelm.io.avestal.reg_val.verification
+package yelm.io.avestal.reg_ver.verification
 
 interface OnBackPressedListener {
     fun doBack()

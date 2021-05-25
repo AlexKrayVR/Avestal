@@ -1,4 +1,4 @@
-package yelm.io.avestal.reg_val
+package yelm.io.avestal.reg_ver
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,10 +8,10 @@ import androidx.fragment.app.Fragment
 import yelm.io.avestal.R
 import yelm.io.avestal.databinding.RegVerActivityBinding
 import yelm.io.avestal.main.AppActivity
-import yelm.io.avestal.reg_val.registration.view.Communicator
-import yelm.io.avestal.reg_val.registration.view.LoginFragment
-import yelm.io.avestal.reg_val.verification.OnBackPressedListener
-import yelm.io.avestal.reg_val.verification.VerificationFragment
+import yelm.io.avestal.reg_ver.registration.view.Communicator
+import yelm.io.avestal.reg_ver.registration.view.LoginFragment
+import yelm.io.avestal.reg_ver.verification.OnBackPressedListener
+import yelm.io.avestal.reg_ver.verification.VerificationFragment
 
 class RegVerActivity : AppCompatActivity(), Communicator {
     private lateinit var binding: RegVerActivityBinding

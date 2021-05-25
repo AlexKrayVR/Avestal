@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_home">
+
+    <fragment
+        android:id="@+id/navigation_services"
+        android:name="yelm.io.avestal.main.services.ServicesFragment"
+        tools:layout="@layout/fragment_services" />
+
+
+
+    <fragment
+        android:id="@+id/navigation_responses"
+        android:name="yelm.io.avestal.main.responses.ResponsesFragment"
+        tools:layout="@layout/fragment_responses" />
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="yelm.io.avestal.main.home.HomeFragment"
+        tools:layout="@layout/fragment_home" />
+
+
+    <fragment
+        android:id="@+id/navigation_basket"
+        android:name="yelm.io.avestal.main.basket.BasketFragment"
+        tools:layout="@layout/fragment_basket" />
+
+    <fragment
+        android:id="@+id/navigation_user"
+        android:name="yelm.io.avestal.main.user.UserFragment"
+        tools:layout="@layout/fragment_user" />
+
+</navigation>

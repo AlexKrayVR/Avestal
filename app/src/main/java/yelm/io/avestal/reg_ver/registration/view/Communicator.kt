@@ -1,4 +1,4 @@
-package yelm.io.avestal.reg_val.registration.view
+package yelm.io.avestal.reg_ver.registration.view
 
 interface Communicator {
    fun openRegistrationFragment(phone: String)

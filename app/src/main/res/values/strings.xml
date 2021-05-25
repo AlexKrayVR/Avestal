@@ -15,7 +15,8 @@
     <string name="codeDidNotCome">Код не пришел,</string>
     <string name="resend">отправить повторно</string>
     <string name="enterVerificationCode">Введите код верификации отправленный на номер</string>
-
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>
