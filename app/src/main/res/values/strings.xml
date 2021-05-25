@@ -2,17 +2,18 @@
     <string name="app_name">Avestal</string>
 
 
-    <!--RegistrationFragment -->
-    <string name="registration">Регистрация</string>
+    <!--LoginFragment -->
+    <string name="login">Войдите в приложение</string>
     <string name="phoneHint">+7</string>
     <string name="further">Далее</string>
     <string name="enterPhoneNumber">Введите номер телефона, чтобы подтвердить свою учетную запись</string>
     <string name="enterCorrectPhoneNumber">Введите корректный номер телефона</string>
 
-
     <!--VerificationFragment -->
-
     <string name="verification">Верификация</string>
+    <string name="codeIncorrect">Код неверен</string>
+    <string name="codeDidNotCome">Код не пришел,</string>
+    <string name="resend">отправить повторно</string>
     <string name="enterVerificationCode">Введите код верификации отправленный на номер</string>
 
 

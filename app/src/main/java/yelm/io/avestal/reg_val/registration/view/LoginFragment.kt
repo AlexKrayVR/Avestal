@@ -1,34 +1,33 @@
 package yelm.io.avestal.reg_val.registration.view
 
+import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import yelm.io.avestal.databinding.FragmentRegistrationBinding
+import androidx.fragment.app.Fragment
+import yelm.io.avestal.databinding.FragmentLoginBinding
 import yelm.io.avestal.reg_val.common.PhoneTextFormatter
-import yelm.io.avestal.reg_val.RegVerActivity
-import yelm.io.avestal.reg_val.registration.presenter.RegistrationPresenter
+import yelm.io.avestal.reg_val.registration.presenter.LoginPresenter
+import java.lang.RuntimeException
 
-class RegistrationFragment : Fragment(), RegistrationView {
-    lateinit var registrationPresenter: RegistrationPresenter
-    private var toast: Toast? = null
+class LoginFragment : Fragment(), RegistrationView {
+    private lateinit var loginPresenter: LoginPresenter
 
-    private var binding: FragmentRegistrationBinding? = null
-
+    private var binding: FragmentLoginBinding? = null
+    private var communicator: Communicator? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentRegistrationBinding.inflate(inflater, container, false)
+        binding = FragmentLoginBinding.inflate(inflater, container, false)
         return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        registrationPresenter = RegistrationPresenter(this)
+        loginPresenter = LoginPresenter(this)
         binding?.phone?.addTextChangedListener(
             PhoneTextFormatter(
                 binding?.phone,
@@ -41,13 +40,12 @@ class RegistrationFragment : Fragment(), RegistrationView {
         binding?.further?.setOnClickListener {
             registration()
         }
-
     }
 
     companion object {
         @JvmStatic
         fun newInstance(phone: String) =
-            RegistrationFragment().apply {
+            LoginFragment().apply {
                 arguments = Bundle().apply {
                     putString(PHONE, phone)
                 }
@@ -57,25 +55,36 @@ class RegistrationFragment : Fragment(), RegistrationView {
     }
 
     override fun registration() {
-        registrationPresenter.phoneValidation(binding?.phone?.text.toString())
+        loginPresenter.phoneValidation(binding?.phone?.text.toString())
     }
 
     override fun validationPhoneError(error: Int) {
-        toast?.cancel()
-        toast = Toast.makeText(context, context?.resources?.getString(error), Toast.LENGTH_LONG)
-        toast?.show()
+        communicator?.showToast(error)
     }
 
     override fun validationPhoneSuccess(phone: String) {
-        (activity as RegVerActivity).openValidationFragment(phone)
+        communicator?.openValidationFragment(phone)
     }
 
     //Because Fragments continue to live after the View has gone, it’s good to remove any references to the binding class instance
     override fun onDestroyView() {
         binding = null
-        registrationPresenter.detachView()
+        loginPresenter.detachView()
         super.onDestroyView()
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (activity is Communicator) {
+            communicator = activity as Communicator
+        } else {
+            throw RuntimeException(activity.toString() + " must implement Communicator interface")
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        communicator = null
+    }
 
 }

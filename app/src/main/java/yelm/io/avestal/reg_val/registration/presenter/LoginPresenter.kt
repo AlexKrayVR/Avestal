@@ -3,7 +3,7 @@ package yelm.io.avestal.reg_val.registration.presenter
 import yelm.io.avestal.R
 import yelm.io.avestal.reg_val.registration.view.RegistrationView
 
-class RegistrationPresenter(private var view: RegistrationView?) {
+class LoginPresenter(private var view: RegistrationView?) {
 
     fun detachView() {
         view = null

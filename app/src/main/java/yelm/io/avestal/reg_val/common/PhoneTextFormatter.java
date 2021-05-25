@@ -7,9 +7,9 @@ import android.widget.EditText;
 
 public class PhoneTextFormatter implements TextWatcher {
 
-    private EditText editText;
+    private final EditText editText;
 
-    private String pattern;
+    private final String pattern;
 
     public PhoneTextFormatter(EditText editText, String pattern) {
         this.editText = editText;

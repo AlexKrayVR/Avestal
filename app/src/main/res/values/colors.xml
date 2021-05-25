@@ -12,7 +12,9 @@
     <color name="backEnterColor">#E0E0E0</color>
 
     <color name="textColorDemiBold">#121212</color>
-    <color name="textColorNormal">#BDBDBD</color>
+    <color name="textColorLightGray">#BDBDBD</color>
+    <color name="textColorGray">#828282</color>
+    <color name="colorBlue">#0A84FF</color>
 
 
 
