@@ -18,11 +18,14 @@
 
     <!--Navigation -->
     <string name="home">home</string>
-    <string name="basket">basket</string>
+    <string name="basket_nav">basket</string>
     <string name="services">services</string>
     <string name="user">user</string>
     <string name="responses">responses</string>
 
+    <!--BasketFragment -->
+   .. <string name="basket">Корзина</string>
+   .. <string name="clearBasket">Очистить</string>
 
 
 

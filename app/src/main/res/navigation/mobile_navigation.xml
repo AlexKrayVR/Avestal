@@ -25,8 +25,12 @@
 
     <fragment
         android:id="@+id/navigation_basket"
-        android:name="yelm.io.avestal.main.basket.BasketFragment"
-        tools:layout="@layout/fragment_basket" />
+        android:name="yelm.io.avestal.main.basket.controller.BasketFragment"
+        tools:layout="@layout/fragment_basket" >
+        <action
+            android:id="@+id/action_navigation_basket_to_navigation_home"
+            app:destination="@id/navigation_home" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_user"

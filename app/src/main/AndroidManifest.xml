@@ -3,16 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="yelm.io.avestal">
 
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        tools:ignore="LockedOrientationActivity"
-        android:theme="@style/Theme.Avestal">
+        android:theme="@style/Theme.Avestal"
+        tools:ignore="LockedOrientationActivity">
         <activity
             android:name=".main.AppActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
 
         </activity>
         <activity

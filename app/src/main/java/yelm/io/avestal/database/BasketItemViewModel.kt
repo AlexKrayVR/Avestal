@@ -10,6 +10,23 @@ class BasketItemViewModel(private val repository: BasketRepository) : ViewModel(
     fun insert(basketItem: BasketItem) = viewModelScope.launch {
         repository.insert(basketItem)
     }
+
+    fun increase(itemID: String) = viewModelScope.launch {
+        repository.increase(itemID)
+    }
+
+    fun reduce(itemID: String) = viewModelScope.launch {
+        repository.reduce(itemID)
+    }
+
+    fun deleteAll() = viewModelScope.launch {
+        repository.deleteAll()
+    }
+
+    fun deleteByID(itemID: String) = viewModelScope.launch {
+        repository.deleteByID(itemID)
+    }
+
 }
 
 class BasketItemModelFactory(private val repository: BasketRepository) : ViewModelProvider.Factory {
