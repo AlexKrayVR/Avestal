@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import yelm.io.avestal.R
 import yelm.io.avestal.app_settings.SharedPreferencesSetting
 import yelm.io.avestal.databinding.RegVerActivityBinding
-import yelm.io.avestal.main.AppActivity
+import yelm.io.avestal.main.host.AppActivity
 import yelm.io.avestal.reg_ver.registration.view.Communicator
 import yelm.io.avestal.reg_ver.registration.view.LoginFragment
 import yelm.io.avestal.reg_ver.verification.OnBackPressedListener

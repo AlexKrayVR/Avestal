@@ -12,7 +12,7 @@
         android:theme="@style/Theme.Avestal"
         tools:ignore="LockedOrientationActivity">
         <activity
-            android:name=".main.AppActivity"
+            android:name=".main.host.AppActivity"
             android:screenOrientation="portrait">
 
         </activity>

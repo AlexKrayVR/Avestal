@@ -1,5 +1,6 @@
 package yelm.io.avestal.main.basket.controller
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -14,20 +15,14 @@ import yelm.io.avestal.Logging
 import yelm.io.avestal.database.*
 import yelm.io.avestal.databinding.FragmentBasketBinding
 import yelm.io.avestal.main.basket.adapter.BasketAdapter
+import yelm.io.avestal.main.host.BadgeInterface
 import java.util.ArrayList
 
 class BasketFragment : Fragment() {
 
     private lateinit var basketItemViewModel: BasketItemViewModel
     private var binding: FragmentBasketBinding? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            //param1 = it.getString(ARG_PARAM1)
-            //param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private var badgeInterface: BadgeInterface? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -40,17 +35,14 @@ class BasketFragment : Fragment() {
         adapter.setListener(object : BasketAdapter.Listener {
             override fun increase(itemID: String) {
                 basketItemViewModel.increase(itemID)
-                Logging.logDebug("increase")
             }
 
             override fun reduce(itemID: String) {
                 basketItemViewModel.reduce(itemID)
-                Logging.logDebug("reduce")
             }
 
             override fun deleteByID(itemID: String) {
                 basketItemViewModel.deleteByID(itemID)
-                Logging.logDebug("deleteByID")
             }
         })
 
@@ -63,11 +55,10 @@ class BasketFragment : Fragment() {
             items?.let {
                 adapter.addItems(it as ArrayList<BasketItem>)
                 Logging.logDebug("size: ${it.size}")
-
-                for(item in it){
+                for (item in it) {
                     Logging.logDebug("item.count: ${item.count}")
                 }
-
+                badgeInterface?.setBadges(it.size)
             }
         })
         binding?.button?.setOnClickListener {
@@ -86,27 +77,20 @@ class BasketFragment : Fragment() {
         binding?.back?.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_basket_to_navigation_home)
         }
-
     }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentBasketBinding.inflate(inflater, container, false)
-
         return binding!!.root
     }
 
     companion object {
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance() =
             BasketFragment().apply {
-                arguments = Bundle().apply {
-                    //putString(ARG_PARAM1, param1)
-                    //putString(ARG_PARAM2, param2)
-                }
             }
     }
 
@@ -115,5 +99,13 @@ class BasketFragment : Fragment() {
         binding = null
     }
 
-}
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        badgeInterface = activity as BadgeInterface
+    }
 
+    override fun onDetach() {
+        super.onDetach()
+        badgeInterface = null
+    }
+}
