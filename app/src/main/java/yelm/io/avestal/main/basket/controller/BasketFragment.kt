@@ -2,21 +2,20 @@ package yelm.io.avestal.main.basket.controller
 
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import yelm.io.avestal.R
-import androidx.lifecycle.Observer
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.SupervisorJob
 import yelm.io.avestal.Logging
-import yelm.io.avestal.database.*
+import yelm.io.avestal.R
+import yelm.io.avestal.database.BasketItem
+import yelm.io.avestal.database.BasketItemModelFactory
+import yelm.io.avestal.database.BasketItemViewModel
 import yelm.io.avestal.databinding.FragmentBasketBinding
 import yelm.io.avestal.main.basket.adapter.BasketAdapter
 import yelm.io.avestal.main.host.BadgeInterface
-import java.util.ArrayList
+import java.util.*
 
 class BasketFragment : Fragment() {
 
@@ -26,9 +25,6 @@ class BasketFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val db = BasketRoomDatabase.getDatabase(requireActivity(), CoroutineScope(SupervisorJob()))
-        val repository = BasketRepository(db.basketItemDao())
 
         val adapter = BasketAdapter(arrayListOf(), requireContext())
 
@@ -48,15 +44,16 @@ class BasketFragment : Fragment() {
 
         binding?.recyclerBasket?.adapter = adapter
         basketItemViewModel =
-            BasketItemModelFactory(repository)
+            BasketItemModelFactory(badgeInterface?.getDBRepository()!!)
                 .create(BasketItemViewModel::class.java)
 
-        basketItemViewModel.allItems.observe(requireActivity(), Observer { items ->
+
+        basketItemViewModel.allItems.observe(requireActivity(), { items ->
             items?.let {
                 adapter.addItems(it as ArrayList<BasketItem>)
                 Logging.logDebug("size: ${it.size}")
                 for (item in it) {
-                    Logging.logDebug("item.count: ${item.count}")
+                    Logging.logDebug("itemID: ${item.itemID}, count: ${item.count}")
                 }
                 badgeInterface?.setBadges(it.size)
             }
@@ -85,13 +82,6 @@ class BasketFragment : Fragment() {
     ): View {
         binding = FragmentBasketBinding.inflate(inflater, container, false)
         return binding!!.root
-    }
-
-    companion object {
-        @JvmStatic
-        fun newInstance() =
-            BasketFragment().apply {
-            }
     }
 
     override fun onDestroyView() {

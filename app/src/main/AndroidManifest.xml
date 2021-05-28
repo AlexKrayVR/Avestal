@@ -4,6 +4,7 @@
     package="yelm.io.avestal">
 
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -11,11 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Avestal"
         tools:ignore="LockedOrientationActivity">
+        <activity android:name=".main.user.photo.PickPhotoActivity"></activity>
         <activity
             android:name=".main.host.AppActivity"
-            android:screenOrientation="portrait">
-
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".reg_ver.RegVerActivity"
             android:screenOrientation="portrait"

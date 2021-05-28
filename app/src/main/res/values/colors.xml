@@ -16,6 +16,9 @@
     <color name="textColorLightGray">#BDBDBD</color>
     <color name="textColorGray">#828282</color>
     <color name="colorBlue">#0A84FF</color>
+    <color name="colorUserPictureHolder">#E0E0E0</color>
+
+    <color name="colorUserWorkType">#F9F9F9</color>
 
 
 

@@ -24,9 +24,21 @@
     <string name="responses">responses</string>
 
     <!--BasketFragment -->
-   .. <string name="basket">Корзина</string>
-   .. <string name="clearBasket">Очистить</string>
+    <string name="basket">Корзина</string>
+    <string name="clearBasket">Очистить</string>
 
+    <!--UserFragment -->
+    <string name="region">Местонахождение</string>
+    <string name="yourRegion">Ваш регион</string>
+    <string name="passportNotVerified">Паспорт не проверен</string>
+    <string name="passportVerified">Паспорт проверен</string>
+    <string name="documentVerification">Пройдите проверку документов</string>
+    <string name="documentVerificationDescription">Сделайте фото паспорта и селфи для подтверждения личности</string>
+    <string name="aboutUser">О себе</string>
+    <string name="aboutUserDescription">Расскажите о себе в формате резюме</string>
+    <string name="settings">Настройки</string>
+    <string name="settingsDescription">Пуш уведомления, отклики, выход</string>
+    <string name="workTypes">Типы работ</string>
 
 
 </resources>

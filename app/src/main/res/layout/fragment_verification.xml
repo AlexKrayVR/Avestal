@@ -16,7 +16,7 @@
         android:background="@drawable/back_enter_10dp"
         android:padding="10dp"
         android:scaleType="fitCenter"
-        android:src="@drawable/ic_round_arrow_back_ios_24"
+        android:src="@drawable/ic_back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

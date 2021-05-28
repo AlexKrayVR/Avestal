@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Theme.Avestal" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimary">@color/mainColor</item>
         <item name="colorPrimaryVariant">@color/mainColor</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
@@ -15,7 +15,7 @@
     </style>
 
     <style name="SplashTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-    <item name="android:windowBackground">@drawable/splash_screen</item>
+        <item name="android:windowBackground">@drawable/splash_screen</item>
     </style>
 
     <style name="TextStyleDemiBold" parent="">
@@ -45,5 +45,15 @@
         <item name="colorSecondary">@color/mainColor</item>
 
     </style>
+<!--    ?android:attr/ratingBarStyleSmall-->
+
+    <style name="RatingBar5Stars" parent="@android:style/Widget.RatingBar" >
+        <item name="colorControlNormal">#02A5FD</item>
+        <item name="colorControlActivated">#FDCD02</item>
+<!--        <item name="android:progressDrawable">@drawable/selector_ratingbar5</item>-->
+<!--        <item name="android:minHeight">16dp</item>-->
+<!--        <item name="android:maxHeight">16dp</item>-->
+    </style>
+
 
 </resources>

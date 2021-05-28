@@ -26,8 +26,16 @@ class RegVerActivity : AppCompatActivity(), Communicator {
         binding = RegVerActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
         SharedPreferencesSetting.initSharedPreferencesSettings(this)
+
+
+
+
         checkUser()
     }
+
+
+
+
 
     private fun checkUser() {
         if (SharedPreferencesSetting.getSettings().contains(SharedPreferencesSetting.USER_NAME)) {
