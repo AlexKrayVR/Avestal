@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp"
     android:layout_marginBottom="8dp"
     android:background="@color/colorUserWorkType"
     android:padding="16dp">
@@ -12,10 +14,12 @@
         android:id="@+id/name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:text="Установка кондера"
-        android:textColor="@color/textColorDemiBold"
+        android:textColor="@color/textColor121212"
         android:textSize="14sp"
         android:theme="@style/TextStyleRegular"
+        app:layout_constraintEnd_toStartOf="@+id/layoutStars"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -23,12 +27,12 @@
         android:id="@+id/layoutStars"
         android:layout_width="88dp"
         android:layout_height="wrap_content"
-        android:gravity="end"
         android:divider="@drawable/delimiter_stars"
-        android:showDividers="middle"
-
-
+        android:gravity="end"
         android:orientation="horizontal"
+
+
+        android:showDividers="middle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/name" />
 </androidx.constraintlayout.widget.ConstraintLayout>

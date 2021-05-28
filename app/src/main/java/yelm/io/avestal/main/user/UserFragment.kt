@@ -14,6 +14,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import yelm.io.avestal.R
 import yelm.io.avestal.databinding.FragmentUserBinding
 import yelm.io.avestal.main.user.photo.PickPhotoActivity
+import yelm.io.avestal.main.user.region.RegionActivity
 
 
 class UserFragment : Fragment() {
@@ -59,6 +60,11 @@ class UserFragment : Fragment() {
         binding?.imageView?.setOnClickListener {
             requireContext().startActivity(Intent(activity, PickPhotoActivity::class.java))
         }
+
+        binding?.layoutUserRegion?.setOnClickListener{
+            requireContext().startActivity(Intent(activity, RegionActivity::class.java))
+        }
+
 
     }
 

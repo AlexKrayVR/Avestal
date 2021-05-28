@@ -6,9 +6,9 @@
     app:startDestination="@+id/navigation_home">
 
     <fragment
-        android:id="@+id/navigation_services"
-        android:name="yelm.io.avestal.main.services.ServicesFragment"
-        tools:layout="@layout/fragment_services" />
+        android:id="@+id/navigation_offers"
+        android:name="yelm.io.avestal.main.offers.OffersFragment"
+        tools:layout="@layout/fragment_offers" />
 
 
 

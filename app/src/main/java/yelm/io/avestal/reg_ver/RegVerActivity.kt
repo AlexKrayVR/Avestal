@@ -26,16 +26,8 @@ class RegVerActivity : AppCompatActivity(), Communicator {
         binding = RegVerActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
         SharedPreferencesSetting.initSharedPreferencesSettings(this)
-
-
-
-
         checkUser()
     }
-
-
-
-
 
     private fun checkUser() {
         if (SharedPreferencesSetting.getSettings().contains(SharedPreferencesSetting.USER_NAME)) {
@@ -44,7 +36,6 @@ class RegVerActivity : AppCompatActivity(), Communicator {
             openRegistrationFragment("")
         }
     }
-
 
     override fun openRegistrationFragment(phone: String) {
         val registrationFragment: Fragment = LoginFragment.newInstance(phone)
@@ -79,5 +70,4 @@ class RegVerActivity : AppCompatActivity(), Communicator {
         toast = Toast.makeText(this, resources?.getString(message), Toast.LENGTH_LONG)
         toast?.show()
     }
-
 }

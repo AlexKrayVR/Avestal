@@ -18,7 +18,7 @@
     <!--Navigation -->
     <string name="home">home</string>
     <string name="basket_nav">basket</string>
-    <string name="services">services</string>
+    <string name="offers">offers</string>
     <string name="user">user</string>
     <string name="responses">responses</string>
 
@@ -27,8 +27,6 @@
     <string name="clearBasket">Очистить</string>
 
     <!--UserFragment -->
-    <string name="region">Местонахождение</string>
-    <string name="yourRegion">Ваш регион</string>
     <string name="passportNotVerified">Паспорт не проверен</string>
     <string name="passportVerified">Паспорт проверен</string>
     <string name="documentVerification">Пройдите проверку документов</string>
@@ -39,9 +37,17 @@
     <string name="settingsDescription">Пуш уведомления, отклики, выход</string>
     <string name="workTypes">Типы работ</string>
 
-    <!--PickPhotoActivity -->
+    <!--UserRegion -->
+    <string name="region">Местонахождение</string>
+    <string name="yourRegion">Ваш регион</string>
+
+    <!--UserPickPhoto -->
     <string name="registration">Регистрация</string>
     <string name="uploadPhotoProfile">Загрузите фото профиля</string>
     <string name="attachPhoto">Прикрепить фото</string>
+    <string name="photoReady">Готово</string>
+
+    <!--OffersFragment -->
+    <string name="fromQuestionnaire">По услугам из анкеты</string>
 
 </resources>

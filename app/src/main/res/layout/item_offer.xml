@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="16dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginEnd="16dp"
+    android:layout_marginBottom="4dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="4dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="14dp"
+            android:layout_marginEnd="8dp"
+            android:textColor="@color/textColor121212"
+            android:theme="@style/TextStyleMedium"
+            app:layout_constraintEnd_toStartOf="@+id/layoutStars"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Offer description" />
+
+        <LinearLayout
+            android:id="@+id/layoutStars"
+            android:layout_width="88dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:divider="@drawable/delimiter_stars"
+            android:gravity="end"
+
+
+            android:orientation="horizontal"
+            android:showDividers="middle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textView6" />
+
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/back_rad_button_10"
+            android:gravity="center"
+            android:padding="8dp"
+            android:textSize="14sp"
+            android:theme="@style/TextStyleMedium"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView6"
+            tools:text="Price in ruble" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="14dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/price">
+
+            <TextView
+                android:id="@+id/city"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textColor121212"
+                android:textSize="14sp"
+                android:theme="@style/TextStyleRegular"
+                tools:text="Moscow" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_marginStart="6dp"
+                android:layout_marginEnd="6dp"
+                android:background="@drawable/gray_round" />
+
+            <TextView
+                android:id="@+id/metro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/textColor121212"
+                android:textSize="14sp"
+                android:theme="@style/TextStyleRegular"
+                tools:text="Metro" />
+
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textColor121212"
+                android:textSize="14sp"
+                android:theme="@style/TextStyleRegular"
+                tools:text="00:01" />
+
+        </LinearLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

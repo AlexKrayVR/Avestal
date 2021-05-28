@@ -48,7 +48,7 @@ class VerificationFragment : Fragment(), OnBackPressedListener {
         val phone = arguments?.getString(PHONE)
         val description = context?.getString(R.string.enterVerificationCode) + " " + phone
         binding?.description?.text = description
-        val text = "<font color=${context?.resources?.getColor(R.color.textColorGray)}>" +
+        val text = "<font color=${context?.resources?.getColor(R.color.textColor828282)}>" +
                 "${context?.resources?.getString(R.string.codeDidNotCome)}" +
                 "</font> <u><font color=${context?.resources?.getColor(R.color.colorBlue)}>${
                     context?.resources?.getString(R.string.resend)

@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/registration"
-        android:textColor="@color/textColorDemiBold"
+        android:textColor="@color/textColor121212"
         android:textSize="14sp"
         android:theme="@style/TextStyleMedium"
         app:layout_constraintBottom_toBottomOf="@+id/back"
@@ -75,7 +75,7 @@
         android:layout_marginBottom="60dp"
         android:background="@drawable/back_rad_button_25"
         android:gravity="center"
-        android:text="@string/further"
+        android:text="@string/photoReady"
         android:theme="@style/TextStyleMedium"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -98,10 +98,10 @@
         android:layout_height="48dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/back_rad_button_25"
+        android:src="@drawable/ic_refresh_icon"
         app:layout_constraintBottom_toBottomOf="@+id/userImage"
         app:layout_constraintEnd_toEndOf="@+id/userImage"
-        app:layout_constraintStart_toStartOf="@+id/userImage"
-        tools:srcCompat="@drawable/ic_refresh_icon" />
+        app:layout_constraintStart_toStartOf="@+id/userImage" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

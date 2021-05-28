@@ -28,6 +28,8 @@ class PickPhotoActivity : AppCompatActivity() {
             )
             .into(binding.userImage)
 
-
+        binding.back.setOnClickListener {
+            finish()
+        }
     }
 }
