@@ -15,7 +15,7 @@
         <activity android:name=".main.user.photo.PickPhotoActivity"></activity>
         <activity
             android:name=".main.host.AppActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".reg_ver.RegVerActivity"
             android:screenOrientation="portrait"

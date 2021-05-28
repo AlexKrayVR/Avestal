@@ -1,5 +1,6 @@
 package yelm.io.avestal.main.user
 
+import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,6 +13,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import yelm.io.avestal.R
 import yelm.io.avestal.databinding.FragmentUserBinding
+import yelm.io.avestal.main.user.photo.PickPhotoActivity
 
 
 class UserFragment : Fragment() {
@@ -38,12 +40,14 @@ class UserFragment : Fragment() {
         binding?.recyclerWorkTypes?.adapter = adapter
 
         Glide.with(requireContext())
-            .load(ColorDrawable(
-                ContextCompat.getColor(
-                    requireContext(),
-                    R.color.colorUserPictureHolder
+            .load(
+                ColorDrawable(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.colorUserPictureHolder
+                    )
                 )
-            ))
+            )
             .transform(
                 CenterCrop(), RoundedCorners(
                     requireContext().resources.getDimension(R.dimen.dimens_10dp)
@@ -52,6 +56,9 @@ class UserFragment : Fragment() {
             )
             .into(binding?.imageView!!)
 
+        binding?.imageView?.setOnClickListener {
+            requireContext().startActivity(Intent(activity, PickPhotoActivity::class.java))
+        }
 
     }
 
