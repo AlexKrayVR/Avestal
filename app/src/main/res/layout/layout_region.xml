@@ -33,7 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/region"
-        android:textColor="@color/textColor121212"
+        android:textColor="@color/color121212"
         android:textSize="14sp"
         android:theme="@style/TextStyleMedium"
         app:layout_constraintBottom_toBottomOf="@+id/back"
@@ -64,7 +64,7 @@
             android:inputType="phone"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            android:textColorHint="@color/textColorBDBDBD" />
+            android:textColorHint="@color/colorBDBDBD" />
     </LinearLayout>
 
     <ImageView

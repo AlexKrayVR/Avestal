@@ -8,7 +8,7 @@
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="40dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="40dp"
         android:layout_marginEnd="16dp"
@@ -25,11 +25,16 @@
             android:layout_height="match_parent"
 
             android:background="@null"
+            android:drawableEnd="@drawable/ic_search"
             android:gravity="center_vertical"
+            android:hint="@string/searchOffers"
             android:inputType="phone"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            android:textColorHint="@color/textColorBDBDBD" />
+            android:textColor="@color/color121212"
+            android:textColorHint="@color/colorBDBDBD"
+            android:textSize="14sp"
+            android:theme="@style/TextStyleRegular" />
     </LinearLayout>
 
     <TextView
@@ -39,7 +44,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:text="@string/fromQuestionnaire"
-        android:textColor="@color/textColor121212"
+        android:textColor="@color/color121212"
         android:textSize="18sp"
         android:theme="@style/TextStyleMedium"
         app:layout_constraintStart_toStartOf="parent"

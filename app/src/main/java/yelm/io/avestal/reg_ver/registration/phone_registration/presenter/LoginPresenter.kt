@@ -1,7 +1,7 @@
-package yelm.io.avestal.reg_ver.registration.presenter
+package yelm.io.avestal.reg_ver.registration.phone_registration.presenter
 
 import yelm.io.avestal.R
-import yelm.io.avestal.reg_ver.registration.view.RegistrationView
+import yelm.io.avestal.reg_ver.registration.phone_registration.view.RegistrationView
 
 class LoginPresenter(private var view: RegistrationView?) {
 

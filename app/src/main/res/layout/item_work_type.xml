@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:text="Установка кондера"
-        android:textColor="@color/textColor121212"
+        android:textColor="@color/color121212"
         android:textSize="14sp"
         android:theme="@style/TextStyleRegular"
         app:layout_constraintEnd_toStartOf="@+id/layoutStars"

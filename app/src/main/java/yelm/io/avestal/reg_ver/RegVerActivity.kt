@@ -5,20 +5,30 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import yelm.io.avestal.InfoFragment
 import yelm.io.avestal.R
+import yelm.io.avestal.RegionFragment
+import yelm.io.avestal.UserPhotoFragment
 import yelm.io.avestal.app_settings.SharedPreferencesSetting
 import yelm.io.avestal.databinding.RegVerActivityBinding
 import yelm.io.avestal.main.host.AppActivity
-import yelm.io.avestal.reg_ver.registration.view.Communicator
-import yelm.io.avestal.reg_ver.registration.view.LoginFragment
-import yelm.io.avestal.reg_ver.verification.OnBackPressedListener
+import yelm.io.avestal.reg_ver.registration.phone_registration.view.HostRegistration
+import yelm.io.avestal.reg_ver.registration.phone_registration.view.LoginFragment
+import yelm.io.avestal.reg_ver.registration.registration_fragments.FullNameFragment
+import yelm.io.avestal.reg_ver.registration.registration_fragments.WhatIsYourWorkFragment
 import yelm.io.avestal.reg_ver.verification.VerificationFragment
 
-class RegVerActivity : AppCompatActivity(), Communicator {
+class RegVerActivity : AppCompatActivity(), HostRegistration {
     private lateinit var binding: RegVerActivityBinding
 
     //var verificationCode = ""
     private var toast: Toast? = null
+
+    private val whatIsYourWorkFragment: Fragment? = null
+    private val fullNameFragment: Fragment? = null
+    private val regionFragment: Fragment? = null
+    private val infoFragment: Fragment? = null
+    private val userPhotoFragment: Fragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,7 +36,11 @@ class RegVerActivity : AppCompatActivity(), Communicator {
         binding = RegVerActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
         SharedPreferencesSetting.initSharedPreferencesSettings(this)
-        checkUser()
+
+        openWhatIsYourWorkFragment()
+
+        //TODO return to this point
+        //checkUser()
     }
 
     private fun checkUser() {
@@ -54,20 +68,66 @@ class RegVerActivity : AppCompatActivity(), Communicator {
         finish()
     }
 
-    override fun onBackPressed() {
-        val fragmentList = supportFragmentManager.fragments
-        for (fragment in fragmentList) {
-            if (fragment is OnBackPressedListener) {
-                (fragment as OnBackPressedListener).doBack()
-                return
-            }
-        }
-        finish()
-    }
+//    override fun onBackPressed() {
+//        val fragmentList = supportFragmentManager.fragments
+//        for (fragment in fragmentList) {
+//            if (fragment is OnBackPressedListener) {
+//                (fragment as OnBackPressedListener).doBack()
+//                return
+//            }
+//        }
+//
+//
+//
+//        finish()
+//    }
 
     override fun showToast(message: Int) {
         toast?.cancel()
         toast = Toast.makeText(this, resources?.getString(message), Toast.LENGTH_LONG)
         toast?.show()
     }
+
+    override fun openWhatIsYourWorkFragment() {
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(
+            R.id.container,
+            whatIsYourWorkFragment ?: WhatIsYourWorkFragment.newInstance()
+        ).commit()
+    }
+
+    override fun openFullNameFragment() {
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction
+            .add(R.id.container, fullNameFragment ?: FullNameFragment.newInstance())
+            .addToBackStack("FullName")
+            .commit()
+    }
+
+    override fun openRegionFragment() {
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction
+            .add(R.id.container, regionFragment ?: RegionFragment.newInstance())
+            .addToBackStack("Region")
+            .commit()
+    }
+
+    override fun openInfoFragment() {
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction
+            .add(R.id.container, infoFragment ?: InfoFragment.newInstance())
+            .addToBackStack("Info")
+            .commit()
+    }
+
+    override fun openUserPhotoFragment() {
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction
+            .add(R.id.container, userPhotoFragment ?: UserPhotoFragment.newInstance())
+            .addToBackStack("UserPhoto")
+            .commit()
+    }
+
+
+
 }

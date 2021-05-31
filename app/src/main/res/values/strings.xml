@@ -8,6 +8,30 @@
     <string name="enterPhoneNumber">Введите номер телефона, чтобы подтвердить свою учетную запись</string>
     <string name="enterCorrectPhoneNumber">Введите корректный номер телефона</string>
 
+    <!--Registration -->
+    <string name="whatIsYourWork">Как вы работаете?</string>
+    <string name="workMyself">На себя, я частный специалист</string>
+    <string name="workCompany">Я ИП или представитель компании</string>
+    <string name="whatIsYourName">Как вас зовут?</string>
+    <string name="name">Имя</string>
+    <string name="nameMustBeFilled">Поле имени должно быть заполнено</string>
+    <string name="surname">Фамилия</string>
+    <string name="surnameMustBeFilled">Поле фамилии должно быть заполнено</string>
+    <string name="lastName">Отчество</string>
+    <string name="lastNameMustBeFilled">Поле отчества должно быть заполнено</string>
+    <string name="acceptPublicOfferStart">Я принимаю</string>
+    <string name="acceptPublicOfferEnd">публичную оферту, условия использовния</string>
+    <string name="acceptPublicOffer">Примите публичную оферту</string>
+    <string name="info">Чем вы занимаетесь?</string>
+    <string name="infoEmpty">Заполните инфомацию о себе</string>
+    <string name="infoHint">Расскажите о себе</string>
+    <string name="addressEmpty">Поле адреса должно быть заполнено</string>
+
+    <string name="infoDescription">Расскажите о себе: чем занимаетесь, на чем специализируйесь, какой у вас опыт работы
+- все, что может быть полезно работодателю.\n\nПосле заполнения профиля с вами свяжется менеджер для собеседования. Он выявит сильные и слыбые стороны, на основе которых вы будете получать нужные заказы.
+</string>
+
+
     <!--VerificationFragment -->
     <string name="verification">Верификация</string>
     <string name="codeIncorrect">Код неверен</string>
@@ -49,5 +73,11 @@
 
     <!--OffersFragment -->
     <string name="fromQuestionnaire">По услугам из анкеты</string>
+    <string name="searchOffers">Поиск заказа</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 
 </resources>

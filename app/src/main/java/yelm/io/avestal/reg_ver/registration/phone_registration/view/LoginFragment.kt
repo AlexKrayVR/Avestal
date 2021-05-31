@@ -1,4 +1,4 @@
-package yelm.io.avestal.reg_ver.registration.view
+package yelm.io.avestal.reg_ver.registration.phone_registration.view
 
 import android.content.Context
 import android.os.Bundle
@@ -8,14 +8,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import yelm.io.avestal.databinding.FragmentLoginBinding
 import yelm.io.avestal.reg_ver.common.PhoneTextFormatter
-import yelm.io.avestal.reg_ver.registration.presenter.LoginPresenter
+import yelm.io.avestal.reg_ver.registration.phone_registration.presenter.LoginPresenter
 import java.lang.RuntimeException
 
 class LoginFragment : Fragment(), RegistrationView {
     private lateinit var loginPresenter: LoginPresenter
 
     private var binding: FragmentLoginBinding? = null
-    private var communicator: Communicator? = null
+    private var mHostRegistration: HostRegistration? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,11 +59,11 @@ class LoginFragment : Fragment(), RegistrationView {
     }
 
     override fun validationPhoneError(error: Int) {
-        communicator?.showToast(error)
+        mHostRegistration?.showToast(error)
     }
 
     override fun validationPhoneSuccess(phone: String) {
-        communicator?.openValidationFragment(phone)
+        mHostRegistration?.openValidationFragment(phone)
     }
 
     //Because Fragments continue to live after the View has gone, it’s good to remove any references to the binding class instance
@@ -75,8 +75,8 @@ class LoginFragment : Fragment(), RegistrationView {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (activity is Communicator) {
-            communicator = activity as Communicator
+        if (activity is HostRegistration) {
+            mHostRegistration = activity as HostRegistration
         } else {
             throw RuntimeException(activity.toString() + " must implement Communicator interface")
         }
@@ -84,7 +84,7 @@ class LoginFragment : Fragment(), RegistrationView {
 
     override fun onDetach() {
         super.onDetach()
-        communicator = null
+        mHostRegistration = null
     }
 
 }

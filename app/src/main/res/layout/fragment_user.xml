@@ -46,7 +46,7 @@
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:text="TextView"
-                android:textColor="@color/textColor121212"
+                android:textColor="@color/color121212"
                 android:theme="@style/TextStyleRegular"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageView"
@@ -116,7 +116,7 @@
                 android:layout_height="wrap_content"
                 android:drawableEnd="@drawable/ic_back_gray"
                 android:text="@string/documentVerification"
-                android:textColor="@color/textColor121212"
+                android:textColor="@color/color121212"
                 android:theme="@style/TextStyleMedium" />
 
             <TextView
@@ -150,7 +150,7 @@
                 android:layout_height="wrap_content"
                 android:drawableEnd="@drawable/ic_back_gray"
                 android:text="@string/aboutUser"
-                android:textColor="@color/textColor121212"
+                android:textColor="@color/color121212"
                 android:theme="@style/TextStyleMedium" />
 
             <TextView
@@ -185,7 +185,7 @@
                 android:layout_height="wrap_content"
                 android:drawableEnd="@drawable/ic_back_gray"
                 android:text="@string/settings"
-                android:textColor="@color/textColor121212"
+                android:textColor="@color/color121212"
                 android:theme="@style/TextStyleMedium" />
 
             <TextView
@@ -219,7 +219,7 @@
                 android:layout_height="wrap_content"
                 android:drawableEnd="@drawable/ic_back_gray"
                 android:text="@string/region"
-                android:textColor="@color/textColor121212"
+                android:textColor="@color/color121212"
                 android:theme="@style/TextStyleMedium" />
 
             <TextView
@@ -246,7 +246,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:text="@string/workTypes"
-                android:textColor="@color/textColor121212"
+                android:textColor="@color/color121212"
                 android:theme="@style/TextStyleMedium" />
 
             <TextView

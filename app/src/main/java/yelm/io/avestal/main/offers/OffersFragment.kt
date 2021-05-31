@@ -33,9 +33,9 @@ class OffersFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val text = "<font color=${context?.resources?.getColor(R.color.textColor121212)}>" +
+        val text = "<font color=${context?.resources?.getColor(R.color.color121212)}>" +
                 "${context?.resources?.getString(R.string.fromQuestionnaire)}" + ' ' +
-                "</font><font color=${context?.resources?.getColor(R.color.textColorBDBDBD)}>${0}</font>"
+                "</font><font color=${context?.resources?.getColor(R.color.colorBDBDBD)}>${0}</font>"
         binding?.fromQuestionnaire?.text = Html.fromHtml(text)
     }
 

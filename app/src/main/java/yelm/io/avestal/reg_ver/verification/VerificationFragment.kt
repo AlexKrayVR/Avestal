@@ -16,14 +16,14 @@ import yelm.io.avestal.Logging
 import yelm.io.avestal.R
 import yelm.io.avestal.app_settings.SharedPreferencesSetting
 import yelm.io.avestal.databinding.FragmentVerificationBinding
-import yelm.io.avestal.reg_ver.registration.view.Communicator
+import yelm.io.avestal.reg_ver.registration.phone_registration.view.HostRegistration
 
 
 class VerificationFragment : Fragment(), OnBackPressedListener {
 
     private var binding: FragmentVerificationBinding? = null
     var array = arrayOf(' ', ' ', ' ', ' ')
-    private var communicator: Communicator? = null
+    private var hostRegistration: HostRegistration? = null
 
     //test code
     val test = "1234"
@@ -48,7 +48,7 @@ class VerificationFragment : Fragment(), OnBackPressedListener {
         val phone = arguments?.getString(PHONE)
         val description = context?.getString(R.string.enterVerificationCode) + " " + phone
         binding?.description?.text = description
-        val text = "<font color=${context?.resources?.getColor(R.color.textColor828282)}>" +
+        val text = "<font color=${context?.resources?.getColor(R.color.color828282)}>" +
                 "${context?.resources?.getString(R.string.codeDidNotCome)}" +
                 "</font> <u><font color=${context?.resources?.getColor(R.color.colorBlue)}>${
                     context?.resources?.getString(R.string.resend)
@@ -101,9 +101,9 @@ class VerificationFragment : Fragment(), OnBackPressedListener {
                             SharedPreferencesSetting.USER_NAME,
                             "USER"
                         )
-                        communicator?.startApp()
+                        hostRegistration?.startApp()
                     } else {
-                        communicator?.showToast(R.string.codeIncorrect)
+                        hostRegistration?.showToast(R.string.codeIncorrect)
                     }
                 }
             }
@@ -145,7 +145,7 @@ class VerificationFragment : Fragment(), OnBackPressedListener {
 
     override fun doBack() {
         requireArguments().getString(PHONE)?.let {
-            communicator?.openRegistrationFragment(it)
+            hostRegistration?.openRegistrationFragment(it)
         }
     }
 
@@ -156,8 +156,8 @@ class VerificationFragment : Fragment(), OnBackPressedListener {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (activity is Communicator) {
-            communicator = activity as Communicator
+        if (activity is HostRegistration) {
+            hostRegistration = activity as HostRegistration
         } else {
             throw RuntimeException(activity.toString() + " must implement Communicator interface")
         }
@@ -165,6 +165,6 @@ class VerificationFragment : Fragment(), OnBackPressedListener {
 
     override fun onDetach() {
         super.onDetach()
-        communicator = null
+        hostRegistration = null
     }
 }

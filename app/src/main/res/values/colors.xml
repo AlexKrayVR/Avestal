@@ -9,17 +9,19 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="mainColor">#DF252C</color>
-    <color name="backEnterColor">#E0E0E0</color>
-
-    <color name="textColor121212">#121212</color>
-
-    <color name="textColorBDBDBD">#BDBDBD</color>
-    <color name="textColor828282">#828282</color>
+    <color name="colorE0E0E0">#E0E0E0</color>
+    <color name="color121212">#121212</color>
+    <color name="colorBDBDBD">#BDBDBD</color>
+    <color name="color828282">#828282</color>
     <color name="colorBlue">#0A84FF</color>
     <color name="colorUserPictureHolder">#E0E0E0</color>
 
     <color name="colorUserWorkType">#F9F9F9</color>
-
+    <color name="light_blue_600">#FF039BE5</color>
+    <color name="light_blue_900">#FF01579B</color>
+    <color name="light_blue_A200">#FF40C4FF</color>
+    <color name="light_blue_A400">#FF00B0FF</color>
+    <color name="black_overlay">#66000000</color>
 
 
 </resources>

@@ -1,0 +1,21 @@
+<resources>
+
+    <style name="Widget.Theme.Avestal.ButtonBar.Fullscreen" parent="">
+        <item name="android:background">@color/black_overlay</item>
+        <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>
+    </style>
+
+
+
+    <style name="CustomRadioButton" parent="Theme.AppCompat.Light" >
+        <item name="colorControlNormal">@color/colorBDBDBD</item>
+        <item name="colorControlActivated">@color/mainColor</item>
+    </style>
+
+    <style name="CustomCheckButton" parent="Theme.AppCompat.Light" >
+        <item name="colorControlNormal">@color/colorE0E0E0</item>
+        <item name="colorControlActivated">@color/colorBlue</item>
+    </style>
+
+
+</resources>

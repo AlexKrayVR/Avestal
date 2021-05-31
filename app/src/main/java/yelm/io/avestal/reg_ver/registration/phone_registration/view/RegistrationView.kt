@@ -1,4 +1,4 @@
-package yelm.io.avestal.reg_ver.registration.view
+package yelm.io.avestal.reg_ver.registration.phone_registration.view
 
 interface RegistrationView {
     fun registration();
