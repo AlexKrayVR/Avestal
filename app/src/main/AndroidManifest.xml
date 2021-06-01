@@ -4,6 +4,9 @@
     package="yelm.io.avestal">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:icon="@mipmap/ic_launcher"
@@ -12,6 +15,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Avestal"
         tools:ignore="LockedOrientationActivity">
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="yelm.io.avestal.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/fileprovider" />
+        </provider>
+
         <activity
             android:name=".main.user.region.RegionActivity"
             android:screenOrientation="portrait" />
@@ -21,7 +34,7 @@
         <activity
             android:name=".main.host.AppActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
 
         <activity
             android:name=".reg_ver.RegVerActivity"

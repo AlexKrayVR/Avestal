@@ -1,4 +1,4 @@
-package yelm.io.avestal
+package yelm.io.avestal.reg_ver.registration.registration_fragments
 
 import android.content.Context
 import android.os.Bundle
@@ -7,8 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import yelm.io.avestal.Logging
+import yelm.io.avestal.R
 import yelm.io.avestal.databinding.FragmentRegionBinding
-import yelm.io.avestal.databinding.FullNameFragmentBinding
 import yelm.io.avestal.reg_ver.model.UserViewModel
 import yelm.io.avestal.reg_ver.registration.phone_registration.view.HostRegistration
 

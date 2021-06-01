@@ -1,21 +1,20 @@
 package yelm.io.avestal.reg_ver
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import yelm.io.avestal.InfoFragment
-import yelm.io.avestal.R
-import yelm.io.avestal.RegionFragment
-import yelm.io.avestal.UserPhotoFragment
+import yelm.io.avestal.*
 import yelm.io.avestal.app_settings.SharedPreferencesSetting
 import yelm.io.avestal.databinding.RegVerActivityBinding
 import yelm.io.avestal.main.host.AppActivity
 import yelm.io.avestal.reg_ver.registration.phone_registration.view.HostRegistration
 import yelm.io.avestal.reg_ver.registration.phone_registration.view.LoginFragment
-import yelm.io.avestal.reg_ver.registration.registration_fragments.FullNameFragment
-import yelm.io.avestal.reg_ver.registration.registration_fragments.WhatIsYourWorkFragment
+import yelm.io.avestal.reg_ver.registration.registration_fragments.*
 import yelm.io.avestal.reg_ver.verification.VerificationFragment
 
 class RegVerActivity : AppCompatActivity(), HostRegistration {
@@ -29,6 +28,7 @@ class RegVerActivity : AppCompatActivity(), HostRegistration {
     private val regionFragment: Fragment? = null
     private val infoFragment: Fragment? = null
     private val userPhotoFragment: Fragment? = null
+    private val confirmUserFragment: Fragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,8 +37,8 @@ class RegVerActivity : AppCompatActivity(), HostRegistration {
         setContentView(binding.root)
         SharedPreferencesSetting.initSharedPreferencesSettings(this)
 
-        openWhatIsYourWorkFragment()
-
+        //openWhatIsYourWorkFragment()
+        openUserPhotoFragment()
         //TODO return to this point
         //checkUser()
     }
@@ -76,17 +76,10 @@ class RegVerActivity : AppCompatActivity(), HostRegistration {
 //                return
 //            }
 //        }
-//
-//
-//
 //        finish()
 //    }
 
-    override fun showToast(message: Int) {
-        toast?.cancel()
-        toast = Toast.makeText(this, resources?.getString(message), Toast.LENGTH_LONG)
-        toast?.show()
-    }
+
 
     override fun openWhatIsYourWorkFragment() {
         val transaction = supportFragmentManager.beginTransaction()
@@ -120,14 +113,93 @@ class RegVerActivity : AppCompatActivity(), HostRegistration {
             .commit()
     }
 
+    override fun openConfirmUserFragment() {
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction
+            .add(R.id.container, confirmUserFragment ?: ConfirmUserFragment.newInstance())
+            .addToBackStack("ConfirmUser")
+            .commit()
+    }
+
     override fun openUserPhotoFragment() {
         val transaction = supportFragmentManager.beginTransaction()
         transaction
-            .add(R.id.container, userPhotoFragment ?: UserPhotoFragment.newInstance())
+            .add(R.id.container, userPhotoFragment ?: UserProfilePhotoFragment.newInstance())
             .addToBackStack("UserPhoto")
             .commit()
     }
 
+     override fun requestCameraPermissions() {
+         if (!hasCameraPermission()) {
+            ActivityCompat.requestPermissions(
+                this,
+                CAMERA_PERMISSIONS,
+                REQUEST_PERMISSIONS_CAMERA_CODE
+            )
+        }
+    }
 
 
+
+    override fun back(){
+        this.onBackPressed()
+    }
+
+    override fun requestReadExternalStoragePermission() {
+        if (!hasReadExternalStoragePermission()) {
+            ActivityCompat.requestPermissions(
+                this,
+                READ_WRITE_EXTERNAL_PERMISSIONS,
+                REQUEST_PERMISSIONS_READ_WRITE_STORAGE_CODE
+            )
+        }
+    }
+
+    override fun hasCameraPermission(): Boolean {
+        val result = ContextCompat
+            .checkSelfPermission(
+                this,
+                CAMERA_PERMISSIONS[0]
+            )
+        return result == PackageManager.PERMISSION_GRANTED
+    }
+
+    override fun hasReadExternalStoragePermission(): Boolean {
+        val result = ContextCompat
+            .checkSelfPermission(
+                this,
+                READ_WRITE_EXTERNAL_PERMISSIONS[0]
+            )
+        return result == PackageManager.PERMISSION_GRANTED
+    }
+
+    override fun showToast(message: Int) {
+        toast?.cancel()
+        toast = Toast.makeText(this, resources?.getString(message), Toast.LENGTH_LONG)
+        toast?.show()
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        if (requestCode==REQUEST_PERMISSIONS_CAMERA_CODE){
+            if (hasCameraPermission()){
+                Logging.logDebug("Permission CAMERA added")
+            }else{
+                Logging.logDebug("Permission CAMERA denied")
+            }
+        } else if(requestCode==REQUEST_PERMISSIONS_READ_WRITE_STORAGE_CODE){
+            if (hasReadExternalStoragePermission()){
+                Logging.logDebug("Permission Storage added")
+            }else{
+                Logging.logDebug("Permission Storage denied")
+            }
+
+        }else{
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        }
+
+    }
 }

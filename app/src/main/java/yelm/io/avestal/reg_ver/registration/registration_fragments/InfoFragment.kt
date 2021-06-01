@@ -1,4 +1,4 @@
-package yelm.io.avestal
+package yelm.io.avestal.reg_ver.registration.registration_fragments
 
 import android.content.Context
 import androidx.lifecycle.ViewModelProvider
@@ -7,7 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import yelm.io.avestal.databinding.FullNameFragmentBinding
+import yelm.io.avestal.R
 import yelm.io.avestal.databinding.InfoFragmentBinding
 import yelm.io.avestal.reg_ver.model.UserViewModel
 import yelm.io.avestal.reg_ver.registration.phone_registration.view.HostRegistration
@@ -37,16 +37,13 @@ class InfoFragment : Fragment() {
         binding?.further?.setOnClickListener {
             if (binding?.userInfo?.text.toString().trim().isEmpty()) {
                 hostRegistration?.showToast(R.string.infoEmpty)
-                return@setOnClickListener
+            }else{
+                viewModel.setInfo(
+                    binding?.userInfo?.text.toString().trim()
+                )
+                hostRegistration?.openUserPhotoFragment()
             }
-
-            viewModel.setInfo(
-                binding?.userInfo?.text.toString().trim()
-            )
-
-            hostRegistration?.openUserPhotoFragment()
         }
-
     }
 
     override fun onDetach() {
@@ -67,5 +64,4 @@ class InfoFragment : Fragment() {
             throw RuntimeException(activity.toString() + " must implement Communicator interface")
         }
     }
-
 }
