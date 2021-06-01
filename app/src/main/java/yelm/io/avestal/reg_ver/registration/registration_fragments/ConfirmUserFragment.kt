@@ -3,15 +3,14 @@ package yelm.io.avestal.reg_ver.registration.registration_fragments
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.FileProvider
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import yelm.io.avestal.Logging
 import yelm.io.avestal.R
@@ -52,11 +51,11 @@ class ConfirmUserFragment : Fragment() {
             hostRegistration?.back()
         }
 
-        binding?.takeUserIDPhoto?.setOnClickListener {
+        binding?.layoutUserIdPhoto?.setOnClickListener {
             checkIfCameraPermission(USER_ID_IMAGE_REQUEST_CODE)
         }
 
-        binding?.takeUserSelfie?.setOnClickListener {
+        binding?.layoutUserSelfie?.setOnClickListener {
             checkIfCameraPermission(USER_SELFIE_IMAGE_REQUEST_CODE)
         }
     }
@@ -72,15 +71,16 @@ class ConfirmUserFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == USER_ID_IMAGE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             Logging.logDebug("${photoFile.absolutePath}")
-            binding?.takeUserIDPhoto?.background?.setTint(requireContext().resources.getColor(R.color.colorBlue))
+            binding?.layoutUserIdPhoto?.background?.setTint(requireContext().resources.getColor(R.color.colorBlue))
             binding?.takeUserIDPhoto?.setTextColor(requireContext().resources.getColor(R.color.white))
+            binding?.number1?.setTextColor(requireContext().resources.getColor(R.color.white))
             viewModel.setUserIDPhoto(photoFile)
         }
         if (requestCode == USER_SELFIE_IMAGE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            binding?.takeUserSelfie?.background?.setTint(requireContext().resources.getColor(R.color.colorBlue))
+            binding?.layoutUserSelfie?.background?.setTint(requireContext().resources.getColor(R.color.colorBlue))
             binding?.takeUserSelfie?.setTextColor(requireContext().resources.getColor(R.color.white))
+            binding?.number2?.setTextColor(requireContext().resources.getColor(R.color.white))
             viewModel.setUserSelfie(photoFile)
-
             //val takenImage = BitmapFactory.decodeFile(photoFile.absolutePath)
             //binding?.userImage?.setImageBitmap(takenImage)
             Logging.logDebug("${photoFile.absolutePath}")

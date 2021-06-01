@@ -29,6 +29,7 @@ class RegVerActivity : AppCompatActivity(), HostRegistration {
     private val infoFragment: Fragment? = null
     private val userPhotoFragment: Fragment? = null
     private val confirmUserFragment: Fragment? = null
+    private val finishFragment: Fragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +39,7 @@ class RegVerActivity : AppCompatActivity(), HostRegistration {
         SharedPreferencesSetting.initSharedPreferencesSettings(this)
 
         //openWhatIsYourWorkFragment()
-        openUserPhotoFragment()
+        openConfirmUserFragment()
         //TODO return to this point
         //checkUser()
     }
@@ -97,6 +98,15 @@ class RegVerActivity : AppCompatActivity(), HostRegistration {
             .commit()
     }
 
+    override fun openFinishFragment() {
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction
+            .add(R.id.container, fullNameFragment ?: FullNameFragment.newInstance())
+            .addToBackStack("FullName")
+            .commit()
+    }
+
+
     override fun openRegionFragment() {
         val transaction = supportFragmentManager.beginTransaction()
         transaction
@@ -138,8 +148,6 @@ class RegVerActivity : AppCompatActivity(), HostRegistration {
             )
         }
     }
-
-
 
     override fun back(){
         this.onBackPressed()
@@ -196,10 +204,8 @@ class RegVerActivity : AppCompatActivity(), HostRegistration {
             }else{
                 Logging.logDebug("Permission Storage denied")
             }
-
         }else{
             super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         }
-
     }
 }

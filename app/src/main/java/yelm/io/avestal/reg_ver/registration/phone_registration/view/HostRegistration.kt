@@ -12,10 +12,10 @@ interface HostRegistration {
    fun openRegionFragment()
    fun openInfoFragment()
    fun openUserPhotoFragment()
+   fun openFinishFragment()
    fun requestCameraPermissions()
    fun requestReadExternalStoragePermission()
    fun hasCameraPermission() : Boolean
    fun hasReadExternalStoragePermission() : Boolean
-
 
 }

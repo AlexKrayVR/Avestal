@@ -32,8 +32,13 @@
     <string name="infoHint">Расскажите о себе</string>
     <string name="addressEmpty">Поле адреса должно быть заполнено</string>
     <string name="confirmUser">Подтверждение личности</string>
-    <string name="takeUserIDPhoto">1. Сфотографируйте ваше удостоверение личности</string>
-    <string name="takeUserSelfie">2. Сделайте селфи</string>
+    <string name="takeUserIDPhoto">Сфотографируйте ваше\nудостоверение личности</string>
+    <string name="takeUserSelfie">Сделайте селфи</string>
+    <string name="number1">1.</string>
+    <string name="number2">2.</string>
+    <string name="perfect">Отлично</string>
+    <string name="registrationFinished">Вы успешно прошли регистрацию</string>
+    <string name="registrationFinishedDescription">Теперь вы можете принимать заказы</string>
 
     <string name="infoDescription">Расскажите о себе: чем занимаетесь, на чем специализируйесь, какой у вас опыт работы
 - все, что может быть полезно работодателю.\n\nПосле заполнения профиля с вами свяжется менеджер для собеседования. Он выявит сильные и слыбые стороны, на основе которых вы будете получать нужные заказы.
