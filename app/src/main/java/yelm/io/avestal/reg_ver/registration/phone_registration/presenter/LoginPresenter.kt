@@ -1,6 +1,8 @@
 package yelm.io.avestal.reg_ver.registration.phone_registration.presenter
 
+import android.widget.EditText
 import yelm.io.avestal.R
+import yelm.io.avestal.reg_ver.common.PhoneTextFormatter
 import yelm.io.avestal.reg_ver.registration.phone_registration.view.RegistrationView
 
 class LoginPresenter(private var view: RegistrationView?) {
@@ -18,5 +20,13 @@ class LoginPresenter(private var view: RegistrationView?) {
         }
     }
 
+    fun setTextFormatter(editText: EditText) {
+        editText.addTextChangedListener(
+            PhoneTextFormatter(
+                editText,
+                "+7 (###) ###-##-##"
+            )
+        )
+    }
 
 }

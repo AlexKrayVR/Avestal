@@ -7,12 +7,14 @@ class Logging {
         private const val error = "AppError"
         private const val debug = "AppDebug"
 
+        @JvmStatic
         fun logDebug(message: String?) {
             if (BuildConfig.DEBUG) {
                 Log.d(debug, message!!)
             }
         }
 
+        @JvmStatic
         fun logError(message: String?) {
             if (BuildConfig.DEBUG) {
                 Log.e(error, message!!)

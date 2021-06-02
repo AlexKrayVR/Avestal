@@ -4,13 +4,14 @@ import android.net.Uri
 import java.io.File
 
 data class User(
-    var workType: String = "",
+    var phone: String = "",
+    var jobStatus: String = "",
     var name: String = "",
     var surname: String = "",
     var lastName: String = "",
     var region: String = "",
-    var info: String = "",
+    var jobDescription: String = "",
     var profilePhotoUri: Uri? = null,
-    var userIDPhoto: File? = null,
+    var passportPhoto: File? = null,
     var userSelfie: File? = null
 )

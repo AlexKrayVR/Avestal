@@ -41,7 +41,7 @@ class InfoFragment : Fragment() {
                 viewModel.setInfo(
                     binding?.userInfo?.text.toString().trim()
                 )
-                hostRegistration?.openUserPhotoFragment()
+                hostRegistration?.openProfilePhotoFragment()
             }
         }
     }

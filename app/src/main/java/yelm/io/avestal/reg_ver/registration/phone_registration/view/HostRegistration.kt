@@ -11,7 +11,7 @@ interface HostRegistration {
    fun openConfirmUserFragment()
    fun openRegionFragment()
    fun openInfoFragment()
-   fun openUserPhotoFragment()
+   fun openProfilePhotoFragment()
    fun openFinishFragment()
    fun requestCameraPermissions()
    fun requestReadExternalStoragePermission()

@@ -1,8 +1,9 @@
-package yelm.io.avestal.reg_ver.registration.registration_fragments
+package yelm.io.avestal.reg_ver.registration.registration_fragments.confirm
 
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
@@ -12,11 +13,21 @@ import android.view.ViewGroup
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import okhttp3.ResponseBody
+import org.json.JSONException
+import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import yelm.io.avestal.Logging
 import yelm.io.avestal.R
 import yelm.io.avestal.databinding.FragmentConfirmUserBinding
 import yelm.io.avestal.reg_ver.model.UserViewModel
 import yelm.io.avestal.reg_ver.registration.phone_registration.view.HostRegistration
+import yelm.io.avestal.reg_ver.registration.registration_fragments.USER_ID_IMAGE_REQUEST_CODE
+import yelm.io.avestal.reg_ver.registration.registration_fragments.USER_SELFIE_IMAGE_REQUEST_CODE
+import yelm.io.avestal.rest.RestAPI
+import yelm.io.avestal.rest.RetrofitClient
 import java.io.File
 
 class ConfirmUserFragment : Fragment() {
@@ -58,6 +69,86 @@ class ConfirmUserFragment : Fragment() {
         binding?.layoutUserSelfie?.setOnClickListener {
             checkIfCameraPermission(USER_SELFIE_IMAGE_REQUEST_CODE)
         }
+
+        binding?.further?.setOnClickListener {
+            showProgress()
+            RetrofitClient.getClient(RestAPI.URL_API_MAIN)
+                .create(RestAPI::class.java)
+                .setUserData(
+                    //viewModel.user.value?.phone,
+                    "79856185757",
+                    "1",
+                    getFIO(),
+                    getData()
+                )
+                .enqueue(object : Callback<ResponseBody> {
+                    override fun onResponse(
+                        call: Call<ResponseBody>,
+                        response: Response<ResponseBody>
+                    ) {
+                        hideProgress()
+                        if (response.isSuccessful) {
+                            if (response.code() == 201) {
+                                Logging.logDebug("User created")
+                            } else {
+                                Logging.logError("Method setUserData() - by some reason response is null!")
+                            }
+                        } else {
+                            Logging.logError(
+                                "Method setUserData() - response is not successful. " +
+                                        "Code: " + response.code() + "Message: " + response.message()
+                            )
+                        }
+                    }
+
+                    override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                        Logging.logError("Method checkUser() - failure: $t")
+                        hideProgress()
+                    }
+                })
+        }
+    }
+
+    private fun getData(): JSONObject {
+        val jsonData = JSONObject()
+        try {
+            jsonData.put("job_status", viewModel.user.value?.jobStatus)
+            jsonData.put("region_name", viewModel.user.value?.region)
+            jsonData.put("job_description", viewModel.user.value?.jobDescription)
+        } catch (e: JSONException) {
+            e.printStackTrace()
+            hideProgress()
+        }
+        return jsonData
+    }
+
+    private fun getFIO(): JSONObject {
+        val jsonData = JSONObject()
+        try {
+            jsonData.put("first_name", viewModel.user.value?.name)
+            jsonData.put("last_name", viewModel.user.value?.surname)
+            jsonData.put("surname", viewModel.user.value?.lastName)
+            jsonData.put(
+                "profile_image",
+                MediaStore.Images.Media.getBitmap(
+                    requireContext().contentResolver,
+                    viewModel.user.value?.profilePhotoUri
+                )
+            )
+            jsonData.put(
+                "passport_image",
+                convertingImageToBase64(BitmapFactory.decodeFile(viewModel.user.value?.passportPhoto?.absolutePath))
+            )
+            jsonData.put(
+                "face_image",
+                convertingImageToBase64(BitmapFactory.decodeFile(viewModel.user.value?.userSelfie?.absolutePath))
+            )
+        } catch (e: JSONException) {
+            e.printStackTrace()
+            hideProgress()
+
+        }
+        return jsonData
     }
 
     private fun checkIfCameraPermission(code: Int) {
@@ -90,6 +181,16 @@ class ConfirmUserFragment : Fragment() {
             binding?.further?.isEnabled = true
         }
         super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    private fun showProgress() {
+        binding?.progressBarUserIdPhoto?.visibility = View.VISIBLE
+        binding?.progressBarUserSelfie?.visibility = View.VISIBLE
+    }
+
+    private fun hideProgress() {
+        binding?.progressBarUserIdPhoto?.visibility = View.GONE
+        binding?.progressBarUserSelfie?.visibility = View.GONE
     }
 
     private fun capturePicture(code: Int) {

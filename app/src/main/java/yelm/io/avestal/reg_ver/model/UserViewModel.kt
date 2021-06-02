@@ -2,14 +2,13 @@ package yelm.io.avestal.reg_ver.model
 
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import java.io.File
 
 //var state : SavedStateHandle
 class UserViewModel() : ViewModel() {
 
-    var user: MutableLiveData<User> = MutableLiveData<User>()
+   var user: MutableLiveData<User> = MutableLiveData<User>()
 
     init {
         user.value = User()
@@ -23,9 +22,15 @@ class UserViewModel() : ViewModel() {
 //        return state.get("user")?: User()
 //    }
 
-    fun setWorkType(workType: String) {
+    fun setPhone(phone: String) {
         val temp = user.value
-        temp?.workType = workType
+        temp?.phone = phone
+        user.value = temp
+    }
+
+    fun setWorkType(jobStatus: String) {
+        val temp = user.value
+        temp?.jobStatus = jobStatus
         user.value = temp
     }
 
@@ -37,9 +42,9 @@ class UserViewModel() : ViewModel() {
         user.value = temp
     }
 
-    fun setInfo(info: String) {
+    fun setInfo(jobDescription: String) {
         val temp = user.value
-        temp?.info = info
+        temp?.jobDescription = jobDescription
         user.value = temp
     }
 
@@ -51,7 +56,7 @@ class UserViewModel() : ViewModel() {
 
     fun setUserIDPhoto(userIDPhoto: File) {
         val temp = user.value
-        temp?.userIDPhoto = userIDPhoto
+        temp?.passportPhoto = userIDPhoto
         user.value = temp
     }
 
@@ -62,7 +67,7 @@ class UserViewModel() : ViewModel() {
     }
 
     fun userFilesAdded(): Boolean {
-        if (user.value?.userSelfie != null && user.value?.userIDPhoto != null) {
+        if (user.value?.userSelfie != null && user.value?.passportPhoto != null) {
             return true
         }
         return false

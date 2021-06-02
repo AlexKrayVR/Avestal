@@ -6,16 +6,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import yelm.io.avestal.Logging
 import yelm.io.avestal.databinding.FragmentLoginBinding
-import yelm.io.avestal.reg_ver.common.PhoneTextFormatter
+import yelm.io.avestal.reg_ver.model.UserViewModel
 import yelm.io.avestal.reg_ver.registration.phone_registration.presenter.LoginPresenter
 import java.lang.RuntimeException
 
 class LoginFragment : Fragment(), RegistrationView {
     private lateinit var loginPresenter: LoginPresenter
-
     private var binding: FragmentLoginBinding? = null
-    private var mHostRegistration: HostRegistration? = null
+    private var hostRegistration: HostRegistration? = null
+    private lateinit var viewModel: UserViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,15 +29,17 @@ class LoginFragment : Fragment(), RegistrationView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
+        viewModel.user.observe(requireActivity(), {
+            Logging.logDebug(it.toString())
+            binding?.phone?.setText(it.phone)
+        })
+
         loginPresenter = LoginPresenter(this)
-        binding?.phone?.addTextChangedListener(
-            PhoneTextFormatter(
-                binding?.phone,
-                "+7 (###) ###-##-##"
-            )
-        )
-        val phone = arguments?.getString(PHONE)
-        binding?.phone?.setText(phone)
+        binding?.phone?.let { loginPresenter.setTextFormatter(it) }
+
+        //val phone = arguments?.getString(PHONE)
+        //binding?.phone?.setText(phone)
 
         binding?.further?.setOnClickListener {
             registration()
@@ -59,11 +63,12 @@ class LoginFragment : Fragment(), RegistrationView {
     }
 
     override fun validationPhoneError(error: Int) {
-        mHostRegistration?.showToast(error)
+        hostRegistration?.showToast(error)
     }
 
     override fun validationPhoneSuccess(phone: String) {
-        mHostRegistration?.openValidationFragment(phone)
+        viewModel.setPhone(phone)
+        hostRegistration?.openValidationFragment(phone)
     }
 
     //Because Fragments continue to live after the View has gone, it’s good to remove any references to the binding class instance
@@ -76,7 +81,7 @@ class LoginFragment : Fragment(), RegistrationView {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (activity is HostRegistration) {
-            mHostRegistration = activity as HostRegistration
+            hostRegistration = activity as HostRegistration
         } else {
             throw RuntimeException(activity.toString() + " must implement Communicator interface")
         }
@@ -84,7 +89,7 @@ class LoginFragment : Fragment(), RegistrationView {
 
     override fun onDetach() {
         super.onDetach()
-        mHostRegistration = null
+        hostRegistration = null
     }
 
 }

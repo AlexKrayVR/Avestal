@@ -135,6 +135,7 @@
             android:layout_height="20dp"
             android:layout_marginEnd="12dp"
             android:theme="@style/ProgressBarStyle"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -198,6 +199,7 @@
             android:layout_height="20dp"
             android:layout_marginEnd="12dp"
             android:theme="@style/ProgressBarStyle"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

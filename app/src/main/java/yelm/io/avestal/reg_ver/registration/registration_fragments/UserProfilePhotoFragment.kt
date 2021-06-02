@@ -5,10 +5,12 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.FileUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.net.toFile
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
@@ -19,6 +21,9 @@ import yelm.io.avestal.R
 import yelm.io.avestal.databinding.FragmentUserPhotoBinding
 import yelm.io.avestal.reg_ver.model.UserViewModel
 import yelm.io.avestal.reg_ver.registration.phone_registration.view.HostRegistration
+import yelm.io.avestal.rest.UploadImage
+import java.io.File
+
 
 class UserProfilePhotoFragment : Fragment() {
 
@@ -93,7 +98,7 @@ class UserProfilePhotoFragment : Fragment() {
     private fun openImage() {
         val intent = Intent()
         intent.type = "image/*"
-        intent.action = Intent.ACTION_GET_CONTENT
+        intent.action = Intent.ACTION_PICK
         startActivityForResult(intent, PROFILE_IMAGE_REQUEST_CODE)
     }
 
@@ -115,9 +120,29 @@ class UserProfilePhotoFragment : Fragment() {
             Logging.logDebug("${data?.data}")
             //var bitmap =  MediaStore.Images.Media.getBitmap(requireContext().contentResolver, data?.data);
 
+            Logging.logDebug("${imageUri?.toString()}")
+            Logging.logDebug("${imageUri?.path}")
+
+            val file1 = File(imageUri?.path)
+            Logging.logDebug("${file1?.path}")
+
+            val file2 = yelm.io.avestal.FileUtils.getFile(requireContext(), imageUri);
+            Logging.logDebug("${file2?.path}")
+
+
+            UploadImage.upload(file2, imageUri, requireContext())
+
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
+
+
+    private fun sendPicture(){
+        val file: File? = imageUri?.toFile()
+
+
+    }
+
 
     override fun onDetach() {
         super.onDetach()

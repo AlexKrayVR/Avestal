@@ -15,6 +15,7 @@ import yelm.io.avestal.main.host.AppActivity
 import yelm.io.avestal.reg_ver.registration.phone_registration.view.HostRegistration
 import yelm.io.avestal.reg_ver.registration.phone_registration.view.LoginFragment
 import yelm.io.avestal.reg_ver.registration.registration_fragments.*
+import yelm.io.avestal.reg_ver.registration.registration_fragments.confirm.ConfirmUserFragment
 import yelm.io.avestal.reg_ver.verification.VerificationFragment
 
 class RegVerActivity : AppCompatActivity(), HostRegistration {
@@ -39,9 +40,10 @@ class RegVerActivity : AppCompatActivity(), HostRegistration {
         SharedPreferencesSetting.initSharedPreferencesSettings(this)
 
         //openWhatIsYourWorkFragment()
-        openConfirmUserFragment()
+        //openProfilePhotoFragment()
         //TODO return to this point
         //checkUser()
+        startApp()
     }
 
     private fun checkUser() {
@@ -131,7 +133,7 @@ class RegVerActivity : AppCompatActivity(), HostRegistration {
             .commit()
     }
 
-    override fun openUserPhotoFragment() {
+    override fun openProfilePhotoFragment() {
         val transaction = supportFragmentManager.beginTransaction()
         transaction
             .add(R.id.container, userPhotoFragment ?: UserProfilePhotoFragment.newInstance())

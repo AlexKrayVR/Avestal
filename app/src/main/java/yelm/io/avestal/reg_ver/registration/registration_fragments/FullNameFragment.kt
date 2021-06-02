@@ -36,7 +36,6 @@ class FullNameFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         viewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
 
         val text = "<font color=${context?.resources?.getColor(R.color.color828282)}>" +
