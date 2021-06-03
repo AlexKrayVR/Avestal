@@ -16,7 +16,10 @@ import yelm.io.avestal.Logging
 import yelm.io.avestal.R
 import yelm.io.avestal.app_settings.SharedPreferencesSetting
 import yelm.io.avestal.databinding.FragmentVerificationBinding
+import yelm.io.avestal.reg_ver.registration.phone_registration.model.AuthResponseKotlin
 import yelm.io.avestal.reg_ver.registration.phone_registration.view.HostRegistration
+import java.security.MessageDigest
+import java.security.NoSuchAlgorithmException
 
 
 class VerificationFragment : Fragment(), OnBackPressedListener {
@@ -25,8 +28,6 @@ class VerificationFragment : Fragment(), OnBackPressedListener {
     var array = arrayOf(' ', ' ', ' ', ' ')
     private var hostRegistration: HostRegistration? = null
 
-    //test code
-    val test = "1234"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,7 +41,6 @@ class VerificationFragment : Fragment(), OnBackPressedListener {
         super.onViewCreated(view, savedInstanceState)
         fillUI()
         bindAction()
-        //TODO server request
     }
 
     @Suppress("DEPRECATION")
@@ -69,6 +69,18 @@ class VerificationFragment : Fragment(), OnBackPressedListener {
 
         binding?.resend?.setOnClickListener {
         }
+
+        binding?.back?.setOnClickListener {
+            hostRegistration?.openLoginFragment()
+        }
+
+        binding?.enter?.setOnClickListener {
+            if (isCodeFulled()) {
+                compareSHA2()
+            } else {
+                hostRegistration?.showToast(R.string.codeIncorrect)
+            }
+        }
     }
 
     private fun setFocusChangeListener(editText: EditText) {
@@ -93,18 +105,8 @@ class VerificationFragment : Fragment(), OnBackPressedListener {
                 } else {
                     array[index] = s.toString()[0]
                 }
-                Logging.logDebug("array: ${array.joinToString("")}")
-
                 if (isCodeFulled()) {
-                    if (array.joinToString("") == test) {
-                        SharedPreferencesSetting.setData(
-                            SharedPreferencesSetting.USER_NAME,
-                            "USER"
-                        )
-                        hostRegistration?.startApp()
-                    } else {
-                        hostRegistration?.showToast(R.string.codeIncorrect)
-                    }
+                    compareSHA2()
                 }
             }
 
@@ -122,6 +124,22 @@ class VerificationFragment : Fragment(), OnBackPressedListener {
         })
     }
 
+    private fun compareSHA2() {
+        val sha2 = getSHA2(array.joinToString(""))
+        Logging.logDebug("sha2: $sha2")
+        val auth = arguments?.getSerializable(RESPONSE) as AuthResponseKotlin
+        Logging.logDebug("sha2: ${auth.hash}")
+        if (auth.hash == sha2) {
+            SharedPreferencesSetting.setData(
+                SharedPreferencesSetting.USER_NAME,
+                "USER"
+            )
+            hostRegistration?.openWhatIsYourWorkFragment()
+        } else {
+            hostRegistration?.showToast(R.string.codeIncorrect)
+        }
+    }
+
     private fun isCodeFulled(): Boolean {
         for (i in array) {
             if (i == ' ') {
@@ -131,22 +149,46 @@ class VerificationFragment : Fragment(), OnBackPressedListener {
         return true
     }
 
+
+    private fun getSHA2(s: String): String {
+        try {
+            // Create SHA2 Hash
+            val digest = MessageDigest
+                .getInstance("SHA-256")
+            digest.update(s.toByteArray())
+            val messageDigest = digest.digest()
+            // Create Hex String
+            val hexString = StringBuilder()
+            for (aMessageDigest in messageDigest) {
+                var h = Integer.toHexString(0xFF and aMessageDigest.toInt())
+                while (h.length < 2) h = "0$h"
+                hexString.append(h)
+            }
+            return hexString.toString()
+        } catch (e: NoSuchAlgorithmException) {
+            e.printStackTrace()
+            Logging.logDebug("NoSuchAlgorithmException")
+        }
+        return ""
+    }
+
+
     companion object {
         @JvmStatic
-        fun newInstance(phone: String) =
+        fun newInstance(phone: String, response: AuthResponseKotlin) =
             VerificationFragment().apply {
                 arguments = Bundle().apply {
                     putString(PHONE, phone)
+                    putSerializable(RESPONSE, response)
                 }
             }
 
         private const val PHONE = "PHONE"
+        private const val RESPONSE = "RESPONSE"
     }
 
     override fun doBack() {
-        requireArguments().getString(PHONE)?.let {
-            hostRegistration?.openRegistrationFragment(it)
-        }
+        hostRegistration?.openLoginFragment()
     }
 
     override fun onDestroyView() {

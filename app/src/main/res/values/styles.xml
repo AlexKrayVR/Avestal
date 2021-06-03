@@ -19,6 +19,11 @@
         <item name="colorAccent">@color/white</item>
     </style>
 
+    <style name="ProgressBarRed">
+        <item name="colorAccent">@color/mainColor</item>
+    </style>
+
+
     <style name="AvestalSwitch" parent="Theme.AppCompat.Light">
         <!-- активное состояние (30% прозрачности для фона) -->
         <item name="colorControlActivated">@color/mainColor</item>

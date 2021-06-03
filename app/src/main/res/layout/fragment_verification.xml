@@ -8,13 +8,13 @@
     tools:context=".reg_ver.verification.VerificationFragment">
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/back"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="40dp"
         android:background="@drawable/back_enter_10dp"
-        android:padding="10dp"
+        android:padding="14dp"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_back"
         app:layout_constraintStart_toStartOf="parent"
@@ -133,4 +133,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/codeLayout"
         app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:id="@+id/enter"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/back_red_button_25"
+        android:gravity="center"
+        android:text="@string/enter"
+        android:theme="@style/TextStyleMedium"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

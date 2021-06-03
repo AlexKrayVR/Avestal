@@ -1,8 +1,10 @@
 package yelm.io.avestal.reg_ver.registration.phone_registration.view
 
+import yelm.io.avestal.reg_ver.registration.phone_registration.model.AuthResponseKotlin
+
 interface HostRegistration {
-   fun openRegistrationFragment(phone: String)
-   fun openValidationFragment(phone: String)
+   fun openLoginFragment()
+   fun openValidationFragment(phone: String, response: AuthResponseKotlin)
    fun startApp()
    fun back()
    fun showToast(message: Int)

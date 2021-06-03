@@ -2,25 +2,26 @@ package yelm.io.avestal.rest;
 
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-
 import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
-import retrofit2.http.PUT;
 import retrofit2.http.Part;
-import retrofit2.http.Query;
-
+import yelm.io.avestal.reg_ver.registration.phone_registration.model.AuthResponse;
+import yelm.io.avestal.reg_ver.registration.phone_registration.model.AuthResponseKotlin;
 
 public interface RestAPI {
 
     String URL_API_MAIN = "https://api.avestal.ru/api/";
+
+    @FormUrlEncoded
+    @POST("code?")
+    Call<AuthResponseKotlin> code(
+            @Field("phone") String phone
+    );
 
     @FormUrlEncoded
     @POST("signup?")
@@ -29,14 +30,14 @@ public interface RestAPI {
             @Field("permission") String permission,
             @Field("fio") JSONObject fio,
             @Field("data") JSONObject data
-           );
+    );
 
     @Multipart
     @POST("image")
     Call<ResponseBody> upload(
             //@Part("image") RequestBody description,
             @Part MultipartBody.Part file
-             //@Part("file") RequestBody name
+            //@Part("file") RequestBody name
     );
 
 

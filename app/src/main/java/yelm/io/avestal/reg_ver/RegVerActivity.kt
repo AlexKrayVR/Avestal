@@ -12,10 +12,12 @@ import yelm.io.avestal.*
 import yelm.io.avestal.app_settings.SharedPreferencesSetting
 import yelm.io.avestal.databinding.RegVerActivityBinding
 import yelm.io.avestal.main.host.AppActivity
+import yelm.io.avestal.reg_ver.registration.phone_registration.model.AuthResponseKotlin
 import yelm.io.avestal.reg_ver.registration.phone_registration.view.HostRegistration
 import yelm.io.avestal.reg_ver.registration.phone_registration.view.LoginFragment
 import yelm.io.avestal.reg_ver.registration.registration_fragments.*
 import yelm.io.avestal.reg_ver.registration.registration_fragments.confirm.ConfirmUserFragment
+import yelm.io.avestal.reg_ver.verification.OnBackPressedListener
 import yelm.io.avestal.reg_ver.verification.VerificationFragment
 
 class RegVerActivity : AppCompatActivity(), HostRegistration {
@@ -40,7 +42,7 @@ class RegVerActivity : AppCompatActivity(), HostRegistration {
         SharedPreferencesSetting.initSharedPreferencesSettings(this)
 
         //openWhatIsYourWorkFragment()
-        //openProfilePhotoFragment()
+        openLoginFragment()
         //TODO return to this point
         //checkUser()
         //startApp()
@@ -50,18 +52,18 @@ class RegVerActivity : AppCompatActivity(), HostRegistration {
         if (SharedPreferencesSetting.getSettings().contains(SharedPreferencesSetting.USER_NAME)) {
             startApp();
         } else {
-            openRegistrationFragment("")
+            openLoginFragment()
         }
     }
 
-    override fun openRegistrationFragment(phone: String) {
-        val registrationFragment: Fragment = LoginFragment.newInstance(phone)
+    override fun openLoginFragment() {
+        val registrationFragment: Fragment = LoginFragment.newInstance()
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.container, registrationFragment).commit()
     }
 
-    override fun openValidationFragment(phone: String) {
-        val validationFragment: Fragment = VerificationFragment.newInstance(phone)
+    override fun openValidationFragment(phone: String,response: AuthResponseKotlin) {
+        val validationFragment: Fragment = VerificationFragment.newInstance(phone, response)
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.container, validationFragment).commit()
     }
@@ -71,16 +73,21 @@ class RegVerActivity : AppCompatActivity(), HostRegistration {
         finish()
     }
 
-//    override fun onBackPressed() {
-//        val fragmentList = supportFragmentManager.fragments
-//        for (fragment in fragmentList) {
-//            if (fragment is OnBackPressedListener) {
-//                (fragment as OnBackPressedListener).doBack()
-//                return
-//            }
-//        }
-//        finish()
-//    }
+    override fun onBackPressed() {
+        val fragmentList = supportFragmentManager.fragments
+        for (fragment in fragmentList) {
+            if (fragment is OnBackPressedListener) {
+                (fragment as OnBackPressedListener).doBack()
+                return
+            }
+        }
+        if (fragmentList.size==1){
+            finish()
+        }else{
+            supportFragmentManager.popBackStack();
+        }
+
+    }
 
 
 

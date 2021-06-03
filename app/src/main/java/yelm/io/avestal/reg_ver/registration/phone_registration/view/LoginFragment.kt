@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import yelm.io.avestal.Logging
 import yelm.io.avestal.databinding.FragmentLoginBinding
 import yelm.io.avestal.reg_ver.model.UserViewModel
+import yelm.io.avestal.reg_ver.registration.phone_registration.model.AuthResponseKotlin
 import yelm.io.avestal.reg_ver.registration.phone_registration.presenter.LoginPresenter
 import java.lang.RuntimeException
 
@@ -42,23 +43,18 @@ class LoginFragment : Fragment(), RegistrationView {
         //binding?.phone?.setText(phone)
 
         binding?.further?.setOnClickListener {
-            registration()
+            auth()
         }
     }
 
     companion object {
         @JvmStatic
-        fun newInstance(phone: String) =
+        fun newInstance() =
             LoginFragment().apply {
-                arguments = Bundle().apply {
-                    putString(PHONE, phone)
-                }
             }
-
-        private const val PHONE = "PHONE"
     }
 
-    override fun registration() {
+    override fun auth() {
         loginPresenter.phoneValidation(binding?.phone?.text.toString())
     }
 
@@ -66,9 +62,13 @@ class LoginFragment : Fragment(), RegistrationView {
         hostRegistration?.showToast(error)
     }
 
-    override fun validationPhoneSuccess(phone: String) {
+    override fun validationPhoneSuccess(phone: String,response: AuthResponseKotlin) {
         viewModel.setPhone(phone)
-        hostRegistration?.openValidationFragment(phone)
+        hostRegistration?.openValidationFragment(phone, response)
+    }
+
+    override fun authPhoneSuccess() {
+        hostRegistration?.startApp()
     }
 
     //Because Fragments continue to live after the View has gone, it’s good to remove any references to the binding class instance
@@ -90,6 +90,14 @@ class LoginFragment : Fragment(), RegistrationView {
     override fun onDetach() {
         super.onDetach()
         hostRegistration = null
+    }
+
+    override fun showLoading() {
+        binding?.progressBar?.visibility = View.VISIBLE
+    }
+
+    override fun hideLoading() {
+        binding?.progressBar?.visibility = View.GONE
     }
 
 }

@@ -12,6 +12,7 @@
     <string name="further">Далее</string>
     <string name="enterPhoneNumber">Введите номер телефона, чтобы подтвердить свою учетную запись</string>
     <string name="enterCorrectPhoneNumber">Введите корректный номер телефона</string>
+    <string name="numberNotFound">Такого номера не существует, попробуйте другой</string>
 
     <!--Registration -->
     <string name="whatIsYourWork">Как вы работаете?</string>
@@ -50,6 +51,7 @@
     <string name="codeIncorrect">Код неверен</string>
     <string name="codeDidNotCome">Код не пришел,</string>
     <string name="resend">отправить повторно</string>
+    <string name="enter">Войти</string>
     <string name="enterVerificationCode">Введите код верификации отправленный на номер</string>
 
     <!--Navigation -->
@@ -123,6 +125,8 @@
     <string name="offerRespond">Откликнуться</string>
     <string name="offerPriceIncludingMaterial">сумма с учетом\nматериалов</string>
 
+
+    <string name="serverError">Ошиба соединения с сервером, повторите попытку позже</string>
 
 
 </resources>
