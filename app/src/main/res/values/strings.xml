@@ -114,8 +114,14 @@
     <string name="settingsMailSaved">Электронная почта сохранена</string>
     <string name="settingsMailDoesNotExist">Данная электронная почта не существует</string>
 
-
     <string name="internal_storage">Internal storage</string>
+
+    <!--OfferActivity -->
+    <string name="offerDescription">Описание</string>
+    <string name="offerAddressTitle">Адрес</string>
+    <string name="offerWhen">Когда</string>
+    <string name="offerRespond">Откликнуться</string>
+    <string name="offerPriceIncludingMaterial">сумма с учетом\nматериалов</string>
 
 
 

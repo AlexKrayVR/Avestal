@@ -19,11 +19,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Avestal"
         tools:ignore="LockedOrientationActivity">
+        <activity android:name=".main.offers.respond.OfferActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".main.user.settings.ActivitySettings"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -51,9 +59,7 @@
         <activity
             android:name=".reg_ver.RegVerActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/SplashTheme">
-
-        </activity>
+            android:theme="@style/SplashTheme"></activity>
     </application>
 
 </manifest>

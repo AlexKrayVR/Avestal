@@ -13,7 +13,6 @@ class OffersFragment : Fragment() {
 
     private var binding: FragmentOffersBinding? = null
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -24,7 +23,7 @@ class OffersFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentOffersBinding.inflate(inflater, container, false)
         return binding!!.root
     }
@@ -32,7 +31,6 @@ class OffersFragment : Fragment() {
     @Suppress("DEPRECATION")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         val text = "<font color=${context?.resources?.getColor(R.color.color121212)}>" +
                 "${context?.resources?.getString(R.string.fromQuestionnaire)}" + ' ' +
                 "</font><font color=${context?.resources?.getColor(R.color.colorBDBDBD)}>${0}</font>"
@@ -40,9 +38,8 @@ class OffersFragment : Fragment() {
     }
 
     companion object {
-
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance() =
             OffersFragment().apply {
                 arguments = Bundle().apply {
 
