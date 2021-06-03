@@ -1,4 +1,4 @@
-package yelm.io.avestal;
+package yelm.io.avestal.common;
 
 
 import android.content.res.AssetFileDescriptor;
@@ -21,6 +21,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
+import yelm.io.avestal.R;
 
 public class LocalStorageProvider extends DocumentsProvider {
 

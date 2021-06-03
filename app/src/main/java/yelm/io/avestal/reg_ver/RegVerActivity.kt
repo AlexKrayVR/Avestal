@@ -43,7 +43,7 @@ class RegVerActivity : AppCompatActivity(), HostRegistration {
         //openProfilePhotoFragment()
         //TODO return to this point
         //checkUser()
-        startApp()
+        //startApp()
     }
 
     private fun checkUser() {

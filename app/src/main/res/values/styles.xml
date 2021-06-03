@@ -19,5 +19,19 @@
         <item name="colorAccent">@color/white</item>
     </style>
 
+    <style name="AvestalSwitch" parent="Theme.AppCompat.Light">
+        <!-- активное состояние (30% прозрачности для фона) -->
+        <item name="colorControlActivated">@color/mainColor</item>
+
+        <!-- неактивное состояние ползунка -->
+        <item name="colorSwitchThumbNormal">@color/white</item>
+<!--        <item name="colorAccent">#e91e63</item>-->
+
+<!--        <item name="trackTint">@color/color26DF252C</item>-->
+
+<!--         цвет дорожки для неактивного состояния (30% прозрачности)-->
+        <item name="android:colorForeground">@color/mainColor</item>
+    </style>
+
 
 </resources>

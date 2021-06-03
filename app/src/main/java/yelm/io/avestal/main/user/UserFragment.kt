@@ -16,7 +16,6 @@ import yelm.io.avestal.databinding.FragmentUserBinding
 import yelm.io.avestal.main.user.photo.PickPhotoActivity
 import yelm.io.avestal.main.user.region.RegionActivity
 
-
 class UserFragment : Fragment() {
 
     private var binding: FragmentUserBinding? = null

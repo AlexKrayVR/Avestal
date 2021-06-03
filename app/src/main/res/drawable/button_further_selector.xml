@@ -4,8 +4,10 @@
     <item android:drawable="@drawable/back_gray_button_25" android:state_enabled="false" />
 
     <item android:drawable="@drawable/back_red_button_25" android:state_enabled="true" />
+    <item android:drawable="@drawable/ripple_button_pressed" android:state_pressed="true" />
 
     <item android:drawable="@drawable/back_red_button_25" />
+
 
 
 </selector>

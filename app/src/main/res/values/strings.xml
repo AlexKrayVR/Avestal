@@ -91,10 +91,32 @@
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
 
+    <!--SettingsActivity -->
+    <string name="settingsTitle">Настройки</string>
+    <string name="settingsPhone">Телефон</string>
+    <string name="settingsChatNotification">Уведомления о сообщениях в чатах</string>
+    <string name="settingsChatNotificationTitle">Сообщения в чатах</string>
+    <string name="settingsChatNotificationDescription">Пуш уведомления, эл. почта, СМС</string>
+    <string name="settingsSave">Сохранить</string>
+    <string name="settingsSMS">СМС</string>
+    <string name="settingsPush">Пуш-уведомления</string>
+    <string name="settingsEnterYourPhone">Введите ваш номер телефона</string>
+    <string name="settingsSuitableOrderNotification">Уведомления о подходящих заказах</string>
+    <string name="settingsSuitableOrderNotificationDescription">Пуш уведомления, эл. почта, СМС</string>
+    <string name="settingsUserPhone">Телефон для связи</string>
+    <string name="settingsUserMail">Электронная почта</string>
+    <string name="settingsAddUserMail">Добавьте вашу электронную почту</string>
+    <string name="settingsUserMailDescription">Введите вашу почту</string>
+    <string name="settingsLogOut">Выйти из аккаунта</string>
+    <string name="settingsSuitableOrderTitle">Подходящие заказы</string>
 
+    <string name="settingsPhoneSaved">Телефон сохранен</string>
+    <string name="settingsMailSaved">Электронная почта сохранена</string>
+    <string name="settingsMailDoesNotExist">Данная электронная почта не существует</string>
 
 
     <string name="internal_storage">Internal storage</string>
+
 
 
 </resources>
