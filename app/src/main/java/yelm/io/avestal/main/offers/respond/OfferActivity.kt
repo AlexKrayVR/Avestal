@@ -1,6 +1,7 @@
 package yelm.io.avestal.main.offers.respond
 
 import android.os.Bundle
+import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.location.LocationServices
 import com.yandex.mapkit.Animation
@@ -89,9 +90,12 @@ class OfferActivity : AppCompatActivity() {
             null
         )
 
+
+
+
     }
 
-    //fun
+
 
 
     override fun onStop() {

@@ -15,8 +15,8 @@
         android:background="@drawable/back_enter_15dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
 
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <EditText
@@ -28,7 +28,7 @@
             android:drawableEnd="@drawable/ic_search"
             android:gravity="center_vertical"
             android:hint="@string/searchOffers"
-            android:inputType="phone"
+            android:inputType="text"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
             android:textColor="@color/color121212"

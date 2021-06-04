@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.appcompat.content.res.AppCompatResources
@@ -20,8 +22,9 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class OffersAdapter(private var offers: List<OfferData>, var context: Context) :
-    RecyclerView.Adapter<OffersAdapter.OfferItemViewHolder>() {
+    RecyclerView.Adapter<OffersAdapter.OfferItemViewHolder>(), Filterable {
 
+    var offersSort = offers.toMutableList()
 
 
 //    private var listener: Listener? = null
@@ -44,13 +47,8 @@ class OffersAdapter(private var offers: List<OfferData>, var context: Context) :
         return OfferItemViewHolder(binding)
     }
 
-    fun addItems(offers: ArrayList<OfferData>) {
-        this.offers = offers
-        notifyDataSetChanged()
-    }
-
     override fun onBindViewHolder(holder: OfferItemViewHolder, position: Int) {
-        val current = offers[position]
+        val current = offersSort[position]
 
         holder.binding.offerTitle.text = current.title
         holder.binding.city.text = current.address
@@ -78,10 +76,10 @@ class OffersAdapter(private var offers: List<OfferData>, var context: Context) :
 //        holder.binding.increase.setOnClickListener {
 //            listener?.increase(current.itemID)
 //        }
-
     }
 
     private fun fillStars(layout: LinearLayout, count: Int) {
+        layout.removeAllViews()
         for (i in 0 until count) {
             val iv = ImageView(context)
             when (count) {
@@ -130,12 +128,45 @@ class OffersAdapter(private var offers: List<OfferData>, var context: Context) :
         }
     }
 
-
     override fun getItemCount(): Int {
-        return offers.size
+        return offersSort.size
     }
 
     class OfferItemViewHolder(var binding: ItemOfferBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+        RecyclerView.ViewHolder(binding.root)
+
+    override fun getFilter(): Filter {
+        return object : Filter() {
+            //run back
+            override fun performFiltering(charSequence: CharSequence): FilterResults {
+                val filtered: MutableList<OfferData> = mutableListOf()
+                if (charSequence.toString().isEmpty()) {
+                    filtered.addAll(offers)
+                } else {
+                    for (offer in offers) {
+                        val search = charSequence.toString().lowercase(Locale.ROOT)
+                        if (offer.text.lowercase(Locale.ROOT)
+                                .contains(search) ||
+                            offer.title.lowercase(Locale.ROOT)
+                                .contains(search) ||
+                            offer.address.lowercase(Locale.ROOT)
+                                .contains(search)
+                        ) {
+                            filtered.add(offer)
+                        }
+                    }
+                }
+                val filterResults = FilterResults()
+                filterResults.values = filtered
+                return filterResults
+            }
+
+            //run ui
+            override fun publishResults(charSequence: CharSequence, filterResults: FilterResults) {
+                offersSort.clear()
+                offersSort.addAll(filterResults.values as Collection<OfferData>)
+                notifyDataSetChanged()
+            }
+        }
     }
 }

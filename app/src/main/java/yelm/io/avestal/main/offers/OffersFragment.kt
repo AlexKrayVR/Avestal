@@ -2,9 +2,12 @@ package yelm.io.avestal.main.offers
 
 import android.os.Bundle
 import android.text.Html
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import retrofit2.Call
 import retrofit2.Callback
@@ -21,8 +24,10 @@ import java.util.*
 class OffersFragment : Fragment() {
 
     private var binding: FragmentOffersBinding? = null
+    private var adapter: OffersAdapter? = null
     var currentFormatterDate = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.getDefault())
-//2021-06-03T07:38:35.000000Z
+
+    //2021-06-03T07:38:35.000000Z
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -71,7 +76,7 @@ class OffersFragment : Fragment() {
                     if (response.isSuccessful) {
                         Logging.logDebug("onResponse${response.body()!!.data.size}");
 
-                        val adapter = OffersAdapter(response.body()!!.data, requireContext())
+                        adapter = OffersAdapter(response.body()!!.data, requireContext())
                         binding?.recyclerOffers?.adapter = adapter
 
                     } else {
@@ -84,9 +89,26 @@ class OffersFragment : Fragment() {
                     hideLoading()
                 }
             })
+
+//        binding?.searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+//            override fun onQueryTextSubmit(s: String): Boolean {
+//                return false
+//            }
+//
+//            override fun onQueryTextChange(s: String): Boolean {
+//                adapter?.filter?.filter(s)
+//                binding?.recyclerOffers?.scrollToPosition(0)
+//                return false
+//            }
+//        })
+
+        binding?.searchOffer?.addTextChangedListener {
+            adapter?.filter?.filter(it)
+            binding?.recyclerOffers?.scrollToPosition(0)
+        }
+
+
     }
-
-
 
 
     companion object {

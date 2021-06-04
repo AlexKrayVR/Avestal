@@ -38,5 +38,18 @@
         <item name="android:colorForeground">@color/mainColor</item>
     </style>
 
+    <style name="Search">
+        <item name="android:queryHint">@string/searchOffers</item>
+
+        <item name="android:editTextColor">@color/color121212</item>
+        <item name="android:textColorHint">@color/colorBDBDBD</item>
+        <item name="android:textSize">14sp</item>
+        <item name="colorAccent">@color/color121212</item>
+
+        <!--       -->
+        <!--        <item name="android:tint">@color/colorWhite</item>-->
+    </style>
+
+
 
 </resources>
