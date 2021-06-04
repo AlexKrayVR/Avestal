@@ -26,12 +26,12 @@
         android:layout_marginEnd="16dp"
         android:ellipsize="end"
         android:maxLines="2"
-        android:text="Name\ntt"
         android:textColor="@color/black"
         android:theme="@style/TextStyleMedium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/image"
-        app:layout_constraintTop_toTopOf="@+id/image" />
+        app:layout_constraintTop_toTopOf="@+id/image"
+        tools:text="Кисть Dexter Pro универсал 70мм " />
 
     <TextView
         android:id="@+id/price"
@@ -39,11 +39,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:text="Price"
         android:theme="@style/TextStyleRegular"
         app:layout_constraintBottom_toBottomOf="@+id/image"
         app:layout_constraintEnd_toStartOf="@+id/layoutAddRemove"
-        app:layout_constraintStart_toEndOf="@+id/image" />
+        app:layout_constraintStart_toEndOf="@+id/image"
+        tools:text="288.00 руб. " />
 
     <LinearLayout
         android:id="@+id/layoutAddRemove"

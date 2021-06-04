@@ -11,7 +11,7 @@ import yelm.io.avestal.R
 import yelm.io.avestal.databinding.ItemOfferImagesBinding
 import java.util.*
 
-class OfferImagesAdapter(private var images: ArrayList<String>, var context: Context) :
+class OfferImagesAdapter(private var images: List<String>, var context: Context) :
     RecyclerView.Adapter<OfferImagesAdapter.ImageViewHolder>() {
 
     override fun onCreateViewHolder(
@@ -28,14 +28,10 @@ class OfferImagesAdapter(private var images: ArrayList<String>, var context: Con
     }
 
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
-
         Glide.with(context)
             .load(images[position])
             .transform(
-                CenterCrop(), RoundedCorners(
-                    context.resources.getDimension(R.dimen.dimens_16dp)
-                        .toInt()
-                )
+                CenterCrop()
             )
             .into(holder.binding.image)
     }

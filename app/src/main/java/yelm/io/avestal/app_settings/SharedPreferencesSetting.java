@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 
 public class SharedPreferencesSetting {
 
+    public static final String TOKEN = "TOKEN";
+
     public static final String USER_NAME = "USER_NAME";
 
     //app settings

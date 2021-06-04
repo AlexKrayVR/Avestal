@@ -49,7 +49,7 @@ class ConfirmUserFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
-
+        hostRegistration?.requestCameraPermissions()
         viewModel.user.observe(requireActivity(), {
             Logging.logDebug(it.toString())
         })
@@ -72,40 +72,42 @@ class ConfirmUserFragment : Fragment() {
 
         binding?.further?.setOnClickListener {
             showProgress()
-            RetrofitClient.getClient(RestAPI.URL_API_MAIN)
-                .create(RestAPI::class.java)
-                .setUserData(
-                    //viewModel.user.value?.phone,
-                    "79856185757",
-                    "1",
-                    getFIO(),
-                    getData()
-                )
-                .enqueue(object : Callback<ResponseBody> {
-                    override fun onResponse(
-                        call: Call<ResponseBody>,
-                        response: Response<ResponseBody>
-                    ) {
-                        hideProgress()
-                        if (response.isSuccessful) {
-                            if (response.code() == 201) {
-                                Logging.logDebug("User created")
-                            } else {
-                                Logging.logError("Method setUserData() - by some reason response is null!")
-                            }
-                        } else {
-                            Logging.logError(
-                                "Method setUserData() - response is not successful. " +
-                                        "Code: " + response.code() + "Message: " + response.message()
-                            )
-                        }
-                    }
+//            RetrofitClient.getClient(RestAPI.URL_API_MAIN)
+//                .create(RestAPI::class.java)
+//                .setUserData(
+//                    //viewModel.user.value?.phone,
+//                    "79856185757",
+//                    "1",
+//                    getFIO(),
+//                    getData()
+//                )
+//                .enqueue(object : Callback<ResponseBody> {
+//                    override fun onResponse(
+//                        call: Call<ResponseBody>,
+//                        response: Response<ResponseBody>
+//                    ) {
+//                        hideProgress()
+//                        if (response.isSuccessful) {
+//                            if (response.code() == 201) {
+//                                Logging.logDebug("User created")
+//                            } else {
+//                                Logging.logError("Method setUserData() - by some reason response is null!")
+//                            }
+//                        } else {
+//                            Logging.logError(
+//                                "Method setUserData() - response is not successful. " +
+//                                        "Code: " + response.code() + "Message: " + response.message()
+//                            )
+//                        }
+//                    }
+//
+//                    override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+//                        Logging.logError("Method checkUser() - failure: $t")
+//                        hideProgress()
+//                    }
+//                })
 
-                    override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                        Logging.logError("Method checkUser() - failure: $t")
-                        hideProgress()
-                    }
-                })
+
         }
     }
 

@@ -31,7 +31,7 @@ public class UploadImage {
                         file
                 );
 
-        MultipartBody.Part body  = MultipartBody.Part
+        MultipartBody.Part body = MultipartBody.Part
                 .createFormData("image", file.getName(), requestFile);
 
         //RequestBody filename = RequestBody.create(MediaType.parse("text/plain"), file.getName());
@@ -44,11 +44,13 @@ public class UploadImage {
         RetrofitClient.
                 getClient(RestAPI.URL_API_MAIN)
                 .create(RestAPI.class)
-                .upload(body)
+                .upload(requestFile, body)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(@NotNull Call<ResponseBody> call, @NotNull Response<ResponseBody> response) {
                         if (response.isSuccessful()) {
+
+                            Logging.logDebug("code()" + response.code());
 //                            if (response.body() != null) {
 //                                Logging.logDebug("link()"+response.body());
 //

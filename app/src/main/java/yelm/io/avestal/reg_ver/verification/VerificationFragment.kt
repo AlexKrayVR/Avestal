@@ -21,7 +21,6 @@ import yelm.io.avestal.reg_ver.registration.phone_registration.view.HostRegistra
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
-
 class VerificationFragment : Fragment(), OnBackPressedListener {
 
     private var binding: FragmentVerificationBinding? = null
@@ -149,7 +148,6 @@ class VerificationFragment : Fragment(), OnBackPressedListener {
         return true
     }
 
-
     private fun getSHA2(s: String): String {
         try {
             // Create SHA2 Hash
@@ -171,7 +169,6 @@ class VerificationFragment : Fragment(), OnBackPressedListener {
         }
         return ""
     }
-
 
     companion object {
         @JvmStatic

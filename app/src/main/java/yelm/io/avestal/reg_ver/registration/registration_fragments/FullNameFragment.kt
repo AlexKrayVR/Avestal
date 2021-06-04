@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import yelm.io.avestal.Logging
 import yelm.io.avestal.R
-import yelm.io.avestal.databinding.FullNameFragmentBinding
+import yelm.io.avestal.databinding.FragmentFullNameBinding
 import yelm.io.avestal.reg_ver.model.UserViewModel
 import yelm.io.avestal.reg_ver.registration.phone_registration.view.HostRegistration
 
@@ -21,14 +21,14 @@ class FullNameFragment : Fragment() {
     }
 
     private lateinit var viewModel: UserViewModel
-    private var binding: FullNameFragmentBinding? = null
+    private var binding: FragmentFullNameBinding? = null
     private var hostRegistration: HostRegistration? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FullNameFragmentBinding.inflate(inflater, container, false)
+        binding = FragmentFullNameBinding.inflate(inflater, container, false)
         return binding?.root
     }
 

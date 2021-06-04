@@ -62,10 +62,12 @@
 
             android:background="@null"
             android:gravity="center_vertical"
+            android:hint="@string/regionTint"
             android:inputType="text"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            android:textColorHint="@color/colorBDBDBD" />
+            android:textColorHint="@color/colorBDBDBD"
+            android:textSize="14sp" />
     </LinearLayout>
     <TextView
         android:id="@+id/textView"

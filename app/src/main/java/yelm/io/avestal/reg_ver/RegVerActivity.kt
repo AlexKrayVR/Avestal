@@ -42,10 +42,10 @@ class RegVerActivity : AppCompatActivity(), HostRegistration {
         SharedPreferencesSetting.initSharedPreferencesSettings(this)
 
         //openWhatIsYourWorkFragment()
-        openLoginFragment()
+        //openProfilePhotoFragment()
         //TODO return to this point
         //checkUser()
-        //startApp()
+        startApp()
     }
 
     private fun checkUser() {
@@ -86,10 +86,7 @@ class RegVerActivity : AppCompatActivity(), HostRegistration {
         }else{
             supportFragmentManager.popBackStack();
         }
-
     }
-
-
 
     override fun openWhatIsYourWorkFragment() {
         val transaction = supportFragmentManager.beginTransaction()
@@ -110,7 +107,7 @@ class RegVerActivity : AppCompatActivity(), HostRegistration {
     override fun openFinishFragment() {
         val transaction = supportFragmentManager.beginTransaction()
         transaction
-            .add(R.id.container, fullNameFragment ?: FullNameFragment.newInstance())
+            .add(R.id.container, fullNameFragment ?: FinishFragment.newInstance())
             .addToBackStack("FullName")
             .commit()
     }

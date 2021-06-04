@@ -69,7 +69,14 @@ class WorkTypeAdapter(private var items: ArrayList<TempWorkType>, var context: C
                         )
                     )
                 }
-
+                1 -> {
+                    iv.setImageDrawable(
+                        AppCompatResources.getDrawable(
+                            context,
+                            R.drawable.ic_star2
+                        )
+                    )
+                }
             }
             holder.binding.layoutStars.addView(iv)
         }

@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Avestal</string>
+    <string name="yandex_maps_API_key" translatable="false">09ee0a39-0ad1-490a-9ea8-8600c46b9ef8</string>
 
 
     <string name="close">Закрыть</string>
@@ -31,7 +32,7 @@
     <string name="info">Чем вы занимаетесь?</string>
     <string name="infoEmpty">Заполните инфомацию о себе</string>
     <string name="infoHint">Расскажите о себе</string>
-    <string name="addressEmpty">Поле адреса должно быть заполнено</string>
+    <string name="addressEmpty">Поле региона должно быть заполнено</string>
     <string name="confirmUser">Подтверждение личности</string>
     <string name="takeUserIDPhoto">Сфотографируйте ваше\nудостоверение личности</string>
     <string name="takeUserSelfie">Сделайте селфи</string>
@@ -79,6 +80,7 @@
     <!--UserRegion -->
     <string name="region">Местонахождение</string>
     <string name="yourRegion">Ваш регион</string>
+    <string name="regionTint">Регион</string>
 
     <!--UserPickPhoto -->
     <string name="registration">Регистрация</string>
@@ -90,8 +92,9 @@
     <!--OffersFragment -->
     <string name="fromQuestionnaire">По услугам из анкеты</string>
     <string name="searchOffers">Поиск заказа</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="before">до</string>
+    <string name="ruble">руб</string>
+
 
     <!--SettingsActivity -->
     <string name="settingsTitle">Настройки</string>

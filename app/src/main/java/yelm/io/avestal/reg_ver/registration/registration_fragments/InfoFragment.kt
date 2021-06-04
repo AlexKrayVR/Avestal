@@ -8,7 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import yelm.io.avestal.R
-import yelm.io.avestal.databinding.InfoFragmentBinding
+import yelm.io.avestal.databinding.FragmentInfoBinding
 import yelm.io.avestal.reg_ver.model.UserViewModel
 import yelm.io.avestal.reg_ver.registration.phone_registration.view.HostRegistration
 
@@ -20,13 +20,13 @@ class InfoFragment : Fragment() {
 
     private lateinit var viewModel: UserViewModel
     private var hostRegistration: HostRegistration? = null
-    private var binding: InfoFragmentBinding? = null
+    private var binding: FragmentInfoBinding? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = InfoFragmentBinding.inflate(inflater, container, false)
+        binding = FragmentInfoBinding.inflate(inflater, container, false)
         return binding?.root
     }
 

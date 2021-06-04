@@ -54,6 +54,8 @@ class BasketAdapter(private var items: ArrayList<BasketItem>, var context: Conte
             .into(holder.binding.image)
 
         holder.binding.count.text = current.count.toString()
+        holder.binding.name.text = "Кисть Dexter Pro универсал 70мм"
+        holder.binding.price.text = "288.00 руб."
 
         holder.binding.reduce.setOnClickListener {
             if (current.count == 1) {
