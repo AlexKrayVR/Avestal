@@ -1,7 +1,6 @@
 package yelm.io.avestal.main.offers
 
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filter
@@ -11,14 +10,12 @@ import android.widget.LinearLayout
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.RecyclerView
 import yelm.io.avestal.R
-import yelm.io.avestal.common.currentFormatterDate
+import yelm.io.avestal.common.serverFormatterDate
 import yelm.io.avestal.common.printedFormatterDate
 import yelm.io.avestal.databinding.ItemOfferBinding
-import yelm.io.avestal.main.offers.respond.OfferActivity
 import yelm.io.avestal.rest.responses.OfferData
 import java.text.DecimalFormat
 import java.text.ParseException
-import java.text.SimpleDateFormat
 import java.util.*
 
 class OffersAdapter(private var offers: List<OfferData>, var context: Context) :
@@ -26,56 +23,57 @@ class OffersAdapter(private var offers: List<OfferData>, var context: Context) :
 
     var offersSort = offers.toMutableList()
 
+    private var listener: Listener? = null
 
-//    private var listener: Listener? = null
-//
-//    interface Listener {
-//        fun increase(itemID: String)
-//        fun reduce(itemID: String)
-//        fun deleteByID(itemID: String)
-//    }
-//
-//    fun setListener(listener: Listener?) {
-//        this.listener = listener
-//    }
+    interface Listener {
+        fun orderPressed(offerData: OfferData)
+    }
+
+    fun setListener(listener: Listener?) {
+        this.listener = listener
+    }
+
+    private var offersSizeListener: OffersSizeListener? = null
+
+    interface OffersSizeListener {
+        fun offersSize(offersSize: Int)
+    }
+
+    fun setOffersSizeListener(offersSizeListener: OffersSizeListener?) {
+        this.offersSizeListener = offersSizeListener
+    }
+
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): OffersAdapter.OfferItemViewHolder {
+    ): OfferItemViewHolder {
         val binding = ItemOfferBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return OfferItemViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: OfferItemViewHolder, position: Int) {
         val current = offersSort[position]
-
         holder.binding.offerTitle.text = current.title
         holder.binding.city.text = current.address
-
         val formattedPrice = DecimalFormat("###,###").format(current.price.toInt())
         (context.getString(R.string.before) + " " + formattedPrice + " " +
                 context.getString(R.string.ruble)).also { holder.binding.price.text = it }
+
         fillStars(holder.binding.layoutStars, current.rating.toInt())
+
         val currentCalendar = GregorianCalendar.getInstance()
         try {
             currentCalendar.time =
-                Objects.requireNonNull(currentFormatterDate.parse(current.updatedAt))
+                Objects.requireNonNull(serverFormatterDate.parse(current.updatedAt))
         } catch (e: ParseException) {
-            e.printStackTrace();
+            e.printStackTrace()
         }
-
         holder.binding.date.text = printedFormatterDate.format(currentCalendar.time)
 
         holder.binding.root.setOnClickListener {
-            val intent = Intent(context, OfferActivity::class.java)
-            intent.putExtra(OfferData::class.java.name, current)
-            context.startActivity(intent)
+            listener?.orderPressed(current)
         }
-//
-//        holder.binding.increase.setOnClickListener {
-//            listener?.increase(current.itemID)
-//        }
     }
 
     private fun fillStars(layout: LinearLayout, count: Int) {
@@ -128,13 +126,13 @@ class OffersAdapter(private var offers: List<OfferData>, var context: Context) :
         }
     }
 
+
     override fun getItemCount(): Int {
         return offersSort.size
     }
 
     class OfferItemViewHolder(var binding: ItemOfferBinding) :
         RecyclerView.ViewHolder(binding.root)
-
     override fun getFilter(): Filter {
         return object : Filter() {
             //run back
@@ -150,7 +148,8 @@ class OffersAdapter(private var offers: List<OfferData>, var context: Context) :
                             offer.title.lowercase(Locale.ROOT)
                                 .contains(search) ||
                             offer.address.lowercase(Locale.ROOT)
-                                .contains(search)
+                                .contains(search) ||
+                            offer.price.contains(search)
                         ) {
                             filtered.add(offer)
                         }
@@ -163,8 +162,8 @@ class OffersAdapter(private var offers: List<OfferData>, var context: Context) :
 
             //run ui
             override fun publishResults(charSequence: CharSequence, filterResults: FilterResults) {
-                offersSort.clear()
-                offersSort.addAll(filterResults.values as Collection<OfferData>)
+                offersSort = filterResults.values as MutableList<OfferData>
+                offersSizeListener?.offersSize(offersSort.size)
                 notifyDataSetChanged()
             }
         }

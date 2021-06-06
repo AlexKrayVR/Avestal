@@ -1,16 +1,14 @@
 package yelm.io.avestal.main.offers.respond
 
 import android.os.Bundle
-import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.gms.location.LocationServices
 import com.yandex.mapkit.Animation
 import com.yandex.mapkit.MapKitFactory
 import com.yandex.mapkit.geometry.Point
 import com.yandex.mapkit.map.CameraPosition
 import yelm.io.avestal.R
 import yelm.io.avestal.common.ItemOffsetDecoration
-import yelm.io.avestal.common.currentFormatterDate
+import yelm.io.avestal.common.serverFormatterDate
 import yelm.io.avestal.common.printedFormatterDateOfferActivity
 import yelm.io.avestal.databinding.ActivityOfferBinding
 import yelm.io.avestal.main.offers.respond.adapter.OfferImagesAdapter
@@ -65,7 +63,7 @@ class OfferActivity : AppCompatActivity() {
         val currentCalendar = GregorianCalendar.getInstance()
         try {
             currentCalendar.time =
-                Objects.requireNonNull(currentFormatterDate.parse(offer.updatedAt))
+                Objects.requireNonNull(serverFormatterDate.parse(offer.updatedAt))
         } catch (e: ParseException) {
             e.printStackTrace();
         }

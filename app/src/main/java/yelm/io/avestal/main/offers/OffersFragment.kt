@@ -1,12 +1,15 @@
 package yelm.io.avestal.main.offers
 
+import android.app.AlertDialog
+import android.content.Intent
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.text.Html
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SearchView
+import android.widget.TextView
+import androidx.core.content.ContextCompat
+import androidx.core.text.HtmlCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import retrofit2.Call
@@ -15,23 +18,21 @@ import retrofit2.Response
 import yelm.io.avestal.Logging
 import yelm.io.avestal.R
 import yelm.io.avestal.databinding.FragmentOffersBinding
+import yelm.io.avestal.main.host.AppActivity
+import yelm.io.avestal.main.offers.respond.OfferActivity
 import yelm.io.avestal.rest.RestAPI
 import yelm.io.avestal.rest.RetrofitClient
 import yelm.io.avestal.rest.responses.Offer
-import java.text.SimpleDateFormat
-import java.util.*
+import yelm.io.avestal.rest.responses.OfferData
 
 class OffersFragment : Fragment() {
 
     private var binding: FragmentOffersBinding? = null
     private var adapter: OffersAdapter? = null
-    var currentFormatterDate = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.getDefault())
 
-    //2021-06-03T07:38:35.000000Z
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-
         }
     }
 
@@ -44,7 +45,7 @@ class OffersFragment : Fragment() {
     }
 
     var authToken =
-        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvYXBpLmF2ZXN0YWwucnVcL2FwaVwvYXV0aCIsImlhdCI6MTYyMjgxMTA3NiwiZXhwIjoxNjIyODk3NDc2LCJuYmYiOjE2MjI4MTEwNzYsImp0aSI6ImpuRzhIdFo2MFpLbTdxSEoiLCJzdWIiOjEwLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.nQyvm-f71OvBLt3SMBzu3VHupdoFLe9jCKOq_9FDKX0"
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvYXBpLmF2ZXN0YWwucnVcL2FwaVwvYXV0aCIsImlhdCI6MTYyMjk5MTc1OCwiZXhwIjoxNjIzMDc4MTU4LCJuYmYiOjE2MjI5OTE3NTgsImp0aSI6IkNkSHJpZ0tTZk5xdVc4NGgiLCJzdWIiOjEwLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.BpROVMY90bYptOptDk7AdlJP9cYcM1aHW_Z7IehSddw"
 
     fun showLoading() {
         binding?.progressBar?.visibility = View.VISIBLE
@@ -54,16 +55,10 @@ class OffersFragment : Fragment() {
         binding?.progressBar?.visibility = View.GONE
     }
 
-    @Suppress("DEPRECATION")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val text = "<font color=${context?.resources?.getColor(R.color.color121212)}>" +
-                "${context?.resources?.getString(R.string.fromQuestionnaire)}" + ' ' +
-                "</font><font color=${context?.resources?.getColor(R.color.colorBDBDBD)}>${0}</font>"
-        binding?.fromQuestionnaire?.text = Html.fromHtml(text)
-
+        setOffersSize(0)
         showLoading()
-
         RetrofitClient.getClient(RestAPI.URL_API_MAIN)
             .create(RestAPI::class.java)
             .getOrders("Bearer $authToken")
@@ -73,43 +68,74 @@ class OffersFragment : Fragment() {
                     response: Response<Offer?>
                 ) {
                     hideLoading()
+                    Logging.logDebug("response.code(): ${response.code()}")
                     if (response.isSuccessful) {
-                        Logging.logDebug("onResponse${response.body()!!.data.size}");
-
-                        adapter = OffersAdapter(response.body()!!.data, requireContext())
-                        binding?.recyclerOffers?.adapter = adapter
-
-                    } else {
-                        hideLoading()
+                        initAdapter(response.body()!!.data)
+                        setOffersSize(response.body()!!.data.size)
                     }
                 }
 
                 override fun onFailure(call: Call<Offer?>, t: Throwable) {
-                    Logging.logDebug("onResponse${t.message}");
+                    Logging.logDebug("onFailure: ${t.message}")
                     hideLoading()
                 }
             })
-
-//        binding?.searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-//            override fun onQueryTextSubmit(s: String): Boolean {
-//                return false
-//            }
-//
-//            override fun onQueryTextChange(s: String): Boolean {
-//                adapter?.filter?.filter(s)
-//                binding?.recyclerOffers?.scrollToPosition(0)
-//                return false
-//            }
-//        })
 
         binding?.searchOffer?.addTextChangedListener {
             adapter?.filter?.filter(it)
             binding?.recyclerOffers?.scrollToPosition(0)
         }
-
-
     }
 
+    private fun initAdapter(offers: List<OfferData>) {
+        Logging.logDebug("offers size: ${offers.size}")
+        adapter = OffersAdapter(offers, requireContext())
+        adapter?.setListener(object : OffersAdapter.Listener {
+            override fun orderPressed(offerData: OfferData) {
+                //TODO make variants: showDialogNewOrder() or start Intent
+                val intent = Intent(requireContext(), OfferActivity::class.java)
+                intent.putExtra(OfferData::class.java.name, offerData)
+                requireContext().startActivity(intent)
+            }
+        })
+        adapter?.setOffersSizeListener(object : OffersAdapter.OffersSizeListener {
+            override fun offersSize(offersSize: Int) {
+                setOffersSize(offersSize)
+            }
+        })
+        binding?.recyclerOffers?.adapter = adapter
+    }
+
+    private fun setOffersSize(offersSize: Int) {
+        val text = "<font color=${ContextCompat.getColor(requireContext(), R.color.color121212)}>" +
+                "${context?.resources?.getString(R.string.fromQuestionnaire)}" + ' ' +
+                "</font><font color=${
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.colorBDBDBD
+                    )
+                }>${offersSize}</font>"
+        binding?.fromQuestionnaire?.text =
+            HtmlCompat.fromHtml(text, HtmlCompat.FROM_HTML_MODE_LEGACY)
+    }
+
+    private fun showDialogNewOrder() {
+        val builder = AlertDialog.Builder(context, R.style.AlertDialogTheme)
+        val view = LayoutInflater.from(context)
+            .inflate(
+                R.layout.layout_dialog_confirm_order,
+                (context as AppActivity).findViewById(R.id.layoutDialogContainer)
+            )
+        builder.setView(view)
+        val alertDialog = builder.create()
+        view.findViewById<TextView>(R.id.continueSearch).setOnClickListener {
+            alertDialog.dismiss()
+        }
+        if (alertDialog.window != null) {
+            alertDialog.window!!.setBackgroundDrawable(ColorDrawable(0))
+        }
+        alertDialog.show()
+    }
 
     companion object {
         @JvmStatic

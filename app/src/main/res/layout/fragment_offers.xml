@@ -5,37 +5,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
+    <EditText
+        android:id="@+id/searchOffer"
         android:layout_width="match_parent"
         android:layout_height="40dp"
+
         android:layout_marginStart="16dp"
         android:layout_marginTop="40dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/back_enter_15dp"
-        android:orientation="horizontal"
+        android:drawableEnd="@drawable/ic_search"
+        android:gravity="center_vertical"
+        android:hint="@string/searchOffers"
+        android:inputType="text"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:textColor="@color/color121212"
+        android:textColorHint="@color/colorBDBDBD"
+        android:textSize="14sp"
+        android:theme="@style/TextStyleRegular"
         app:layout_constraintEnd_toEndOf="parent"
-
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <EditText
-            android:id="@+id/searchOffer"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-
-            android:background="@null"
-            android:drawableEnd="@drawable/ic_search"
-            android:gravity="center_vertical"
-            android:hint="@string/searchOffers"
-            android:inputType="text"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:textColor="@color/color121212"
-            android:textColorHint="@color/colorBDBDBD"
-            android:textSize="14sp"
-            android:theme="@style/TextStyleRegular" />
-    </LinearLayout>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/fromQuestionnaire"
@@ -48,7 +39,7 @@
         android:textSize="18sp"
         android:theme="@style/TextStyleMedium"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/searchOffer" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerOffers"

@@ -148,43 +148,43 @@ class UserProfilePhotoFragment : Fragment(), UploadRequestBody.UploadCallback {
 
             UploadImage.upload(file2, imageUri, requireContext())
 
-//            val parcelFileDescriptor =
-//               requireContext().contentResolver.openFileDescriptor(imageUri!!, "r", null) ?: return
-//            val inputStream = FileInputStream(parcelFileDescriptor.fileDescriptor)
-//            val file = File(requireContext().cacheDir, requireContext().contentResolver.getFileName(imageUri!!))
-//            val outputStream = FileOutputStream(file)
-//            inputStream.copyTo(outputStream)
-//
-//            //progress_bar.progress = 0
-//            val body = UploadRequestBody(file, "image", this)
-//            KotlinAPI().uploadImage(
-//                MultipartBody.Part.createFormData(
-//                    "image",
-//                    file.name,
-//                    body
-//                ),
-//                RequestBody.create("multipart/form-data".toMediaTypeOrNull(), "json")
-//            ).enqueue(object : Callback<ResponseBody> {
-//                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-//                    //layout_root.snackbar(t.message!!)
-//                    //progress_bar.progress = 0
-//                    Logging.logDebug("onFailure: $t");
-//                }
-//
-//                override fun onResponse(
-//                    call: Call<ResponseBody>,
-//                    response: Response<ResponseBody>
-//                ) {
-//                    Logging.logDebug("onResponse");
-//                    Logging.logDebug("onResponse: ${response.body()}");
-//                    Logging.logDebug("onResponse: ${response.code()}");
-//
-//                    response.body()?.let {
-//                        //layout_root.snackbar(it.message)
-//                       // progress_bar.progress = 100
-//                    }
-//                }
-//            })
+            val parcelFileDescriptor =
+               requireContext().contentResolver.openFileDescriptor(imageUri!!, "r", null) ?: return
+            val inputStream = FileInputStream(parcelFileDescriptor.fileDescriptor)
+            val file = File(requireContext().cacheDir, requireContext().contentResolver.getFileName(imageUri!!))
+            val outputStream = FileOutputStream(file)
+            inputStream.copyTo(outputStream)
+
+            //progress_bar.progress = 0
+            val body = UploadRequestBody(file, "image", this)
+            KotlinAPI().uploadImage(
+                MultipartBody.Part.createFormData(
+                    "image",
+                    file.name,
+                    body
+                ),
+                RequestBody.create("multipart/form-data".toMediaTypeOrNull(), "json")
+            ).enqueue(object : Callback<ResponseBody> {
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    //layout_root.snackbar(t.message!!)
+                    //progress_bar.progress = 0
+                    Logging.logDebug("onFailure: $t");
+                }
+
+                override fun onResponse(
+                    call: Call<ResponseBody>,
+                    response: Response<ResponseBody>
+                ) {
+                    Logging.logDebug("onResponse");
+                    Logging.logDebug("onResponse: ${response.body()}");
+                    Logging.logDebug("onResponse: ${response.code()}");
+
+                    response.body()?.let {
+                        //layout_root.snackbar(it.message)
+                       // progress_bar.progress = 100
+                    }
+                }
+            })
 
 
         }

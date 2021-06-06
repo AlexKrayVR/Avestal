@@ -87,7 +87,7 @@
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:text="Name"
-                android:textColor="@color/black"
+                android:textColor="@color/color000000"
                 android:theme="@style/TextStyleMedium"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageView"

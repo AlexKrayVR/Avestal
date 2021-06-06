@@ -94,6 +94,8 @@
     <string name="searchOffers">Поиск заказа</string>
     <string name="before">до</string>
     <string name="ruble">руб</string>
+    <string name="searchContinue">Продолжить поиск</string>
+    <string name="beforeTakeOrderVerifyPersonality">Извините, вы пока не можете выбрать этот заказ, вам необходимо подтвердить личность</string>
 
 
     <!--SettingsActivity -->
