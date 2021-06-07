@@ -1,8 +1,5 @@
 package yelm.io.avestal.reg_ver.model
 
-import android.net.Uri
-import java.io.File
-
 data class User(
     var phone: String = "",
     var jobStatus: String = "",
@@ -11,7 +8,7 @@ data class User(
     var lastName: String = "",
     var region: String = "",
     var jobDescription: String = "",
-    var profilePhotoUri: Uri? = null,
-    var passportPhoto: File? = null,
-    var userSelfie: File? = null
+    var profilePhoto: String = "",
+    var passportPhoto: String = "",
+    var selfie: String = ""
 )

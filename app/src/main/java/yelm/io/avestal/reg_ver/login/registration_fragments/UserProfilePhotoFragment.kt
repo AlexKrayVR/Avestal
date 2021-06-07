@@ -1,7 +1,6 @@
-package yelm.io.avestal.reg_ver.registration.registration_fragments
+package yelm.io.avestal.reg_ver.login.registration_fragments
 
 import android.app.Activity
-import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -16,7 +15,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -26,7 +24,7 @@ import yelm.io.avestal.Logging
 import yelm.io.avestal.R
 import yelm.io.avestal.databinding.FragmentUserPhotoBinding
 import yelm.io.avestal.reg_ver.model.UserViewModel
-import yelm.io.avestal.reg_ver.registration.phone_registration.view.HostRegistration
+import yelm.io.avestal.reg_ver.host.HostRegistration
 import yelm.io.avestal.rest.KotlinAPI
 import yelm.io.avestal.rest.UploadImage
 import yelm.io.avestal.rest.UploadRequestBody
@@ -100,12 +98,12 @@ class UserProfilePhotoFragment : Fragment(), UploadRequestBody.UploadCallback {
         }
 
         binding?.further?.setOnClickListener {
-            if (imageUri != null) {
-                viewModel.setProfilePhotoUri(imageUri!!)
-                hostRegistration?.openConfirmUserFragment()
-            } else {
-                hostRegistration?.showToast(R.string.photoIsEmpty)
-            }
+//            if (imageUri != null) {
+//                viewModel.setProfilePhotoUri(imageUri!!)
+//                hostRegistration?.openConfirmUserFragment()
+//            } else {
+//                hostRegistration?.showToast(R.string.photoIsEmpty)
+//            }
         }
     }
 

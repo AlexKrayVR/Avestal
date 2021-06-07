@@ -1,9 +1,8 @@
-package yelm.io.avestal.reg_ver.registration.registration_fragments.confirm
+package yelm.io.avestal.reg_ver.login.registration_fragments.confirm
 
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
@@ -13,21 +12,15 @@ import android.view.ViewGroup
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import okhttp3.ResponseBody
 import org.json.JSONException
 import org.json.JSONObject
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import yelm.io.avestal.Logging
 import yelm.io.avestal.R
 import yelm.io.avestal.databinding.FragmentConfirmUserBinding
 import yelm.io.avestal.reg_ver.model.UserViewModel
-import yelm.io.avestal.reg_ver.registration.phone_registration.view.HostRegistration
-import yelm.io.avestal.reg_ver.registration.registration_fragments.USER_ID_IMAGE_REQUEST_CODE
-import yelm.io.avestal.reg_ver.registration.registration_fragments.USER_SELFIE_IMAGE_REQUEST_CODE
-import yelm.io.avestal.rest.RestAPI
-import yelm.io.avestal.rest.RetrofitClient
+import yelm.io.avestal.reg_ver.host.HostRegistration
+import yelm.io.avestal.reg_ver.login.registration_fragments.USER_ID_IMAGE_REQUEST_CODE
+import yelm.io.avestal.reg_ver.login.registration_fragments.USER_SELFIE_IMAGE_REQUEST_CODE
 import java.io.File
 
 class ConfirmUserFragment : Fragment() {
@@ -124,34 +117,34 @@ class ConfirmUserFragment : Fragment() {
         return jsonData
     }
 
-    private fun getFIO(): JSONObject {
-        val jsonData = JSONObject()
-        try {
-            jsonData.put("first_name", viewModel.user.value?.name)
-            jsonData.put("last_name", viewModel.user.value?.surname)
-            jsonData.put("surname", viewModel.user.value?.lastName)
-            jsonData.put(
-                "profile_image",
-                MediaStore.Images.Media.getBitmap(
-                    requireContext().contentResolver,
-                    viewModel.user.value?.profilePhotoUri
-                )
-            )
-            jsonData.put(
-                "passport_image",
-                convertingImageToBase64(BitmapFactory.decodeFile(viewModel.user.value?.passportPhoto?.absolutePath))
-            )
-            jsonData.put(
-                "face_image",
-                convertingImageToBase64(BitmapFactory.decodeFile(viewModel.user.value?.userSelfie?.absolutePath))
-            )
-        } catch (e: JSONException) {
-            e.printStackTrace()
-            hideProgress()
-
-        }
-        return jsonData
-    }
+//    private fun getFIO(): JSONObject {
+//        val jsonData = JSONObject()
+//        try {
+//            jsonData.put("first_name", viewModel.user.value?.name)
+//            jsonData.put("last_name", viewModel.user.value?.surname)
+//            jsonData.put("surname", viewModel.user.value?.lastName)
+//            jsonData.put(
+//                "profile_image",
+//                MediaStore.Images.Media.getBitmap(
+//                    requireContext().contentResolver,
+//                    viewModel.user.value?.profilePhotoUri
+//                )
+//            )
+//            jsonData.put(
+//                "passport_image",
+//                convertingImageToBase64(BitmapFactory.decodeFile(viewModel.user.value?.passportPhoto?.absolutePath))
+//            )
+//            jsonData.put(
+//                "face_image",
+//                convertingImageToBase64(BitmapFactory.decodeFile(viewModel.user.value?.userSelfie?.absolutePath))
+//            )
+//        } catch (e: JSONException) {
+//            e.printStackTrace()
+//            hideProgress()
+//
+//        }
+//        return jsonData
+//    }
 
     private fun checkIfCameraPermission(code: Int) {
         if (hostRegistration?.hasCameraPermission() == true) {
@@ -167,13 +160,13 @@ class ConfirmUserFragment : Fragment() {
             binding?.layoutUserIdPhoto?.background?.setTint(requireContext().resources.getColor(R.color.colorBlue))
             binding?.takeUserIDPhoto?.setTextColor(requireContext().resources.getColor(R.color.white))
             binding?.number1?.setTextColor(requireContext().resources.getColor(R.color.white))
-            viewModel.setUserIDPhoto(photoFile)
+            //viewModel.setUserIDPhoto(photoFile)
         }
         if (requestCode == USER_SELFIE_IMAGE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             binding?.layoutUserSelfie?.background?.setTint(requireContext().resources.getColor(R.color.colorBlue))
             binding?.takeUserSelfie?.setTextColor(requireContext().resources.getColor(R.color.white))
             binding?.number2?.setTextColor(requireContext().resources.getColor(R.color.white))
-            viewModel.setUserSelfie(photoFile)
+            //viewModel.setUserSelfie(photoFile)
             //val takenImage = BitmapFactory.decodeFile(photoFile.absolutePath)
             //binding?.userImage?.setImageBitmap(takenImage)
             Logging.logDebug("${photoFile.absolutePath}")

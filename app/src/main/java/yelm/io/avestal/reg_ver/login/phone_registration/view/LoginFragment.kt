@@ -1,4 +1,4 @@
-package yelm.io.avestal.reg_ver.registration.phone_registration.view
+package yelm.io.avestal.reg_ver.login.phone_registration.view
 
 import android.content.Context
 import android.os.Bundle
@@ -10,11 +10,12 @@ import androidx.lifecycle.ViewModelProvider
 import yelm.io.avestal.Logging
 import yelm.io.avestal.databinding.FragmentLoginBinding
 import yelm.io.avestal.reg_ver.model.UserViewModel
-import yelm.io.avestal.reg_ver.registration.phone_registration.model.AuthResponseKotlin
-import yelm.io.avestal.reg_ver.registration.phone_registration.presenter.LoginPresenter
+import yelm.io.avestal.reg_ver.host.HostRegistration
+import yelm.io.avestal.rest.responses.AuthResponse
+import yelm.io.avestal.reg_ver.login.phone_registration.presenter.LoginPresenter
 import java.lang.RuntimeException
 
-class LoginFragment : Fragment(), RegistrationView {
+class LoginFragment : Fragment(), LoginView {
     private lateinit var loginPresenter: LoginPresenter
     private var binding: FragmentLoginBinding? = null
     private var hostRegistration: HostRegistration? = null
@@ -30,20 +31,18 @@ class LoginFragment : Fragment(), RegistrationView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        loginPresenter = LoginPresenter(this)
+        binding?.phone?.let { loginPresenter.setTextFormatter(it) }
+
         viewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
         viewModel.user.observe(requireActivity(), {
             Logging.logDebug(it.toString())
             binding?.phone?.setText(it.phone)
         })
 
-        loginPresenter = LoginPresenter(this)
-        binding?.phone?.let { loginPresenter.setTextFormatter(it) }
-
-        //val phone = arguments?.getString(PHONE)
-        //binding?.phone?.setText(phone)
-
         binding?.further?.setOnClickListener {
-            auth()
+            loginPresenter.phoneValidation(binding?.phone?.text.toString())
         }
     }
 
@@ -54,24 +53,15 @@ class LoginFragment : Fragment(), RegistrationView {
             }
     }
 
-    override fun auth() {
-        loginPresenter.phoneValidation(binding?.phone?.text.toString())
-    }
-
-    override fun validationPhoneError(error: Int) {
+    override fun loginPhoneError(error: Int) {
         hostRegistration?.showToast(error)
     }
 
-    override fun validationPhoneSuccess(phone: String,response: AuthResponseKotlin) {
+    override fun loginPhoneSuccess(phone: String, response: AuthResponse) {
         viewModel.setPhone(phone)
-        hostRegistration?.openValidationFragment(phone, response)
+        hostRegistration?.openVerificationFragment(phone, response)
     }
 
-    override fun authPhoneSuccess() {
-        hostRegistration?.startApp()
-    }
-
-    //Because Fragments continue to live after the View has gone, it’s good to remove any references to the binding class instance
     override fun onDestroyView() {
         binding = null
         loginPresenter.detachView()
@@ -99,5 +89,4 @@ class LoginFragment : Fragment(), RegistrationView {
     override fun hideLoading() {
         binding?.progressBar?.visibility = View.GONE
     }
-
 }

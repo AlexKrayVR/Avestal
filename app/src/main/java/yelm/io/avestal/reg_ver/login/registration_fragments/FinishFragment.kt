@@ -1,4 +1,4 @@
-package yelm.io.avestal.reg_ver.registration.registration_fragments
+package yelm.io.avestal.reg_ver.login.registration_fragments
 
 import android.content.Context
 import android.os.Bundle
@@ -6,9 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import yelm.io.avestal.R
 import yelm.io.avestal.databinding.FragmentFinishBinding
-import yelm.io.avestal.reg_ver.registration.phone_registration.view.HostRegistration
+import yelm.io.avestal.reg_ver.host.HostRegistration
 
 
 class FinishFragment : Fragment() {

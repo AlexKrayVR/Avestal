@@ -13,7 +13,7 @@ import retrofit2.http.Header;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
-import yelm.io.avestal.reg_ver.registration.phone_registration.model.AuthResponseKotlin;
+import yelm.io.avestal.rest.responses.AuthResponse;
 import yelm.io.avestal.rest.responses.Offer;
 
 public interface RestAPI {
@@ -22,7 +22,7 @@ public interface RestAPI {
 
     @FormUrlEncoded
     @POST("code?")
-    Call<AuthResponseKotlin> code(
+    Call<AuthResponse> code(
             @Field("phone") String phone
     );
 

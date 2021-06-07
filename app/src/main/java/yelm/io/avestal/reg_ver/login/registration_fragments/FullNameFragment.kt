@@ -1,4 +1,4 @@
-package yelm.io.avestal.reg_ver.registration.registration_fragments
+package yelm.io.avestal.reg_ver.login.registration_fragments
 
 import android.content.Context
 import android.os.Bundle
@@ -12,7 +12,7 @@ import yelm.io.avestal.Logging
 import yelm.io.avestal.R
 import yelm.io.avestal.databinding.FragmentFullNameBinding
 import yelm.io.avestal.reg_ver.model.UserViewModel
-import yelm.io.avestal.reg_ver.registration.phone_registration.view.HostRegistration
+import yelm.io.avestal.reg_ver.host.HostRegistration
 
 class FullNameFragment : Fragment() {
 
@@ -47,39 +47,45 @@ class FullNameFragment : Fragment() {
         binding?.checkBox?.text = Html.fromHtml(text)
 
         viewModel.user.observe(requireActivity(), {
-            Logging.logDebug(it.toString())
+            Logging.logDebug("FullNameFragment: $it")
         })
 
-
         binding?.further?.setOnClickListener {
-            if (binding?.name?.text.toString().trim().isEmpty()) {
-                hostRegistration?.showToast(R.string.nameMustBeFilled)
-                return@setOnClickListener
-            }
-
-            if (binding?.surname?.text.toString().trim().isEmpty()) {
-                hostRegistration?.showToast(R.string.surnameMustBeFilled)
-                return@setOnClickListener
-            }
-
-            if (binding?.lastName?.text.toString().trim().isEmpty()) {
-                hostRegistration?.showToast(R.string.lastNameMustBeFilled)
-                return@setOnClickListener
-            }
-
-            if (binding?.checkBox?.isChecked == false) {
-                hostRegistration?.showToast(R.string.acceptPublicOffer)
-                return@setOnClickListener
-            }
-
-            viewModel.setFullName(
-                binding?.name?.text.toString().trim(),
-                binding?.surname?.text.toString().trim(),
-                binding?.lastName?.text.toString().trim()
-            )
-            hostRegistration?.openRegionFragment()
-
+            inputValidation()
         }
+
+        binding?.back?.setOnClickListener {
+            hostRegistration?.back()
+        }
+    }
+
+    private fun inputValidation() {
+        if (binding?.name?.text.toString().trim().isEmpty()) {
+            hostRegistration?.showToast(R.string.nameMustBeFilled)
+            return
+        }
+
+        if (binding?.surname?.text.toString().trim().isEmpty()) {
+            hostRegistration?.showToast(R.string.surnameMustBeFilled)
+            return
+        }
+
+        if (binding?.lastName?.text.toString().trim().isEmpty()) {
+            hostRegistration?.showToast(R.string.lastNameMustBeFilled)
+            return
+        }
+
+        if (binding?.checkBox?.isChecked == false) {
+            hostRegistration?.showToast(R.string.acceptPublicOffer)
+            return
+        }
+
+        viewModel.setFullName(
+            binding?.name?.text.toString().trim(),
+            binding?.surname?.text.toString().trim(),
+            binding?.lastName?.text.toString().trim()
+        )
+        hostRegistration?.openRegionFragment()
     }
 
     override fun onDetach() {

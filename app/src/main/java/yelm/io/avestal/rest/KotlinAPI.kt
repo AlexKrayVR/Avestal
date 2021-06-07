@@ -30,6 +30,4 @@ interface KotlinAPI {
                 .create(KotlinAPI::class.java)
         }
     }
-
-
 }

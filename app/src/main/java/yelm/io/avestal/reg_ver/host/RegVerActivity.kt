@@ -1,4 +1,4 @@
-package yelm.io.avestal.reg_ver
+package yelm.io.avestal.reg_ver.host
 
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -8,17 +8,20 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import yelm.io.avestal.*
 import yelm.io.avestal.app_settings.SharedPreferencesSetting
 import yelm.io.avestal.databinding.RegVerActivityBinding
 import yelm.io.avestal.main.host.AppActivity
-import yelm.io.avestal.reg_ver.registration.phone_registration.model.AuthResponseKotlin
-import yelm.io.avestal.reg_ver.registration.phone_registration.view.HostRegistration
-import yelm.io.avestal.reg_ver.registration.phone_registration.view.LoginFragment
-import yelm.io.avestal.reg_ver.registration.registration_fragments.*
-import yelm.io.avestal.reg_ver.registration.registration_fragments.confirm.ConfirmUserFragment
-import yelm.io.avestal.reg_ver.verification.OnBackPressedListener
-import yelm.io.avestal.reg_ver.verification.VerificationFragment
+import yelm.io.avestal.rest.responses.AuthResponse
+import yelm.io.avestal.reg_ver.login.phone_registration.view.LoginFragment
+import yelm.io.avestal.reg_ver.login.registration_fragments.*
+import yelm.io.avestal.reg_ver.login.registration_fragments.confirm.ConfirmUserFragment
+import yelm.io.avestal.reg_ver.model.UserViewModel
+import yelm.io.avestal.reg_ver.verification.view.OnBackPressedListener
+import yelm.io.avestal.reg_ver.verification.view.VerificationFragment
 
 class RegVerActivity : AppCompatActivity(), HostRegistration {
     private lateinit var binding: RegVerActivityBinding
@@ -41,12 +44,17 @@ class RegVerActivity : AppCompatActivity(), HostRegistration {
         setContentView(binding.root)
         SharedPreferencesSetting.initSharedPreferencesSettings(this)
 
-        //openWhatIsYourWorkFragment()
+
+
+        openProfilePhotoFragment()
+
+        //openLoginFragment()
         //openProfilePhotoFragment()
         //TODO return to this point
         //checkUser()
-        startApp()
+        //startApp()
     }
+
 
     private fun checkUser() {
         if (SharedPreferencesSetting.getSettings().contains(SharedPreferencesSetting.USER_NAME)) {
@@ -59,12 +67,14 @@ class RegVerActivity : AppCompatActivity(), HostRegistration {
     override fun openLoginFragment() {
         val registrationFragment: Fragment = LoginFragment.newInstance()
         val transaction = supportFragmentManager.beginTransaction()
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         transaction.replace(R.id.container, registrationFragment).commit()
     }
 
-    override fun openValidationFragment(phone: String,response: AuthResponseKotlin) {
+    override fun openVerificationFragment(phone: String, response: AuthResponse) {
         val validationFragment: Fragment = VerificationFragment.newInstance(phone, response)
         val transaction = supportFragmentManager.beginTransaction()
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         transaction.replace(R.id.container, validationFragment).commit()
     }
 
@@ -90,6 +100,7 @@ class RegVerActivity : AppCompatActivity(), HostRegistration {
 
     override fun openWhatIsYourWorkFragment() {
         val transaction = supportFragmentManager.beginTransaction()
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         transaction.replace(
             R.id.container,
             whatIsYourWorkFragment ?: WhatIsYourWorkFragment.newInstance()
@@ -98,6 +109,7 @@ class RegVerActivity : AppCompatActivity(), HostRegistration {
 
     override fun openFullNameFragment() {
         val transaction = supportFragmentManager.beginTransaction()
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         transaction
             .add(R.id.container, fullNameFragment ?: FullNameFragment.newInstance())
             .addToBackStack("FullName")
@@ -106,6 +118,7 @@ class RegVerActivity : AppCompatActivity(), HostRegistration {
 
     override fun openFinishFragment() {
         val transaction = supportFragmentManager.beginTransaction()
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         transaction
             .add(R.id.container, fullNameFragment ?: FinishFragment.newInstance())
             .addToBackStack("FullName")
@@ -115,6 +128,7 @@ class RegVerActivity : AppCompatActivity(), HostRegistration {
 
     override fun openRegionFragment() {
         val transaction = supportFragmentManager.beginTransaction()
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         transaction
             .add(R.id.container, regionFragment ?: RegionFragment.newInstance())
             .addToBackStack("Region")
@@ -123,6 +137,7 @@ class RegVerActivity : AppCompatActivity(), HostRegistration {
 
     override fun openInfoFragment() {
         val transaction = supportFragmentManager.beginTransaction()
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         transaction
             .add(R.id.container, infoFragment ?: InfoFragment.newInstance())
             .addToBackStack("Info")
@@ -131,6 +146,7 @@ class RegVerActivity : AppCompatActivity(), HostRegistration {
 
     override fun openConfirmUserFragment() {
         val transaction = supportFragmentManager.beginTransaction()
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         transaction
             .add(R.id.container, confirmUserFragment ?: ConfirmUserFragment.newInstance())
             .addToBackStack("ConfirmUser")
@@ -139,6 +155,7 @@ class RegVerActivity : AppCompatActivity(), HostRegistration {
 
     override fun openProfilePhotoFragment() {
         val transaction = supportFragmentManager.beginTransaction()
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         transaction
             .add(R.id.container, userPhotoFragment ?: UserProfilePhotoFragment.newInstance())
             .addToBackStack("UserPhoto")

@@ -8,6 +8,7 @@
     <color name="color000000">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
+    <color name="colorEDEDED">#EDEDED</color>
     <color name="mainColor">#DF252C</color>
     <color name="colorRipple">#E8979A</color>
     <color name="color26DF252C">#26DF252C</color>

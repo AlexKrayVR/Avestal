@@ -1,4 +1,4 @@
-package yelm.io.avestal.reg_ver.registration.registration_fragments
+package yelm.io.avestal.reg_ver.login.registration_fragments
 
 import android.content.Context
 import android.os.Bundle
@@ -6,26 +6,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import yelm.io.avestal.Logging
 import yelm.io.avestal.R
 import yelm.io.avestal.databinding.FragmentWhatIsYourWorkBinding
 import yelm.io.avestal.reg_ver.model.UserViewModel
-import yelm.io.avestal.reg_ver.registration.phone_registration.view.HostRegistration
+import yelm.io.avestal.reg_ver.host.HostRegistration
 
 class WhatIsYourWorkFragment : Fragment() {
 
     private var binding: FragmentWhatIsYourWorkBinding? = null
     private lateinit var viewModel: UserViewModel
     private var hostRegistration: HostRegistration? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,13 +33,7 @@ class WhatIsYourWorkFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         viewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
-
-        viewModel.user.observe(requireActivity(), Observer {
-            Logging.logDebug(it.toString())
-        })
-
         binding?.radioGroup?.setOnCheckedChangeListener { _, checkedId ->
             binding?.further?.isEnabled = true
             when (checkedId) {
@@ -59,21 +45,13 @@ class WhatIsYourWorkFragment : Fragment() {
                 }
             }
         }
-
-        binding?.further?.setOnClickListener{
+        binding?.further?.setOnClickListener {
             hostRegistration?.openFullNameFragment()
         }
-
     }
 
     companion object {
-        @JvmStatic
-        fun newInstance() =
-            WhatIsYourWorkFragment().apply {
-                arguments = Bundle().apply {
-
-                }
-            }
+        fun newInstance() = WhatIsYourWorkFragment()
     }
 
     override fun onDestroyView() {
@@ -94,5 +72,4 @@ class WhatIsYourWorkFragment : Fragment() {
         super.onDetach()
         hostRegistration = null
     }
-
 }

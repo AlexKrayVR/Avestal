@@ -48,26 +48,33 @@ class UserViewModel() : ViewModel() {
         user.value = temp
     }
 
-    fun setProfilePhotoUri(profilePhotoUri: Uri) {
+    fun setRegion(region: String) {
         val temp = user.value
-        temp?.profilePhotoUri = profilePhotoUri
+        temp?.region = region
         user.value = temp
     }
 
-    fun setUserIDPhoto(userIDPhoto: File) {
+
+    fun setProfilePhotoUri(profilePhoto: String) {
         val temp = user.value
-        temp?.passportPhoto = userIDPhoto
+        temp?.profilePhoto = profilePhoto
         user.value = temp
     }
 
-    fun setUserSelfie(userSelfie: File) {
+    fun setUserIDPhoto(passportPhoto: String) {
         val temp = user.value
-        temp?.userSelfie = userSelfie
+        temp?.passportPhoto = passportPhoto
+        user.value = temp
+    }
+
+    fun setUserSelfie(selfie: String) {
+        val temp = user.value
+        temp?.selfie = selfie
         user.value = temp
     }
 
     fun userFilesAdded(): Boolean {
-        if (user.value?.userSelfie != null && user.value?.passportPhoto != null) {
+        if (user.value?.selfie != null && user.value?.passportPhoto != null) {
             return true
         }
         return false

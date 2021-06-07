@@ -1,4 +1,4 @@
-package yelm.io.avestal.reg_ver.registration.registration_fragments
+package yelm.io.avestal.reg_ver.login.registration_fragments
 
 import android.Manifest
 

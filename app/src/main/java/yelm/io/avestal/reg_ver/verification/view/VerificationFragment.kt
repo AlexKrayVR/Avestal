@@ -1,9 +1,8 @@
-package yelm.io.avestal.reg_ver.verification
+package yelm.io.avestal.reg_ver.verification.view
 
 import android.content.Context
 import android.os.Bundle
 import android.text.Editable
-import android.text.Html
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
@@ -11,22 +10,25 @@ import android.view.View.OnFocusChangeListener
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.core.content.ContextCompat
+import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import yelm.io.avestal.Logging
 import yelm.io.avestal.R
-import yelm.io.avestal.app_settings.SharedPreferencesSetting
 import yelm.io.avestal.databinding.FragmentVerificationBinding
-import yelm.io.avestal.reg_ver.registration.phone_registration.model.AuthResponseKotlin
-import yelm.io.avestal.reg_ver.registration.phone_registration.view.HostRegistration
-import java.security.MessageDigest
-import java.security.NoSuchAlgorithmException
+import yelm.io.avestal.reg_ver.host.HostRegistration
+import yelm.io.avestal.reg_ver.model.UserViewModel
+import yelm.io.avestal.reg_ver.verification.presenter.VerificationPresenter
+import yelm.io.avestal.rest.responses.AuthResponse
 
-class VerificationFragment : Fragment(), OnBackPressedListener {
+class VerificationFragment : Fragment(), OnBackPressedListener, VerificationView {
+
+    private lateinit var verificationPresenter: VerificationPresenter
 
     private var binding: FragmentVerificationBinding? = null
     var array = arrayOf(' ', ' ', ' ', ' ')
     private var hostRegistration: HostRegistration? = null
-
+    private lateinit var viewModel: UserViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,21 +40,29 @@ class VerificationFragment : Fragment(), OnBackPressedListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        verificationPresenter = VerificationPresenter(this)
         fillUI()
         bindAction()
+        viewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
+        viewModel.user.observe(requireActivity(), {
+            Logging.logDebug(it.toString())
+        })
     }
 
-    @Suppress("DEPRECATION")
     private fun fillUI() {
         val phone = arguments?.getString(PHONE)
         val description = context?.getString(R.string.enterVerificationCode) + " " + phone
         binding?.description?.text = description
-        val text = "<font color=${context?.resources?.getColor(R.color.color828282)}>" +
+        val text = "<font color=${ContextCompat.getColor(requireContext(), R.color.color828282)}>" +
                 "${context?.resources?.getString(R.string.codeDidNotCome)}" +
-                "</font> <u><font color=${context?.resources?.getColor(R.color.colorBlue)}>${
+                "</font> <u><font color=${
+                    ContextCompat.getColor(
+                        requireContext(), R.color.colorBlue
+                    )
+                }>${
                     context?.resources?.getString(R.string.resend)
                 }</font></u>"
-        binding?.resend?.text = Html.fromHtml(text)
+        binding?.resend?.text = HtmlCompat.fromHtml(text, HtmlCompat.FROM_HTML_MODE_LEGACY)
     }
 
     private fun bindAction() {
@@ -67,6 +77,7 @@ class VerificationFragment : Fragment(), OnBackPressedListener {
         binding?.fourth?.let { addTextChangedListener(it, 3) }
 
         binding?.resend?.setOnClickListener {
+            verificationPresenter.resendPhone(arguments?.getString(PHONE) ?: "")
         }
 
         binding?.back?.setOnClickListener {
@@ -75,7 +86,10 @@ class VerificationFragment : Fragment(), OnBackPressedListener {
 
         binding?.enter?.setOnClickListener {
             if (isCodeFulled()) {
-                compareSHA2()
+                verificationPresenter.compareSHA2(
+                    array.joinToString(""),
+                    (arguments?.getSerializable(RESPONSE) as AuthResponse).hash ?: ""
+                )
             } else {
                 hostRegistration?.showToast(R.string.codeIncorrect)
             }
@@ -105,7 +119,10 @@ class VerificationFragment : Fragment(), OnBackPressedListener {
                     array[index] = s.toString()[0]
                 }
                 if (isCodeFulled()) {
-                    compareSHA2()
+                    verificationPresenter.compareSHA2(
+                        array.joinToString(""),
+                        (arguments?.getSerializable(RESPONSE) as AuthResponse).hash ?: ""
+                    )
                 }
             }
 
@@ -123,22 +140,6 @@ class VerificationFragment : Fragment(), OnBackPressedListener {
         })
     }
 
-    private fun compareSHA2() {
-        val sha2 = getSHA2(array.joinToString(""))
-        Logging.logDebug("sha2: $sha2")
-        val auth = arguments?.getSerializable(RESPONSE) as AuthResponseKotlin
-        Logging.logDebug("sha2: ${auth.hash}")
-        if (auth.hash == sha2) {
-            SharedPreferencesSetting.setData(
-                SharedPreferencesSetting.USER_NAME,
-                "USER"
-            )
-            hostRegistration?.openWhatIsYourWorkFragment()
-        } else {
-            hostRegistration?.showToast(R.string.codeIncorrect)
-        }
-    }
-
     private fun isCodeFulled(): Boolean {
         for (i in array) {
             if (i == ' ') {
@@ -148,31 +149,9 @@ class VerificationFragment : Fragment(), OnBackPressedListener {
         return true
     }
 
-    private fun getSHA2(s: String): String {
-        try {
-            // Create SHA2 Hash
-            val digest = MessageDigest
-                .getInstance("SHA-256")
-            digest.update(s.toByteArray())
-            val messageDigest = digest.digest()
-            // Create Hex String
-            val hexString = StringBuilder()
-            for (aMessageDigest in messageDigest) {
-                var h = Integer.toHexString(0xFF and aMessageDigest.toInt())
-                while (h.length < 2) h = "0$h"
-                hexString.append(h)
-            }
-            return hexString.toString()
-        } catch (e: NoSuchAlgorithmException) {
-            e.printStackTrace()
-            Logging.logDebug("NoSuchAlgorithmException")
-        }
-        return ""
-    }
-
     companion object {
         @JvmStatic
-        fun newInstance(phone: String, response: AuthResponseKotlin) =
+        fun newInstance(phone: String, response: AuthResponse) =
             VerificationFragment().apply {
                 arguments = Bundle().apply {
                     putString(PHONE, phone)
@@ -190,6 +169,7 @@ class VerificationFragment : Fragment(), OnBackPressedListener {
 
     override fun onDestroyView() {
         binding = null
+        verificationPresenter.detachView()
         super.onDestroyView()
     }
 
@@ -206,4 +186,29 @@ class VerificationFragment : Fragment(), OnBackPressedListener {
         super.onDetach()
         hostRegistration = null
     }
+
+    override fun showLoading() {
+        binding?.progressBar?.visibility = View.VISIBLE
+    }
+
+    override fun hideLoading() {
+        binding?.progressBar?.visibility = View.GONE
+    }
+
+    override fun loginPhoneError(error: Int) {
+        hostRegistration?.showToast(error)
+    }
+
+    override fun loginPhoneSuccess(response: AuthResponse) {
+        arguments?.putSerializable("RESPONSE", response)
+    }
+
+    override fun startRegistration() {
+        if ((arguments?.getSerializable(RESPONSE) as AuthResponse).auth == true) {
+            hostRegistration?.startApp()
+        } else {
+            hostRegistration?.openWhatIsYourWorkFragment()
+        }
+    }
+
 }

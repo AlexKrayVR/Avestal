@@ -9,7 +9,7 @@ import androidx.fragment.app.FragmentTransaction
 import yelm.io.avestal.R
 import yelm.io.avestal.databinding.ActivitySettingsBinding
 import yelm.io.avestal.main.user.settings.fragments.*
-import yelm.io.avestal.reg_ver.RegVerActivity
+import yelm.io.avestal.reg_ver.host.RegVerActivity
 
 class ActivitySettings : AppCompatActivity(), HostSettings {
 
@@ -35,6 +35,7 @@ class ActivitySettings : AppCompatActivity(), HostSettings {
 
     override fun openSettingsFragment() {
         val settingsFragment: Fragment = SettingsFragment.newInstance()
+
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.container, settingsFragment).commit()
     }

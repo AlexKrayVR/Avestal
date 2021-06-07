@@ -6,6 +6,26 @@
     <string name="close">Закрыть</string>
     <string name="back">Назад</string>
 
+    <!--Order -->
+    <string name="phone">Телефон</string>
+    <string name="intercom">Домофон</string>
+    <string name="entrance">Подъезд</string>
+    <string name="floor">Этаж</string>
+    <string name="apartment">Квартира</string>
+    <string name="orderActivityTotal">Итого</string>
+    <string name="address">Адрес</string>
+    <string name="ordering">Оформление</string>
+    <string name="promocode">Промокод</string>
+    <string name="phoneNumber">Номер телефона</string>
+    <string name="checkoutPayment">Оплатить</string>
+    <string name="cardPayment">Оплата картой</string>
+    <string name="paymentType">Способ оплаты</string>
+    <string name="inYourOrder">Ваш заказ</string>
+    <string name="inYourOrderProductsCount">Товаров:</string>
+    <string name="delivery">Доставка</string>
+    <string name="orderDiscount">Скидка по промокоду</string>
+    <string name="card">Карта</string>
+    <string name="cash">Наличные</string>
 
     <!--LoginFragment -->
     <string name="login">Войдите в приложение</string>
@@ -27,7 +47,7 @@
     <string name="lastName">Отчество</string>
     <string name="lastNameMustBeFilled">Поле отчества должно быть заполнено</string>
     <string name="acceptPublicOfferStart">Я принимаю</string>
-    <string name="acceptPublicOfferEnd">публичную оферту, условия использовния</string>
+    <string name="acceptPublicOfferEnd">публичную оферту, условия использования</string>
     <string name="acceptPublicOffer">Примите публичную оферту</string>
     <string name="info">Чем вы занимаетесь?</string>
     <string name="infoEmpty">Заполните инфомацию о себе</string>

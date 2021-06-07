@@ -1,4 +1,4 @@
-package yelm.io.avestal.reg_ver.registration.registration_fragments
+package yelm.io.avestal.reg_ver.login.registration_fragments
 
 import android.content.Context
 import androidx.lifecycle.ViewModelProvider
@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import yelm.io.avestal.R
 import yelm.io.avestal.databinding.FragmentInfoBinding
 import yelm.io.avestal.reg_ver.model.UserViewModel
-import yelm.io.avestal.reg_ver.registration.phone_registration.view.HostRegistration
+import yelm.io.avestal.reg_ver.host.HostRegistration
 
 class InfoFragment : Fragment() {
 

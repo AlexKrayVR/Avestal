@@ -1,4 +1,4 @@
-package yelm.io.avestal.reg_ver.registration.registration_fragments
+package yelm.io.avestal.reg_ver.login.registration_fragments
 
 import android.content.Context
 import android.os.Bundle
@@ -11,7 +11,7 @@ import yelm.io.avestal.Logging
 import yelm.io.avestal.R
 import yelm.io.avestal.databinding.FragmentRegionBinding
 import yelm.io.avestal.reg_ver.model.UserViewModel
-import yelm.io.avestal.reg_ver.registration.phone_registration.view.HostRegistration
+import yelm.io.avestal.reg_ver.host.HostRegistration
 
 class RegionFragment : Fragment() {
     private var hostRegistration: HostRegistration? = null
@@ -27,28 +27,27 @@ class RegionFragment : Fragment() {
     }
 
     companion object {
-        @JvmStatic
-        fun newInstance() =
-            RegionFragment().apply {
-            }
+        fun newInstance() = RegionFragment()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
         viewModel.user.observe(requireActivity(), {
-            Logging.logDebug(it.toString())
+            Logging.logDebug("RegionFragment: $it")
+            binding?.region?.setText(it.region)
         })
         binding?.further?.setOnClickListener {
-            if (binding?.region?.text.toString().trim().isEmpty()) {
-                hostRegistration?.showToast(R.string.addressEmpty)
-                return@setOnClickListener
-            }
-
-            hostRegistration?.openInfoFragment()
-
+            inputValidation()
         }
-
+    }
+    private fun inputValidation(){
+        if (binding?.region?.text.toString().trim().isEmpty()) {
+            hostRegistration?.showToast(R.string.addressEmpty)
+            return
+        }
+        viewModel.setRegion(binding?.region?.text.toString().trim())
+        hostRegistration?.openInfoFragment()
     }
 
     override fun onDetach() {
