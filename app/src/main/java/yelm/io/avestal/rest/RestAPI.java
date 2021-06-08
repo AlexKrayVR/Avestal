@@ -16,6 +16,7 @@ import retrofit2.http.Part;
 import yelm.io.avestal.rest.responses.AccessToken;
 import yelm.io.avestal.rest.responses.AuthResponse;
 import yelm.io.avestal.rest.responses.Offer;
+import yelm.io.avestal.rest.responses.UserInfo;
 
 public interface RestAPI {
 
@@ -46,6 +47,14 @@ public interface RestAPI {
     Call<AccessToken> getAccessToken(
             @Field("phone") String phone
     );
+
+
+    @FormUrlEncoded
+    @POST("user?")
+    Call<UserInfo> getUserInfo(
+            @Header("Authorization") String authHeader
+    );
+
 
 
 //    @Multipart

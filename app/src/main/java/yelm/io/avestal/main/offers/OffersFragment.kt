@@ -17,6 +17,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import yelm.io.avestal.Logging
 import yelm.io.avestal.R
+import yelm.io.avestal.app_settings.SharedPreferencesSetting
 import yelm.io.avestal.databinding.FragmentOffersBinding
 import yelm.io.avestal.main.host.AppActivity
 import yelm.io.avestal.main.offers.respond.OfferActivity
@@ -44,9 +45,6 @@ class OffersFragment : Fragment() {
         return binding!!.root
     }
 
-    var authToken =
-        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvYXBpLmF2ZXN0YWwucnVcL2FwaVwvYXV0aCIsImlhdCI6MTYyMjk5MTc1OCwiZXhwIjoxNjIzMDc4MTU4LCJuYmYiOjE2MjI5OTE3NTgsImp0aSI6IkNkSHJpZ0tTZk5xdVc4NGgiLCJzdWIiOjEwLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.BpROVMY90bYptOptDk7AdlJP9cYcM1aHW_Z7IehSddw"
-
     fun showLoading() {
         binding?.progressBar?.visibility = View.VISIBLE
     }
@@ -61,7 +59,7 @@ class OffersFragment : Fragment() {
         showLoading()
         RetrofitClient.getClient(RestAPI.URL_API_MAIN)
             .create(RestAPI::class.java)
-            .getOrders("Bearer $authToken")
+            .getOrders("Bearer ${SharedPreferencesSetting.getDataString(SharedPreferencesSetting.BEARER_TOKEN)}")
             .enqueue(object : Callback<Offer?> {
                 override fun onResponse(
                     call: Call<Offer?>,

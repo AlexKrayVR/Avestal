@@ -273,6 +273,14 @@
 
         </LinearLayout>
 
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:visibility="gone"
+
+            android:theme="@style/ProgressBarRed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
 

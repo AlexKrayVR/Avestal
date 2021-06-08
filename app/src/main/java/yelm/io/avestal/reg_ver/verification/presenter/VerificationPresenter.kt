@@ -122,6 +122,10 @@ class VerificationPresenter(private var view: VerificationView?) {
                                 SharedPreferencesSetting.BEARER_TOKEN,
                                 response.body()!!.accessToken
                             )
+                            SharedPreferencesSetting.setData(
+                                SharedPreferencesSetting.USER_PHONE,
+                                phone.replace("\\D".toRegex(), "")
+                            )
                             view?.startApp()
                         } else {
                             view?.loginPhoneError(R.string.serverError)
