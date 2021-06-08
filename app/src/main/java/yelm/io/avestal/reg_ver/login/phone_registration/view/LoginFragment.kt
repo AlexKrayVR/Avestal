@@ -38,8 +38,8 @@ class LoginFragment : Fragment(), LoginView {
         viewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
         viewModel.user.observe(requireActivity(), {
             Logging.logDebug(it.toString())
-            binding?.phone?.setText(it.phone)
         })
+        binding?.phone?.setText(viewModel.user.value?.phone)
 
         binding?.further?.setOnClickListener {
             loginPresenter.phoneValidation(binding?.phone?.text.toString())
@@ -48,9 +48,7 @@ class LoginFragment : Fragment(), LoginView {
 
     companion object {
         @JvmStatic
-        fun newInstance() =
-            LoginFragment().apply {
-            }
+        fun newInstance() = LoginFragment()
     }
 
     override fun loginPhoneError(error: Int) {

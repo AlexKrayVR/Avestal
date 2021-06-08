@@ -203,12 +203,15 @@ class VerificationFragment : Fragment(), OnBackPressedListener, VerificationView
         arguments?.putSerializable("RESPONSE", response)
     }
 
-    override fun startRegistration() {
+    override fun codeIsCorrect() {
         if ((arguments?.getSerializable(RESPONSE) as AuthResponse).auth == true) {
-            hostRegistration?.startApp()
+            verificationPresenter.getBearerToken(viewModel.user.value?.phone!!)
         } else {
             hostRegistration?.openWhatIsYourWorkFragment()
         }
     }
 
+    override fun startApp() {
+        hostRegistration?.startApp()
+    }
 }

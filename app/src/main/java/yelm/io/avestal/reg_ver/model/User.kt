@@ -10,5 +10,6 @@ data class User(
     var jobDescription: String = "",
     var profilePhoto: String = "",
     var passportPhoto: String = "",
-    var selfie: String = ""
+    var selfie: String = "",
+    var accessToken: String = ""
 )

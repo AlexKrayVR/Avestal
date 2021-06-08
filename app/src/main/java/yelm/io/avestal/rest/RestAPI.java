@@ -13,6 +13,7 @@ import retrofit2.http.Header;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import yelm.io.avestal.rest.responses.AccessToken;
 import yelm.io.avestal.rest.responses.AuthResponse;
 import yelm.io.avestal.rest.responses.Offer;
 
@@ -26,12 +27,10 @@ public interface RestAPI {
             @Field("phone") String phone
     );
 
-
     @GET("orders?")
     Call<Offer> getOrders(
             @Header("Authorization") String authHeader
     );
-
 
     @FormUrlEncoded
     @POST("signup?")
@@ -42,13 +41,20 @@ public interface RestAPI {
             @Field("data") JSONObject data
     );
 
-    @Multipart
-    @POST("image")
-    Call<ResponseBody> upload(
-            @Part("image") RequestBody description,
-            @Part MultipartBody.Part file
-            //@Part("file") RequestBody name
+    @FormUrlEncoded
+    @POST("auth?")
+    Call<AccessToken> getAccessToken(
+            @Field("phone") String phone
     );
+
+
+//    @Multipart
+//    @POST("image")
+//    Call<ResponseBody> upload(
+//            @Part("image") RequestBody description,
+//            @Part MultipartBody.Part file
+//            //@Part("file") RequestBody name
+//    );
 
 
 //    @FormUrlEncoded

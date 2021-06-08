@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="@android:color/white"
     android:clickable="true">
 
 
@@ -130,7 +130,7 @@
             tools:text="status" />
 
         <ProgressBar
-            android:id="@+id/progressBarUserIdPhoto"
+            android:id="@+id/progressBarPassportPhoto"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginEnd="12dp"
@@ -139,6 +139,17 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/passportPhotoUploaded"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="12dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_check_24" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -194,7 +205,7 @@
             tools:text="status" />
 
         <ProgressBar
-            android:id="@+id/progressBarUserSelfie"
+            android:id="@+id/progressBarSelfie"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginEnd="12dp"
@@ -203,6 +214,17 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/selfiePhotoUploaded"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="12dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_check_24" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

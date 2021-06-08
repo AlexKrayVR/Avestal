@@ -35,13 +35,19 @@ class RegionFragment : Fragment() {
         viewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
         viewModel.user.observe(requireActivity(), {
             Logging.logDebug("RegionFragment: $it")
-            binding?.region?.setText(it.region)
         })
+
+        binding?.region?.setText(viewModel.user.value?.region)
+
         binding?.further?.setOnClickListener {
             inputValidation()
         }
+        binding?.back?.setOnClickListener {
+            hostRegistration?.back()
+        }
     }
-    private fun inputValidation(){
+
+    private fun inputValidation() {
         if (binding?.region?.text.toString().trim().isEmpty()) {
             hostRegistration?.showToast(R.string.addressEmpty)
             return

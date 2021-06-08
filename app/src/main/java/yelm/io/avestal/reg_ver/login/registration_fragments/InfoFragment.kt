@@ -34,6 +34,13 @@ class InfoFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this).get(UserViewModel::class.java)
 
+        binding?.back?.setOnClickListener {
+            hostRegistration?.back()
+        }
+
+        binding?.userInfo?.setText(viewModel.user.value?.jobDescription)
+
+
         binding?.further?.setOnClickListener {
             if (binding?.userInfo?.text.toString().trim().isEmpty()) {
                 hostRegistration?.showToast(R.string.infoEmpty)

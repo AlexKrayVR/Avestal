@@ -7,5 +7,6 @@ interface VerificationView {
     fun hideLoading();
     fun loginPhoneError(error: Int);
     fun loginPhoneSuccess(response: AuthResponse);
-    fun startRegistration();
+    fun codeIsCorrect();
+    fun startApp();
 }

@@ -4,7 +4,7 @@ import android.Manifest
 
 const val REQUEST_PERMISSIONS_CAMERA_CODE = 10
 val CAMERA_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
-const val USER_ID_IMAGE_REQUEST_CODE = 100
+const val USER_PASSPORT_IMAGE_REQUEST_CODE = 100
 const val USER_SELFIE_IMAGE_REQUEST_CODE = 1000
 
 

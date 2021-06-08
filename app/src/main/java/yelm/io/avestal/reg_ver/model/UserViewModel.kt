@@ -55,13 +55,13 @@ class UserViewModel() : ViewModel() {
     }
 
 
-    fun setProfilePhotoUri(profilePhoto: String) {
+    fun setProfilePhoto(profilePhoto: String) {
         val temp = user.value
         temp?.profilePhoto = profilePhoto
         user.value = temp
     }
 
-    fun setUserIDPhoto(passportPhoto: String) {
+    fun setUserPassportPhoto(passportPhoto: String) {
         val temp = user.value
         temp?.passportPhoto = passportPhoto
         user.value = temp
@@ -74,7 +74,7 @@ class UserViewModel() : ViewModel() {
     }
 
     fun userFilesAdded(): Boolean {
-        if (user.value?.selfie != null && user.value?.passportPhoto != null) {
+        if (user.value?.selfie != "" && user.value?.passportPhoto != "") {
             return true
         }
         return false

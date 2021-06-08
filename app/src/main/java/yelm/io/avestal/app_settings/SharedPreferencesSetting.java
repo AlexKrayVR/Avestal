@@ -5,9 +5,9 @@ import android.content.SharedPreferences;
 
 public class SharedPreferencesSetting {
 
-    public static final String TOKEN = "TOKEN";
+    public static final String BEARER_TOKEN = "BEARER_TOKEN";
 
-    public static final String USER_NAME = "USER_NAME";
+    public static final String USER_PHONE = "USER_PHONE";
 
     //app settings
     public static final String MIN_PRICE_FOR_FREE_DELIVERY = "MIN_PRICE_FOR_FREE_DELIVERY";

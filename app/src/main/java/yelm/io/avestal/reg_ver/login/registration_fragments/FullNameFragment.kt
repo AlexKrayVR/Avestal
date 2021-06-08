@@ -37,17 +37,18 @@ class FullNameFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
-
         val text = "<font color=${context?.resources?.getColor(R.color.color828282)}>" +
                 "${context?.resources?.getString(R.string.acceptPublicOfferStart)}" +
                 "</font> <u><font color=${context?.resources?.getColor(R.color.colorBlue)}>${
                     context?.resources?.getString(R.string.acceptPublicOfferEnd)
                 }</font></u>"
-
         binding?.checkBox?.text = Html.fromHtml(text)
 
         viewModel.user.observe(requireActivity(), {
             Logging.logDebug("FullNameFragment: $it")
+            binding?.name?.setText(it.name)
+            binding?.surname?.setText(it.surname)
+            binding?.lastName?.setText(it.lastName)
         })
 
         binding?.further?.setOnClickListener {

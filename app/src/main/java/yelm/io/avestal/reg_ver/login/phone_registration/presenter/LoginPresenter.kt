@@ -18,40 +18,50 @@ class LoginPresenter(private var view: LoginView?) {
         view = null
     }
 
+    /**
+     * clean phone mask then validate the phone - must be 11 numbers
+     */
     fun phoneValidation(phone: String) {
-        val phoneFinal = phone.replace("\\D".toRegex(), "")
-        if (phoneFinal.length != 11) {
+        if (phone.replace("\\D".toRegex(), "").length != 11) {
             view?.loginPhoneError(R.string.enterCorrectPhoneNumber)
         } else {
-            view?.showLoading()
-            RetrofitClient.getClient(RestAPI.URL_API_MAIN)
-                .create(RestAPI::class.java)
-                .code(phone)
-                .enqueue(object : Callback<AuthResponse?> {
-                    override fun onResponse(
-                        call: Call<AuthResponse?>,
-                        response: Response<AuthResponse?>
-                    ) {
-                        view?.hideLoading()
-                        if (response.isSuccessful) {
-                            if (response.body() != null) {
-                                Logging.logDebug("auth: ${response.body().toString()}")
-                                view?.loginPhoneSuccess(phone, response.body()!!)
-                            } else {
-                                view?.loginPhoneError(R.string.serverError)
-                            }
+            getCode(phone)
+        }
+    }
+
+    /**
+     * get code from server to enter the app
+     */
+    private fun getCode(phone: String) {
+        view?.showLoading()
+        RetrofitClient.getClient(RestAPI.URL_API_MAIN)
+            .create(RestAPI::class.java)
+            .code(phone.replace("\\D".toRegex(), ""))
+            .enqueue(object : Callback<AuthResponse?> {
+                override fun onResponse(
+                    call: Call<AuthResponse?>,
+                    response: Response<AuthResponse?>
+                ) {
+                    view?.hideLoading()
+                    if (response.isSuccessful) {
+                        if (response.body() != null) {
+                            Logging.logDebug("auth: ${response.body().toString()}")
+                            view?.loginPhoneSuccess(phone, response.body()!!)
                         } else {
                             view?.loginPhoneError(R.string.serverError)
                         }
-                    }
-
-                    override fun onFailure(call: Call<AuthResponse?>, t: Throwable) {
-                        view?.hideLoading()
+                    } else {
                         view?.loginPhoneError(R.string.serverError)
                     }
-                })
-        }
+                }
+
+                override fun onFailure(call: Call<AuthResponse?>, t: Throwable) {
+                    view?.hideLoading()
+                    view?.loginPhoneError(R.string.serverError)
+                }
+            })
     }
+
 
     fun setTextFormatter(editText: EditText) {
         editText.addTextChangedListener(
@@ -61,4 +71,8 @@ class LoginPresenter(private var view: LoginView?) {
             )
         )
     }
+
+
+
+
 }

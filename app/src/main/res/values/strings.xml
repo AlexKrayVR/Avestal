@@ -56,6 +56,7 @@
     <string name="confirmUser">Подтверждение личности</string>
     <string name="takeUserIDPhoto">Сфотографируйте ваше\nудостоверение личности</string>
     <string name="takeUserSelfie">Сделайте селфи</string>
+    <string name="photoUploaded">Фотография загружена</string>
     <string name="number1">1.</string>
     <string name="number2">2.</string>
     <string name="perfect">Отлично</string>
