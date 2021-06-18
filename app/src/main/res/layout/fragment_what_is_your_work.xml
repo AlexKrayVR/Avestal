@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".reg_ver.login.registration_fragments.WhatIsYourWorkFragment">
+    android:background="@color/white"
+    android:clickable="true"
+    tools:context=".auth.registration.fragments.WhatIsYourWorkFragment">
 
     <TextView
         android:id="@+id/title"

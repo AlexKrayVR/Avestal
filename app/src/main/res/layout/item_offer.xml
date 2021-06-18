@@ -43,18 +43,11 @@
             android:layout_marginEnd="16dp"
             android:divider="@drawable/delimiter_stars"
             android:gravity="end"
-
-
             android:orientation="horizontal"
             android:showDividers="middle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/offerTitle">
 
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:srcCompat="@drawable/ic_star3" />
         </LinearLayout>
 
         <TextView
@@ -92,7 +85,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ellipsize="end"
-                android:singleLine="true"
                 android:textColor="@color/color121212"
                 android:textSize="14sp"
                 android:theme="@style/TextStyleRegular"

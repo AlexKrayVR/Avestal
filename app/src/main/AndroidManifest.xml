@@ -48,7 +48,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"></activity>
         <activity
-            android:name=".reg_ver.host.RegVerActivity"
+            android:name=".auth.host.AuthActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
             <intent-filter>

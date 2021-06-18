@@ -7,9 +7,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import yelm.io.avestal.R
+import yelm.io.avestal.app_settings.SharedPreferencesSetting
 import yelm.io.avestal.databinding.ActivitySettingsBinding
 import yelm.io.avestal.main.user.settings.fragments.*
-import yelm.io.avestal.reg_ver.host.RegVerActivity
+import yelm.io.avestal.auth.host.AuthActivity
 
 class ActivitySettings : AppCompatActivity(), HostSettings {
 
@@ -71,7 +72,8 @@ class ActivitySettings : AppCompatActivity(), HostSettings {
     }
 
     override fun logOut() {
-        val intent = Intent(this, RegVerActivity::class.java)
+        SharedPreferencesSetting.setData(SharedPreferencesSetting.USER_PHONE, "")
+        val intent = Intent(this, AuthActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)
     }

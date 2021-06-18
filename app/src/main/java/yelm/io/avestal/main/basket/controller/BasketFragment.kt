@@ -14,50 +14,44 @@ import yelm.io.avestal.database.BasketItemModelFactory
 import yelm.io.avestal.database.BasketItemViewModel
 import yelm.io.avestal.databinding.FragmentBasketBinding
 import yelm.io.avestal.main.basket.adapter.BasketAdapter
-import yelm.io.avestal.main.host.BadgeInterface
+import yelm.io.avestal.main.host.MainAppHost
 import java.util.*
 
 class BasketFragment : Fragment() {
 
     private lateinit var basketItemViewModel: BasketItemViewModel
     private var binding: FragmentBasketBinding? = null
-    private var badgeInterface: BadgeInterface? = null
+    private var mMainAppHost: MainAppHost? = null
+    private lateinit var basketAdapter: BasketAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = BasketAdapter(arrayListOf(), requireContext())
+        initViews()
+        initViewModel()
+        initActions()
 
-        adapter.setListener(object : BasketAdapter.Listener {
-            override fun increase(itemID: String) {
-                basketItemViewModel.increase(itemID)
-            }
+    }
 
-            override fun reduce(itemID: String) {
-                basketItemViewModel.reduce(itemID)
-            }
-
-            override fun deleteByID(itemID: String) {
-                basketItemViewModel.deleteByID(itemID)
-            }
-        })
-
-        binding?.recyclerBasket?.adapter = adapter
+    private fun initViewModel() {
         basketItemViewModel =
-            BasketItemModelFactory(badgeInterface?.getDBRepository()!!)
+            BasketItemModelFactory(mMainAppHost?.getDBRepository()!!)
                 .create(BasketItemViewModel::class.java)
-
 
         basketItemViewModel.allItems.observe(requireActivity(), { items ->
             items?.let {
-                adapter.addItems(it as ArrayList<BasketItem>)
+                basketAdapter.addItems(it as ArrayList<BasketItem>)
                 Logging.logDebug("size: ${it.size}")
                 for (item in it) {
                     Logging.logDebug("itemID: ${item.itemID}, count: ${item.count}")
                 }
-                badgeInterface?.setBadges(it.size)
+                mMainAppHost?.setBadges(it.size)
             }
         })
+    }
+
+
+    private fun initActions() {
         binding?.button?.setOnClickListener {
             val basketItem1 = BasketItem(0, "3", "name", 1)
             val basketItem2 = BasketItem(0, "4", "name", 2)
@@ -74,7 +68,27 @@ class BasketFragment : Fragment() {
         binding?.back?.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_basket_to_navigation_home)
         }
+
+        basketAdapter.setListener(object : BasketAdapter.Listener {
+            override fun increase(itemID: String) {
+                basketItemViewModel.increase(itemID)
+            }
+
+            override fun reduce(itemID: String) {
+                basketItemViewModel.reduce(itemID)
+            }
+
+            override fun deleteByID(itemID: String) {
+                basketItemViewModel.deleteByID(itemID)
+            }
+        })
     }
+
+    private fun initViews() {
+        basketAdapter = BasketAdapter(arrayListOf(), requireContext())
+        binding?.recyclerBasket?.adapter = basketAdapter
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -91,11 +105,11 @@ class BasketFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        badgeInterface = activity as BadgeInterface
+        mMainAppHost = activity as MainAppHost
     }
 
     override fun onDetach() {
         super.onDetach()
-        badgeInterface = null
+        mMainAppHost = null
     }
 }

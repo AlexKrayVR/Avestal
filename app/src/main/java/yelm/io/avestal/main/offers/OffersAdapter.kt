@@ -53,27 +53,34 @@ class OffersAdapter(private var offers: List<OfferData>, var context: Context) :
     }
 
     override fun onBindViewHolder(holder: OfferItemViewHolder, position: Int) {
-        val current = offersSort[position]
-        holder.binding.offerTitle.text = current.title
-        holder.binding.city.text = current.address
-        val formattedPrice = DecimalFormat("###,###").format(current.price.toInt())
+        initViews(holder, offersSort[position])
+        initActions(holder, offersSort[position])
+    }
+
+    private fun initViews(holder: OfferItemViewHolder, offerData: OfferData) {
+        holder.binding.offerTitle.text = offerData.title
+        holder.binding.city.text = offerData.address
+        val formattedPrice = DecimalFormat("###,###").format(offerData.price.toDouble())
         (context.getString(R.string.before) + " " + formattedPrice + " " +
                 context.getString(R.string.ruble)).also { holder.binding.price.text = it }
 
-        fillStars(holder.binding.layoutStars, current.rating.toInt())
+        fillStars(holder.binding.layoutStars, offerData.rating.toInt())
 
         val currentCalendar = GregorianCalendar.getInstance()
         try {
             currentCalendar.time =
-                Objects.requireNonNull(serverFormatterDate.parse(current.updatedAt))
+                Objects.requireNonNull(serverFormatterDate.parse(offerData.updatedAt))
         } catch (e: ParseException) {
             e.printStackTrace()
         }
         holder.binding.date.text = printedFormatterDate.format(currentCalendar.time)
+    }
 
+    private fun initActions(holder: OfferItemViewHolder, offerData: OfferData) {
         holder.binding.root.setOnClickListener {
-            listener?.orderPressed(current)
+            listener?.orderPressed(offerData)
         }
+
     }
 
     private fun fillStars(layout: LinearLayout, count: Int) {
@@ -113,7 +120,7 @@ class OffersAdapter(private var offers: List<OfferData>, var context: Context) :
                         )
                     )
                 }
-                1 -> {
+                else -> {
                     iv.setImageDrawable(
                         AppCompatResources.getDrawable(
                             context,
@@ -133,6 +140,7 @@ class OffersAdapter(private var offers: List<OfferData>, var context: Context) :
 
     class OfferItemViewHolder(var binding: ItemOfferBinding) :
         RecyclerView.ViewHolder(binding.root)
+
     override fun getFilter(): Filter {
         return object : Filter() {
             //run back

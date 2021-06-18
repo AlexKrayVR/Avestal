@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:clickable="true"
-    tools:context=".reg_ver.login.registration_fragments.FullNameFragment">
+    tools:context=".auth.registration.fragments.FullNameFragment">
 
     <ImageView
         android:id="@+id/back"

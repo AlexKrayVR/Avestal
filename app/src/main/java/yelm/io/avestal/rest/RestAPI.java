@@ -2,17 +2,13 @@ package yelm.io.avestal.rest;
 
 import org.json.JSONObject;
 
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
-import retrofit2.http.Multipart;
 import retrofit2.http.POST;
-import retrofit2.http.Part;
 import yelm.io.avestal.rest.responses.AccessToken;
 import yelm.io.avestal.rest.responses.AuthResponse;
 import yelm.io.avestal.rest.responses.Offer;
@@ -28,7 +24,7 @@ public interface RestAPI {
             @Field("phone") String phone
     );
 
-    @GET("orders?")
+    @GET("services?")
     Call<Offer> getOrders(
             @Header("Authorization") String authHeader
     );
@@ -37,7 +33,6 @@ public interface RestAPI {
     @POST("signup?")
     Call<ResponseBody> setUserData(
             @Field("phone") String phone,
-            @Field("permission") String permission,
             @Field("fio") JSONObject fio,
             @Field("data") JSONObject data
     );
@@ -49,8 +44,7 @@ public interface RestAPI {
     );
 
 
-    @FormUrlEncoded
-    @POST("user?")
+    @GET("user?")
     Call<UserInfo> getUserInfo(
             @Header("Authorization") String authHeader
     );

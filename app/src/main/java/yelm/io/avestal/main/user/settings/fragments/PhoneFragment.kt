@@ -6,11 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import yelm.io.avestal.R
 import yelm.io.avestal.databinding.FragmentPhoneBinding
 import yelm.io.avestal.main.user.settings.HostSettings
-import yelm.io.avestal.reg_ver.common.PhoneTextFormatter
+import yelm.io.avestal.auth.common.PhoneTextFormatter
 
 private const val PHONE = "phone"
 

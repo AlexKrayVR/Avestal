@@ -37,7 +37,7 @@
                 app:srcCompat="@drawable/ic_camera" />
 
             <TextView
-                android:id="@+id/position"
+                android:id="@+id/location"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -45,7 +45,6 @@
                 android:layout_marginEnd="16dp"
                 android:ellipsize="end"
                 android:singleLine="true"
-                android:text="TextView"
                 android:textColor="@color/color121212"
                 android:theme="@style/TextStyleRegular"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -75,7 +74,7 @@
                 android:layout_marginTop="22dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageView"
-                app:layout_constraintTop_toBottomOf="@+id/position"
+                app:layout_constraintTop_toBottomOf="@+id/location"
                 app:srcCompat="@drawable/ic_close" />
 
             <TextView
@@ -86,12 +85,12 @@
                 android:layout_marginEnd="16dp"
                 android:ellipsize="end"
                 android:singleLine="true"
-                android:text="Name"
                 android:textColor="@color/color000000"
                 android:theme="@style/TextStyleMedium"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageView"
-                app:layout_constraintTop_toTopOf="@+id/imageView" />
+                app:layout_constraintTop_toTopOf="@+id/imageView"
+                tools:text="UserName" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
@@ -108,16 +107,17 @@
             android:paddingBottom="12dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+            android:focusable="true">
 
             <TextView
                 android:id="@+id/documentVerification"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableEnd="@drawable/ic_back_gray"
                 android:text="@string/documentVerification"
                 android:textColor="@color/color121212"
-                android:theme="@style/TextStyleMedium" />
+                android:theme="@style/TextStyleMedium"
+                app:drawableEndCompat="@drawable/ic_back_gray" />
 
             <TextView
                 android:id="@+id/textView4"
@@ -142,16 +142,17 @@
             android:paddingBottom="12dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layoutPassportVerify">
+            app:layout_constraintTop_toBottomOf="@+id/layoutPassportVerify"
+            android:focusable="true">
 
             <TextView
                 android:id="@+id/userAbout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableEnd="@drawable/ic_back_gray"
                 android:text="@string/aboutUser"
                 android:textColor="@color/color121212"
-                android:theme="@style/TextStyleMedium" />
+                android:theme="@style/TextStyleMedium"
+                app:drawableEndCompat="@drawable/ic_back_gray" />
 
             <TextView
                 android:id="@+id/userAboutDescription"
@@ -177,16 +178,17 @@
             android:paddingBottom="12dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layoutUserRegion">
+            app:layout_constraintTop_toBottomOf="@+id/layoutUserRegion"
+            android:focusable="true">
 
             <TextView
                 android:id="@+id/userSettings"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableEnd="@drawable/ic_back_gray"
                 android:text="@string/settings"
                 android:textColor="@color/color121212"
-                android:theme="@style/TextStyleMedium" />
+                android:theme="@style/TextStyleMedium"
+                app:drawableEndCompat="@drawable/ic_back_gray" />
 
             <TextView
                 android:id="@+id/userSettingsDescription"
@@ -211,16 +213,17 @@
             android:paddingBottom="12dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layoutAboutUser">
+            app:layout_constraintTop_toBottomOf="@+id/layoutAboutUser"
+            android:focusable="true">
 
             <TextView
                 android:id="@+id/userRegion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableEnd="@drawable/ic_back_gray"
                 android:text="@string/region"
                 android:textColor="@color/color121212"
-                android:theme="@style/TextStyleMedium" />
+                android:theme="@style/TextStyleMedium"
+                app:drawableEndCompat="@drawable/ic_back_gray" />
 
             <TextView
                 android:id="@+id/userRegionDescription"
@@ -228,8 +231,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
-                android:text="place"
-                android:theme="@style/TextStyleRegular" />
+                android:theme="@style/TextStyleRegular"
+                tools:text="place" />
         </LinearLayout>
 
         <LinearLayout
@@ -256,8 +259,8 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
-                android:text="description"
-                android:theme="@style/TextStyleRegular" />
+                android:theme="@style/TextStyleRegular"
+                tools:text="description" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerWorkTypes"

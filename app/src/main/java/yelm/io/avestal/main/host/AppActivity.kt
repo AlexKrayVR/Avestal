@@ -2,6 +2,8 @@ package yelm.io.avestal.main.host
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.badge.BadgeDrawable
@@ -10,11 +12,16 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import yelm.io.avestal.Logging
 import yelm.io.avestal.R
-import yelm.io.avestal.database.*
+import yelm.io.avestal.auth.model.UserViewModel
+import yelm.io.avestal.database.BasketItemModelFactory
+import yelm.io.avestal.database.BasketItemViewModel
+import yelm.io.avestal.database.BasketRepository
+import yelm.io.avestal.database.BasketRoomDatabase
 import yelm.io.avestal.databinding.ActivityAppBinding
-import java.util.ArrayList
+import yelm.io.avestal.main.model.UserInfoModel
+import yelm.io.avestal.rest.responses.UserInfo
 
-class AppActivity : AppCompatActivity(), BadgeInterface {
+class AppActivity : AppCompatActivity(), MainAppHost {
 
     private lateinit var binding: ActivityAppBinding
     private lateinit var badges: BadgeDrawable
@@ -22,7 +29,9 @@ class AppActivity : AppCompatActivity(), BadgeInterface {
 
     private lateinit var db: BasketRoomDatabase
     private lateinit var basketItemViewModel: BasketItemViewModel
-    lateinit var repository: BasketRepository
+    private lateinit var repository: BasketRepository
+
+    private lateinit var viewModel: UserInfoModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,13 +43,19 @@ class AppActivity : AppCompatActivity(), BadgeInterface {
         repository = BasketRepository(db.basketItemDao())
 
         basketItemViewModel =
-            BasketItemModelFactory(repository!!)
+            BasketItemModelFactory(repository)
                 .create(BasketItemViewModel::class.java)
+
         basketItemViewModel.allItems.observe(this, { items ->
             items?.let {
                 setBadges(it.size)
             }
         })
+
+        val userInfo = intent.extras?.get(UserInfo::class.java.name) as UserInfo
+        Logging.logDebug("userInfo: ${userInfo.toString()}")
+        viewModel = ViewModelProvider(this).get(UserInfoModel::class.java)
+        viewModel.setUserInfo(userInfo)
 
         initNavigation()
         initBadges()
@@ -57,7 +72,7 @@ class AppActivity : AppCompatActivity(), BadgeInterface {
         badges = navView.getOrCreateBadge(R.id.navigation_basket)
         badges.isVisible = false
         badges.maxCharacterCount = 3
-        badges.backgroundColor = resources.getColor(R.color.mainColor)
+        badges.backgroundColor = ContextCompat.getColor(this, R.color.mainColor)
     }
 
     override fun setBadges(count: Int) {
@@ -69,11 +84,9 @@ class AppActivity : AppCompatActivity(), BadgeInterface {
         }
     }
 
-    override fun getDBRepository():BasketRepository {
+    override fun getDBRepository(): BasketRepository {
         return repository
     }
-
-
 
 
 }
