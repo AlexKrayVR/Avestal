@@ -3,12 +3,15 @@ package yelm.io.avestal.auth.registration.fragments
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import okhttp3.MultipartBody
@@ -20,26 +23,26 @@ import retrofit2.Callback
 import retrofit2.Response
 import yelm.io.avestal.Logging
 import yelm.io.avestal.R
-import yelm.io.avestal.databinding.FragmentConfirmUserBinding
-import yelm.io.avestal.auth.model.UserViewModel
 import yelm.io.avestal.auth.host.HostAuth
+import yelm.io.avestal.auth.model.UserViewModel
 import yelm.io.avestal.auth.registration.USER_PASSPORT_IMAGE_REQUEST_CODE
 import yelm.io.avestal.auth.registration.USER_SELFIE_IMAGE_REQUEST_CODE
+import yelm.io.avestal.auth.registration.common.PHOTO_FILE_NAME
+import yelm.io.avestal.auth.registration.common.SUFFIX
 import yelm.io.avestal.auth.registration.common.UploadRequestBody
-import yelm.io.avestal.auth.registration.getFileName
+import yelm.io.avestal.databinding.FragmentConfirmUserBinding
 import yelm.io.avestal.rest.KotlinAPI
 import yelm.io.avestal.rest.RestAPI
 import yelm.io.avestal.rest.RetrofitClient
 import yelm.io.avestal.rest.responses.ImageLink
 import java.io.File
-import java.io.FileInputStream
-import java.io.FileOutputStream
 
 class PassportSelfieUserFragment : Fragment(), UploadRequestBody.UploadCallback {
 
     private lateinit var viewModel: UserViewModel
     private var binding: FragmentConfirmUserBinding? = null
-    private var mHostAuth: HostAuth? = null
+    private var hostAuth: HostAuth? = null
+    private lateinit var photoFile: File
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,7 +55,7 @@ class PassportSelfieUserFragment : Fragment(), UploadRequestBody.UploadCallback 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
-        mHostAuth?.requestCameraPermissions()
+        hostAuth?.requestCameraPermissions()
         viewModel.user.observe(requireActivity(), {
             Logging.logDebug(it.toString())
         })
@@ -68,7 +71,7 @@ class PassportSelfieUserFragment : Fragment(), UploadRequestBody.UploadCallback 
         }
 
         binding?.back?.setOnClickListener {
-            mHostAuth?.back()
+            hostAuth?.back()
         }
 
         binding?.layoutUserIdPhoto?.setOnClickListener {
@@ -107,13 +110,13 @@ class PassportSelfieUserFragment : Fragment(), UploadRequestBody.UploadCallback 
                     if (response.isSuccessful) {
                         if (response.code() == 201) {
                             Logging.logDebug("User created")
-                            mHostAuth?.openFinishFragment()
+                            hostAuth?.openFinishFragment()
                         } else {
-                            mHostAuth?.showToast(R.string.serverError)
+                            hostAuth?.showToast(R.string.serverError)
                             Logging.logError("Method setUserData() - by some reason response is null!")
                         }
                     } else {
-                        mHostAuth?.showToast(R.string.serverError)
+                        hostAuth?.showToast(R.string.serverError)
                         Logging.logError(
                             "Method setUserData() - response is not successful. " +
                                     "Code: " + response.code() + "Message: " + response.message()
@@ -123,7 +126,7 @@ class PassportSelfieUserFragment : Fragment(), UploadRequestBody.UploadCallback 
 
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                     Logging.logError("Method setUserData() - failure: $t")
-                    mHostAuth?.showToast(R.string.serverError)
+                    hostAuth?.showToast(R.string.serverError)
                     hideLoading()
                 }
             })
@@ -166,8 +169,8 @@ class PassportSelfieUserFragment : Fragment(), UploadRequestBody.UploadCallback 
     }
 
     private fun checkIfCameraPermission(code: Int) {
-        if (mHostAuth?.hasCameraPermission() == true) {
-            openImage(code)
+        if (hostAuth?.hasCameraPermission() == true) {
+            openCamera(code)
         } else {
 
         }
@@ -177,51 +180,57 @@ class PassportSelfieUserFragment : Fragment(), UploadRequestBody.UploadCallback 
         Logging.logDebug("${data?.data}")
         if (requestCode == USER_PASSPORT_IMAGE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             setLayoutPassport()
-            sendPicture(data?.data!!, "passport")
+            sendPicture(photoFile, "passport")
         }
         if (requestCode == USER_SELFIE_IMAGE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             setLayoutSelfie()
-            sendPicture(data?.data!!, "selfie")
+            sendPicture(photoFile, "selfie")
         }
-
         super.onActivityResult(requestCode, resultCode, data)
     }
 
     private fun setLayoutPassport() {
         binding?.layoutUserIdPhoto?.background =
             AppCompatResources.getDrawable(requireContext(), R.drawable.back_blue_button_15)
-        binding?.takeUserIDPhoto?.setTextColor(requireContext().resources.getColor(R.color.white))
-        binding?.number1?.setTextColor(requireContext().resources.getColor(R.color.white))
+        binding?.takeUserIDPhoto?.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.white
+            )
+        )
+        binding?.number1?.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
     }
 
     private fun setLayoutSelfie() {
         binding?.layoutUserSelfie?.background =
             AppCompatResources.getDrawable(requireContext(), R.drawable.back_blue_button_15)
-        binding?.takeUserSelfie?.setTextColor(requireContext().resources.getColor(R.color.white))
-        binding?.number2?.setTextColor(requireContext().resources.getColor(R.color.white))
+        binding?.takeUserSelfie?.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.white
+            )
+        )
+        binding?.number2?.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
     }
 
+    private fun getPhotoFile(): File {
+        val storageDirectory = requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        return File.createTempFile(PHOTO_FILE_NAME, SUFFIX, storageDirectory)
+    }
 
-    private fun openImage(code: Int) {
-        val intent = Intent()
-        intent.type = "image/*"
-        intent.action = Intent.ACTION_PICK
-        val mimeTypes = arrayOf("image/jpeg", "image/png")
-        intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
+    private fun openCamera(code: Int) {
+        photoFile = getPhotoFile()
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        val fileProvider = FileProvider.getUriForFile(
+            requireContext(),
+            "yelm.io.avestal.auth.registration",
+            photoFile
+        )
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider)
         startActivityForResult(intent, code)
     }
 
-    private fun sendPicture(uri: Uri, type: String) {
-        val parcelFileDescriptor =
-            context?.contentResolver?.openFileDescriptor(uri, "r", null) ?: return
-
-        val inputStream = FileInputStream(parcelFileDescriptor.fileDescriptor)
-        val file = File(context?.cacheDir, context?.contentResolver?.getFileName(uri)!!)
-        Logging.logDebug("file.path: ${file.path}")
-
-        val outputStream = FileOutputStream(file)
-        inputStream.copyTo(outputStream)
-
+    private fun sendPicture(file: File, type: String) {
         //binding.progressBar.progress = 0
         val body = UploadRequestBody(file, "image", this)
         showLoading(type)
@@ -235,7 +244,7 @@ class PassportSelfieUserFragment : Fragment(), UploadRequestBody.UploadCallback 
         ).enqueue(object : Callback<ImageLink> {
             override fun onFailure(call: Call<ImageLink>, t: Throwable) {
                 Logging.logDebug("onFailure: $t")
-                mHostAuth?.showToast(R.string.serverError)
+                hostAuth?.showToast(R.string.serverError)
                 hideLoading(type)
             }
 
@@ -251,9 +260,9 @@ class PassportSelfieUserFragment : Fragment(), UploadRequestBody.UploadCallback 
                     } else {
                         viewModel.setUserPassportPhoto(it.link)
                     }
-                    mHostAuth?.showToast(R.string.photoUploaded)
+                    hostAuth?.showToast(R.string.photoUploaded)
                     setEnableFurtherButton()
-                } ?: mHostAuth?.showToast(R.string.serverError)
+                } ?: hostAuth?.showToast(R.string.serverError)
             }
         })
     }
@@ -270,7 +279,7 @@ class PassportSelfieUserFragment : Fragment(), UploadRequestBody.UploadCallback 
 
     override fun onDetach() {
         super.onDetach()
-        mHostAuth = null
+        hostAuth = null
     }
 
     override fun onDestroyView() {
@@ -281,7 +290,7 @@ class PassportSelfieUserFragment : Fragment(), UploadRequestBody.UploadCallback 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (activity is HostAuth) {
-            mHostAuth = activity as HostAuth
+            hostAuth = activity as HostAuth
         } else {
             throw RuntimeException(activity.toString() + " must implement Communicator interface")
         }
@@ -308,6 +317,5 @@ class PassportSelfieUserFragment : Fragment(), UploadRequestBody.UploadCallback 
     }
 
     override fun onProgressUpdate(percentage: Int) {
-
     }
 }

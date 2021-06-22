@@ -48,7 +48,9 @@ class AuthActivity : AppCompatActivity(), HostAuth {
         setContentView(binding.root)
         SharedPreferencesSetting.initSharedPreferencesSettings(this)
 
-        checkUser()
+        //todo test
+        openPassportSelfieUserFragment()
+        //checkUser()
     }
 
     /**
