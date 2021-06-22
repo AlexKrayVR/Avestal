@@ -99,8 +99,7 @@
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:itemCount="2"
-            tools:listitem="@layout/item_basket"
-            />
+            tools:listitem="@layout/item_stuff" />
 
         <TextView
             android:id="@+id/instrumentalRent"
@@ -123,11 +122,10 @@
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:itemCount="2"
-            tools:listitem="@layout/item_basket"
-            />
+            tools:listitem="@layout/item_stuff" />
 
         <TextView
-            android:id="@+id/respond"
+            android:id="@+id/totalPrice"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginStart="16dp"

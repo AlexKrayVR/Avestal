@@ -6,6 +6,7 @@ import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import yelm.io.avestal.Logging
@@ -22,7 +23,7 @@ class FullNameFragment : Fragment() {
 
     private lateinit var viewModel: UserViewModel
     private var binding: FragmentFullNameBinding? = null
-    private var mHostAuth: HostAuth? = null
+    private var hostAuth: HostAuth? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,14 +33,19 @@ class FullNameFragment : Fragment() {
         return binding?.root
     }
 
-    @Suppress("DEPRECATION")
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
-        val text = "<font color=${context?.resources?.getColor(R.color.color828282)}>" +
+        val text = "<font color=${ContextCompat.getColor(requireContext(), R.color.color828282)}>" +
                 "${context?.resources?.getString(R.string.acceptPublicOfferStart)}" +
-                "</font> <u><font color=${context?.resources?.getColor(R.color.colorBlue)}>${
+                "</font> <u><font color=${
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.colorBlue
+                    )
+                }>${
                     context?.resources?.getString(R.string.acceptPublicOfferEnd)
                 }</font></u>"
         binding?.checkBox?.text = Html.fromHtml(text)
@@ -56,28 +62,28 @@ class FullNameFragment : Fragment() {
         }
 
         binding?.back?.setOnClickListener {
-            mHostAuth?.back()
+            hostAuth?.back()
         }
     }
 
     private fun inputValidation() {
         if (binding?.name?.text.toString().trim().isEmpty()) {
-            mHostAuth?.showToast(R.string.nameMustBeFilled)
+            hostAuth?.showToast(R.string.nameMustBeFilled)
             return
         }
 
         if (binding?.surname?.text.toString().trim().isEmpty()) {
-            mHostAuth?.showToast(R.string.surnameMustBeFilled)
+            hostAuth?.showToast(R.string.surnameMustBeFilled)
             return
         }
 
         if (binding?.lastName?.text.toString().trim().isEmpty()) {
-            mHostAuth?.showToast(R.string.lastNameMustBeFilled)
+            hostAuth?.showToast(R.string.lastNameMustBeFilled)
             return
         }
 
         if (binding?.checkBox?.isChecked == false) {
-            mHostAuth?.showToast(R.string.acceptPublicOffer)
+            hostAuth?.showToast(R.string.acceptPublicOffer)
             return
         }
 
@@ -86,12 +92,12 @@ class FullNameFragment : Fragment() {
             binding?.surname?.text.toString().trim(),
             binding?.lastName?.text.toString().trim()
         )
-        mHostAuth?.openRegionFragment()
+        hostAuth?.openRegionFragment()
     }
 
     override fun onDetach() {
         super.onDetach()
-        mHostAuth = null
+        hostAuth = null
     }
 
     override fun onDestroyView() {
@@ -102,7 +108,7 @@ class FullNameFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (activity is HostAuth) {
-            mHostAuth = activity as HostAuth
+            hostAuth = activity as HostAuth
         } else {
             throw RuntimeException(activity.toString() + " must implement Communicator interface")
         }

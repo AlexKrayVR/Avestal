@@ -114,10 +114,9 @@
     <string name="fromQuestionnaire">По услугам из анкеты</string>
     <string name="searchOffers">Поиск заказа</string>
     <string name="before">до</string>
-    <string name="ruble">руб</string>
+    <string name="ruble">руб.</string>
     <string name="searchContinue">Продолжить поиск</string>
     <string name="beforeTakeOrderVerifyPersonality">Извините, вы пока не можете выбрать этот заказ, вам необходимо подтвердить личность</string>
-
 
 
     <!--ChooseMaterialActivity -->
@@ -127,6 +126,10 @@
     <string name="instrumentalRent">Аренда инструментов</string>
     <string name="purchaseOfMaterials">Покупка материалов</string>
     <string name="chooseMaterialDescription">Здесь подобраны материалы, которые могут понадобится для выполнения этого заказа. При необходимости нажмите “ + ” чтобы добавить материал/инструмент, или “ - ” если материал вам не понадобится или вы имеете свой. Затраты вычитаются из указанной суммы.</string>
+
+    <!--TotalActivity -->
+    <string name="applyFor">Откликнуться за</string>
+
 
 
 

@@ -1,4 +1,4 @@
-package yelm.io.avestal.main.offers
+package yelm.io.avestal.main.offers.offer.controller
 
 import android.app.AlertDialog
 import android.content.Intent
@@ -20,7 +20,7 @@ import yelm.io.avestal.R
 import yelm.io.avestal.app_settings.SharedPreferencesSetting
 import yelm.io.avestal.databinding.FragmentOffersBinding
 import yelm.io.avestal.main.host.AppActivity
-import yelm.io.avestal.main.offers.offer.controller.OfferActivity
+import yelm.io.avestal.main.offers.offer.adapter.OffersAdapter
 import yelm.io.avestal.rest.RestAPI
 import yelm.io.avestal.rest.RetrofitClient
 import yelm.io.avestal.rest.responses.Offer

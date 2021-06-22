@@ -1,4 +1,4 @@
-package yelm.io.avestal.main.offers.offer.details
+package yelm.io.avestal.main.offers.offer_materials
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -9,12 +9,16 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import yelm.io.avestal.Logging
 import yelm.io.avestal.R
+import yelm.io.avestal.common.priceFormat
 import yelm.io.avestal.database.BasketItem
 import yelm.io.avestal.databinding.ItemBasketBinding
+import yelm.io.avestal.databinding.ItemStuffBinding
+import yelm.io.avestal.main.offers.offer_materials.mode.Stuff
+import java.text.DecimalFormat
 import java.util.*
 
-class StuffAdapter(private var items: ArrayList<BasketItem>, var context: Context) :
-    RecyclerView.Adapter<StuffAdapter.BasketItemViewHolder>() {
+class StuffAdapter(private var items: List<Stuff>, var context: Context) :
+    RecyclerView.Adapter<StuffAdapter.StuffItemViewHolder>() {
 
     private var listener: Listener? = null
 
@@ -31,19 +35,17 @@ class StuffAdapter(private var items: ArrayList<BasketItem>, var context: Contex
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): StuffAdapter.BasketItemViewHolder {
-        val binding = ItemBasketBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return BasketItemViewHolder(binding)
+    ): StuffItemViewHolder {
+        val binding = ItemStuffBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return StuffItemViewHolder(binding)
     }
 
-    fun setData(items: ArrayList<BasketItem>) {
+    fun setData(items: ArrayList<Stuff>) {
         this.items = items
         //notifyDataSetChanged()
     }
 
-    override fun onBindViewHolder(holder: BasketItemViewHolder, position: Int) {
-        Logging.logDebug("onBindViewHolder: $position")
-
+    override fun onBindViewHolder(holder: StuffItemViewHolder, position: Int) {
 
         val current = items[position]
 
@@ -58,8 +60,12 @@ class StuffAdapter(private var items: ArrayList<BasketItem>, var context: Contex
             .into(holder.binding.image)
 
         holder.binding.count.text = current.count.toString()
-        holder.binding.name.text = "Кисть Dexter Pro универсал 70мм"
-        holder.binding.price.text = "288.00 руб."
+        holder.binding.name.text = current.name
+
+        val formattedPrice = priceFormat.format(current.price.toDouble())
+        (context.getString(R.string.before) + " " + formattedPrice + " " +
+                context.getString(R.string.ruble)).also { holder.binding.price.text = it }
+
 
         holder.binding.reduce.setOnClickListener {
             if (current.count == 1) {
@@ -80,10 +86,11 @@ class StuffAdapter(private var items: ArrayList<BasketItem>, var context: Contex
         return items.size
     }
 
-    fun getData(): ArrayList<BasketItem> {
+    fun getData(): List<Stuff> {
         return items
     }
-    class BasketItemViewHolder(var binding: ItemBasketBinding) :
+
+    class StuffItemViewHolder(var binding: ItemStuffBinding) :
         RecyclerView.ViewHolder(binding.root) {
     }
 }

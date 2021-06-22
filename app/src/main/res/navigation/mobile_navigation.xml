@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_offers"
-        android:name="yelm.io.avestal.main.offers.OffersFragment"
+        android:name="yelm.io.avestal.main.offers.offer.controller.OffersFragment"
         tools:layout="@layout/fragment_offers" />
 
 

@@ -49,7 +49,7 @@ class AuthActivity : AppCompatActivity(), HostAuth {
         SharedPreferencesSetting.initSharedPreferencesSettings(this)
 
         //todo test
-        openPassportSelfieUserFragment()
+        openFullNameFragment()
         //checkUser()
     }
 

@@ -1,4 +1,4 @@
-package yelm.io.avestal.main.offers
+package yelm.io.avestal.main.offers.offer.adapter
 
 import android.content.Context
 import android.view.LayoutInflater

@@ -27,7 +27,7 @@
         android:id="@+id/layoutStars"
         android:layout_width="88dp"
         android:layout_height="wrap_content"
-        android:divider="@drawable/delimiter_stars"
+        android:divider="@drawable/divider_stars"
         android:gravity="end"
         android:orientation="horizontal"
 
