@@ -14,7 +14,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:context=".main.offers.respond.OfferActivity">
+            tools:context=".main.offers.offer.controller.OfferActivity">
 
             <ImageView
                 android:id="@+id/back"
@@ -264,7 +264,6 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="40dp"
             android:background="@drawable/ripple_button_pressed"
-            android:clickable="true"
             android:gravity="center"
             android:text="@string/offerRespond"
             android:theme="@style/TextStyleMedium"

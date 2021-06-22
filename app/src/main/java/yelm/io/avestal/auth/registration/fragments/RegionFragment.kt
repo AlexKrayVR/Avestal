@@ -2,21 +2,26 @@ package yelm.io.avestal.auth.registration.fragments
 
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
-import yelm.io.avestal.Logging
-import yelm.io.avestal.R
-import yelm.io.avestal.databinding.FragmentRegionBinding
-import yelm.io.avestal.auth.model.UserViewModel
+import moxy.MvpAppCompatFragment
+import moxy.presenter.InjectPresenter
 import yelm.io.avestal.auth.host.HostAuth
+import yelm.io.avestal.auth.model.UserViewModel
+import yelm.io.avestal.auth.registration.interfaces.RegionView
+import yelm.io.avestal.auth.registration.presenters.RegionPresenter
+import yelm.io.avestal.databinding.FragmentRegionBinding
+import yelm.io.avestal.rest.responses.UserInfo
 
-class RegionFragment : Fragment() {
-    private var mHostAuth: HostAuth? = null
+class RegionFragment : MvpAppCompatFragment(), RegionView {
+    private var hostAuth: HostAuth? = null
     private var binding: FragmentRegionBinding? = null
     private lateinit var viewModel: UserViewModel
+
+    @InjectPresenter
+    lateinit var regionPresenter: RegionPresenter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,32 +38,24 @@ class RegionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
-        viewModel.user.observe(requireActivity(), {
-            Logging.logDebug("RegionFragment: $it")
-        })
-
-        binding?.region?.setText(viewModel.user.value?.region)
 
         binding?.further?.setOnClickListener {
-            inputValidation()
+            regionPresenter.validateInput(binding?.regionEditText?.text.toString())
         }
-        binding?.back?.setOnClickListener {
-            mHostAuth?.back()
-        }
-    }
 
-    private fun inputValidation() {
-        if (binding?.region?.text.toString().trim().isEmpty()) {
-            mHostAuth?.showToast(R.string.addressEmpty)
-            return
+        binding?.back?.setOnClickListener {
+            hostAuth?.back()
         }
-        viewModel.setRegion(binding?.region?.text.toString().trim())
-        mHostAuth?.openInfoFragment()
+
+        binding?.close?.setOnClickListener {
+
+        }
+
     }
 
     override fun onDetach() {
         super.onDetach()
-        mHostAuth = null
+        hostAuth = null
     }
 
     override fun onDestroyView() {
@@ -69,9 +66,34 @@ class RegionFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (activity is HostAuth) {
-            mHostAuth = activity as HostAuth
+            hostAuth = activity as HostAuth
         } else {
             throw RuntimeException(activity.toString() + " must implement HostRegistration interface")
         }
+    }
+
+    override fun validationRegionError(error: Int) {
+        hostAuth?.showToast(error)
+    }
+
+    override fun validationRegionSuccess(region: String) {
+        viewModel.setRegion(region)
+        hostAuth?.openInfoFragment()
+    }
+
+    override fun showLoading() {
+        binding?.progressBar?.visibility = View.VISIBLE
+    }
+
+    override fun hideLoading() {
+        binding?.progressBar?.visibility = View.GONE
+    }
+
+    override fun serverError(error: Int) {
+        hostAuth?.showToast(error)
+    }
+
+    override fun startApp(userInfo: UserInfo) {
+        hostAuth?.startApp(userInfo)
     }
 }

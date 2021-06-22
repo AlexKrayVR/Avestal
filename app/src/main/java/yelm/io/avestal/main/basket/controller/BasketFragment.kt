@@ -6,28 +6,29 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DiffUtil
 import yelm.io.avestal.Logging
-import yelm.io.avestal.R
 import yelm.io.avestal.database.BasketItem
 import yelm.io.avestal.database.BasketItemModelFactory
 import yelm.io.avestal.database.BasketItemViewModel
 import yelm.io.avestal.databinding.FragmentBasketBinding
+import yelm.io.avestal.main.basket.DiffCallback
 import yelm.io.avestal.main.basket.adapter.BasketAdapter
 import yelm.io.avestal.main.host.MainAppHost
 import java.util.*
+
 
 class BasketFragment : Fragment() {
 
     private lateinit var basketItemViewModel: BasketItemViewModel
     private var binding: FragmentBasketBinding? = null
-    private var mMainAppHost: MainAppHost? = null
+    private var mainAppHost: MainAppHost? = null
     private lateinit var basketAdapter: BasketAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initViews()
+        initRecycler()
         initViewModel()
         initActions()
 
@@ -35,17 +36,26 @@ class BasketFragment : Fragment() {
 
     private fun initViewModel() {
         basketItemViewModel =
-            BasketItemModelFactory(mMainAppHost?.getDBRepository()!!)
+            BasketItemModelFactory(mainAppHost?.getDBRepository()!!)
                 .create(BasketItemViewModel::class.java)
 
         basketItemViewModel.allItems.observe(requireActivity(), { items ->
             items?.let {
-                basketAdapter.addItems(it as ArrayList<BasketItem>)
+
+//                val productDiffUtilCallback =
+//                    DiffCallback(basketAdapter.getData(), it as ArrayList<BasketItem>)
+//                val productDiffResult = DiffUtil.calculateDiff(productDiffUtilCallback, false)
+//
+//                basketAdapter.setData(it)
+//                productDiffResult.dispatchUpdatesTo(basketAdapter)
+
+                basketAdapter.setData(it as ArrayList<BasketItem>)
+
                 Logging.logDebug("size: ${it.size}")
                 for (item in it) {
                     Logging.logDebug("itemID: ${item.itemID}, count: ${item.count}")
                 }
-                mMainAppHost?.setBadges(it.size)
+                mainAppHost?.setBadges(it.size)
             }
         })
     }
@@ -65,9 +75,9 @@ class BasketFragment : Fragment() {
             basketItemViewModel.deleteAll()
         }
 
-        binding?.back?.setOnClickListener {
-            findNavController().navigate(R.id.action_navigation_basket_to_navigation_home)
-        }
+//        binding?.back?.setOnClickListener {
+//            findNavController().navigate(R.id.action_navigation_basket_to_navigation_home)
+//        }
 
         basketAdapter.setListener(object : BasketAdapter.Listener {
             override fun increase(itemID: String) {
@@ -84,7 +94,7 @@ class BasketFragment : Fragment() {
         })
     }
 
-    private fun initViews() {
+    private fun initRecycler() {
         basketAdapter = BasketAdapter(arrayListOf(), requireContext())
         binding?.recyclerBasket?.adapter = basketAdapter
     }
@@ -105,11 +115,11 @@ class BasketFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        mMainAppHost = activity as MainAppHost
+        mainAppHost = activity as MainAppHost
     }
 
     override fun onDetach() {
         super.onDetach()
-        mMainAppHost = null
+        mainAppHost = null
     }
 }

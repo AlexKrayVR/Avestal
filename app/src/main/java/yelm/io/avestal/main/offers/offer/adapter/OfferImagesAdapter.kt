@@ -1,4 +1,4 @@
-package yelm.io.avestal.main.offers.respond.adapter
+package yelm.io.avestal.main.offers.offer.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -6,8 +6,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import yelm.io.avestal.R
 import yelm.io.avestal.databinding.ItemOfferImagesBinding
 import java.util.*
 

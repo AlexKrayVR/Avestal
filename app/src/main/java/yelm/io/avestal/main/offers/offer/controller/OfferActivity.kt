@@ -1,4 +1,4 @@
-package yelm.io.avestal.main.offers.respond
+package yelm.io.avestal.main.offers.offer.controller
 
 import android.content.Intent
 import android.net.Uri
@@ -19,7 +19,7 @@ import yelm.io.avestal.common.priceFormat
 import yelm.io.avestal.common.printedFormatterDateOfferActivity
 import yelm.io.avestal.common.serverFormatterDate
 import yelm.io.avestal.databinding.ActivityOfferBinding
-import yelm.io.avestal.main.offers.respond.adapter.OfferImagesAdapter
+import yelm.io.avestal.main.offers.offer.adapter.OfferImagesAdapter
 import yelm.io.avestal.rest.responses.OfferData
 import java.text.ParseException
 import java.util.*
@@ -141,5 +141,4 @@ class OfferActivity : AppCompatActivity() {
         MapKitFactory.getInstance().onStart()
         binding.mapView.onStart()
     }
-
 }

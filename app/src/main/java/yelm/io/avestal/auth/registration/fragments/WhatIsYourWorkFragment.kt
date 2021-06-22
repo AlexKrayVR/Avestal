@@ -16,7 +16,7 @@ class WhatIsYourWorkFragment : Fragment() {
 
     private var binding: FragmentWhatIsYourWorkBinding? = null
     private lateinit var viewModel: UserViewModel
-    private var mHostAuth: HostAuth? = null
+    private var hostAuth: HostAuth? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,7 +45,7 @@ class WhatIsYourWorkFragment : Fragment() {
             }
         }
         binding?.further?.setOnClickListener {
-            mHostAuth?.openFullNameFragment()
+            hostAuth?.openFullNameFragment()
         }
     }
 
@@ -61,7 +61,7 @@ class WhatIsYourWorkFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (activity is HostAuth) {
-            mHostAuth = activity as HostAuth
+            hostAuth = activity as HostAuth
         } else {
             throw RuntimeException(activity.toString() + " must implement Communicator interface")
         }
@@ -69,6 +69,6 @@ class WhatIsYourWorkFragment : Fragment() {
 
     override fun onDetach() {
         super.onDetach()
-        mHostAuth = null
+        hostAuth = null
     }
 }

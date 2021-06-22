@@ -15,18 +15,20 @@ import retrofit2.Response
 import yelm.io.avestal.Logging
 import yelm.io.avestal.R
 import yelm.io.avestal.app_settings.SharedPreferencesSetting
-import yelm.io.avestal.databinding.RegVerActivityBinding
-import yelm.io.avestal.main.host.AppActivity
 import yelm.io.avestal.auth.login.LoginFragment
 import yelm.io.avestal.auth.registration.*
+import yelm.io.avestal.auth.registration.common.finishFragmentTag
+import yelm.io.avestal.auth.registration.common.whatIsYourWorkFragmentTag
 import yelm.io.avestal.auth.registration.fragments.*
-import yelm.io.avestal.auth.verification.view.OnBackPressedListener
 import yelm.io.avestal.auth.verification.view.VerificationFragment
+import yelm.io.avestal.databinding.RegVerActivityBinding
+import yelm.io.avestal.main.host.AppActivity
 import yelm.io.avestal.rest.RestAPI
 import yelm.io.avestal.rest.RetrofitClient
 import yelm.io.avestal.rest.responses.AccessToken
 import yelm.io.avestal.rest.responses.AuthResponse
 import yelm.io.avestal.rest.responses.UserInfo
+
 
 class AuthActivity : AppCompatActivity(), HostAuth {
     private lateinit var binding: RegVerActivityBinding
@@ -145,17 +147,40 @@ class AuthActivity : AppCompatActivity(), HostAuth {
     override fun openLoginFragment() {
         val registrationFragment: Fragment = LoginFragment.newInstance()
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-        transaction.replace(R.id.container, registrationFragment).commit()
+        setFragmentTransactionAnimation(transaction)
+        transaction
+            .addToBackStack("login")
+            .add(R.id.container, registrationFragment)
+            .commit()
     }
 
-    override fun openVerificationFragment(phone: String, response: AuthResponse) {
-        val validationFragment: Fragment = VerificationFragment.newInstance(phone, response)
+    override fun openVerificationFragment(response: AuthResponse) {
+        val validationFragment: Fragment = VerificationFragment.newInstance(response)
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-        transaction.replace(R.id.container, validationFragment).commit()
+        setFragmentTransactionAnimation(transaction)
+        transaction
+            .addToBackStack(null)
+            .add(R.id.container, validationFragment)
+            .commit()
     }
 
+    /**
+     * set animation of fragment transaction
+     * by default swap to right at opening
+     * and swap to left at closing
+     */
+    private fun setFragmentTransactionAnimation(transaction: FragmentTransaction) {
+        transaction.setCustomAnimations(
+            R.anim.enter_from_right,
+            R.anim.exit_to_right,
+            R.anim.enter_from_right,
+            R.anim.exit_to_right
+        )
+    }
+
+    /**
+     * start main app and pass UserInfo
+     */
     override fun startApp(userInfo: UserInfo) {
         val intent = Intent(this, AppActivity::class.java)
         intent.putExtra(UserInfo::class.java.name, userInfo)
@@ -165,82 +190,85 @@ class AuthActivity : AppCompatActivity(), HostAuth {
 
     override fun onBackPressed() {
         val fragmentList = supportFragmentManager.fragments
+        if (fragmentList.size == 1) {
+            finish()
+        }
         for (fragment in fragmentList) {
-            if (fragment is OnBackPressedListener) {
-                (fragment as OnBackPressedListener).doBack()
-                return
-            }
-            if (fragment.tag == "finish") {
+            if (fragment.tag == finishFragmentTag) {
                 finish()
             }
         }
-        if (fragmentList.size == 1) {
-            finish()
-        } else {
-            supportFragmentManager.popBackStack()
-        }
+        supportFragmentManager.popBackStack()
     }
 
     override fun openWhatIsYourWorkFragment() {
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-        transaction.replace(
-            R.id.container,
-            whatIsYourWorkFragment ?: WhatIsYourWorkFragment.newInstance()
-        ).commit()
+        setFragmentTransactionAnimation(transaction)
+        transaction
+            .add(
+                R.id.container,
+                whatIsYourWorkFragment ?: WhatIsYourWorkFragment.newInstance(),
+                whatIsYourWorkFragmentTag
+            )
+            .addToBackStack(null)
+            .commit()
     }
 
     override fun openFullNameFragment() {
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+        setFragmentTransactionAnimation(transaction)
         transaction
             .add(R.id.container, fullNameFragment ?: FullNameFragment.newInstance())
-            .addToBackStack("FullName")
+            .addToBackStack(null)
             .commit()
     }
 
     override fun openFinishFragment() {
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+        setFragmentTransactionAnimation(transaction)
         transaction
-            .add(R.id.container, fullNameFragment ?: FinishFragment.newInstance(), "finish")
-            .addToBackStack("finish")
+            .add(
+                R.id.container,
+                FinishFragment.newInstance(),
+                finishFragmentTag
+            )
+            .addToBackStack(null)
             .commit()
     }
 
     override fun openRegionFragment() {
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+        setFragmentTransactionAnimation(transaction)
         transaction
             .add(R.id.container, regionFragment ?: RegionFragment.newInstance())
-            .addToBackStack("Region")
+            .addToBackStack(null)
             .commit()
     }
 
     override fun openInfoFragment() {
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+        setFragmentTransactionAnimation(transaction)
         transaction
             .add(R.id.container, infoFragment ?: InfoFragment.newInstance())
-            .addToBackStack("Info")
+            .addToBackStack(null)
             .commit()
     }
 
-    override fun openConfirmUserFragment() {
+    override fun openPassportSelfieUserFragment() {
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+        setFragmentTransactionAnimation(transaction)
         transaction
             .add(R.id.container, confirmUserFragment ?: PassportSelfieUserFragment.newInstance())
-            .addToBackStack("ConfirmUser")
+            .addToBackStack(null)
             .commit()
     }
 
     override fun openProfilePhotoFragment() {
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+        setFragmentTransactionAnimation(transaction)
         transaction
             .add(R.id.container, userPhotoFragment ?: UserProfilePhotoFragment.newInstance())
-            .addToBackStack("UserPhoto")
+            .addToBackStack(null)
             .commit()
     }
 

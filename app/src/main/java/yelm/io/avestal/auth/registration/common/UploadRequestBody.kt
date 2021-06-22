@@ -1,4 +1,4 @@
-package yelm.io.avestal.auth.registration
+package yelm.io.avestal.auth.registration.common
 
 import android.os.Handler
 import android.os.Looper

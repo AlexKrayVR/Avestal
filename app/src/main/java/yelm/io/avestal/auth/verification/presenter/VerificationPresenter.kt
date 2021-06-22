@@ -29,7 +29,7 @@ class VerificationPresenter(private var view: VerificationView?) {
         view?.showLoading()
         RetrofitClient.getClient(RestAPI.URL_API_MAIN)
             .create(RestAPI::class.java)
-            .code(phone)
+            .code(phone.replace("\\D".toRegex(), ""))
             .enqueue(object : Callback<AuthResponse?> {
                 override fun onResponse(
                     call: Call<AuthResponse?>,
@@ -165,6 +165,7 @@ class VerificationPresenter(private var view: VerificationView?) {
      * thereafter start main app and transfer user data
      */
     private fun getUserInfo() {
+        view?.showLoading()
         RetrofitClient.getClient(RestAPI.URL_API_MAIN)
             .create(RestAPI::class.java)
             .getUserInfo("Bearer ${SharedPreferencesSetting.getDataString(SharedPreferencesSetting.BEARER_TOKEN)}")
@@ -173,6 +174,7 @@ class VerificationPresenter(private var view: VerificationView?) {
                     call: Call<UserInfo?>,
                     response: Response<UserInfo?>
                 ) {
+                    view?.hideLoading()
                     Logging.logDebug("response.code(): ${response.code()}")
                     if (response.isSuccessful) {
                         response.body().let {
@@ -188,6 +190,7 @@ class VerificationPresenter(private var view: VerificationView?) {
                 }
 
                 override fun onFailure(call: Call<UserInfo?>, t: Throwable) {
+                    view?.hideLoading()
                     Logging.logDebug("onFailure: ${t.message}")
                     view?.serverError(R.string.serverError)
                 }

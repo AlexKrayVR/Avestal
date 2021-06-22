@@ -1,15 +1,15 @@
-package yelm.io.avestal.main.offers.respond.adapter
+package yelm.io.avestal.main.offers.offer.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import yelm.io.avestal.databinding.ItemOfferDetailsBinding
-import yelm.io.avestal.main.offers.respond.model.OfferDetails
+import yelm.io.avestal.main.offers.offer.model.OfferDetails
 import java.util.*
 
-class OfferIDetailsAdapter(private var details: ArrayList<OfferDetails>, var context: Context) :
-    RecyclerView.Adapter<OfferIDetailsAdapter.ImageViewHolder>() {
+class OfferDetailsAdapter(private var details: ArrayList<OfferDetails>, var context: Context) :
+    RecyclerView.Adapter<OfferDetailsAdapter.ImageViewHolder>() {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,

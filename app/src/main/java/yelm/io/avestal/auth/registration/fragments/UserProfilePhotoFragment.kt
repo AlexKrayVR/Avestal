@@ -24,7 +24,7 @@ import yelm.io.avestal.databinding.FragmentUserPhotoBinding
 import yelm.io.avestal.auth.host.HostAuth
 import yelm.io.avestal.auth.model.UserViewModel
 import yelm.io.avestal.auth.registration.PROFILE_IMAGE_REQUEST_CODE
-import yelm.io.avestal.auth.registration.UploadRequestBody
+import yelm.io.avestal.auth.registration.common.UploadRequestBody
 import yelm.io.avestal.auth.registration.getFileName
 import yelm.io.avestal.rest.KotlinAPI
 import yelm.io.avestal.rest.responses.ImageLink
@@ -37,7 +37,7 @@ class UserProfilePhotoFragment : Fragment(), UploadRequestBody.UploadCallback {
 
     private lateinit var viewModel: UserViewModel
     private var binding: FragmentUserPhotoBinding? = null
-    private var mHostAuth: HostAuth? = null
+    private var hostAuth: HostAuth? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,7 +48,7 @@ class UserProfilePhotoFragment : Fragment(), UploadRequestBody.UploadCallback {
     }
 
     private fun checkIfHasReadExternalStoragePermission() {
-        if (mHostAuth?.hasReadExternalStoragePermission() == true) {
+        if (hostAuth?.hasReadExternalStoragePermission() == true) {
             openImage()
         } else {
 
@@ -98,7 +98,7 @@ class UserProfilePhotoFragment : Fragment(), UploadRequestBody.UploadCallback {
 
 
 
-        mHostAuth?.requestReadExternalStoragePermission()
+        hostAuth?.requestReadExternalStoragePermission()
 
         binding?.userImage?.setOnClickListener {
             checkIfHasReadExternalStoragePermission()
@@ -111,11 +111,11 @@ class UserProfilePhotoFragment : Fragment(), UploadRequestBody.UploadCallback {
         }
 
         binding?.further?.setOnClickListener {
-            mHostAuth?.openConfirmUserFragment()
+            hostAuth?.openPassportSelfieUserFragment()
         }
 
         binding?.back?.setOnClickListener {
-            mHostAuth?.back()
+            hostAuth?.back()
         }
     }
 
@@ -161,7 +161,7 @@ class UserProfilePhotoFragment : Fragment(), UploadRequestBody.UploadCallback {
             override fun onFailure(call: Call<ImageLink>, t: Throwable) {
                 //binding.progressBar.progress = 0
                 Logging.logDebug("onFailure: $t")
-                mHostAuth?.showToast(R.string.serverError)
+                hostAuth?.showToast(R.string.serverError)
                 hideLoading()
             }
 
@@ -175,9 +175,9 @@ class UserProfilePhotoFragment : Fragment(), UploadRequestBody.UploadCallback {
                     showImage(it.link)
                     viewModel.setProfilePhoto(it.link)
                     binding?.further?.isEnabled = true
-                    mHostAuth?.showToast(R.string.photoUploaded)
+                    hostAuth?.showToast(R.string.photoUploaded)
                     //binding.progressBar.progress = 100
-                } ?: mHostAuth?.showToast(R.string.serverError)
+                } ?: hostAuth?.showToast(R.string.serverError)
 
             }
         })
@@ -200,7 +200,7 @@ class UserProfilePhotoFragment : Fragment(), UploadRequestBody.UploadCallback {
 
     override fun onDetach() {
         super.onDetach()
-        mHostAuth = null
+        hostAuth = null
     }
 
     override fun onDestroyView() {
@@ -211,7 +211,7 @@ class UserProfilePhotoFragment : Fragment(), UploadRequestBody.UploadCallback {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (activity is HostAuth) {
-            mHostAuth = activity as HostAuth
+            hostAuth = activity as HostAuth
         } else {
             throw RuntimeException(activity.toString() + " must implement Communicator interface")
         }

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:context=".main.offers.offer.controller.OfferActivity">
+
+            <ImageView
+                android:id="@+id/back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                app:layout_constraintBottom_toBottomOf="@+id/title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/title"
+                app:srcCompat="@drawable/ic_back" />
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginEnd="8dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="@string/chooseMaterial"
+                android:textColor="@color/color121212"
+                android:textSize="14sp"
+                android:theme="@style/TextStyleMedium"
+                app:layout_constraintEnd_toStartOf="@+id/more"
+                app:layout_constraintStart_toEndOf="@+id/back"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                app:layout_constraintBottom_toBottomOf="@+id/title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/title"
+                app:srcCompat="@drawable/ic_more" />
+
+            <TextView
+                android:id="@+id/descriptionTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="26dp"
+                android:text="@string/youNeedIt"
+                android:textColor="@color/color121212"
+                android:textSize="18sp"
+                android:theme="@style/TextStyleMedium"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/title" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <TextView
+            android:id="@+id/chooseMaterialDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="@string/chooseMaterialDescription"
+            android:textColor="@color/color828282"
+            android:textSize="14sp"
+            android:theme="@style/TextStyleRegular" />
+
+        <TextView
+            android:id="@+id/purchaseOfMaterials"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/purchaseOfMaterials"
+            android:textColor="@color/color000000"
+            android:textSize="16sp"
+            android:theme="@style/TextStyleMedium"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerPurchaseOfMaterials"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:itemCount="2"
+            tools:listitem="@layout/item_basket"
+            />
+
+        <TextView
+            android:id="@+id/instrumentalRent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/instrumentalRent"
+            android:textColor="@color/color000000"
+            android:textSize="16sp"
+            android:theme="@style/TextStyleMedium"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerInstrumentlRent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:itemCount="2"
+            tools:listitem="@layout/item_basket"
+            />
+
+        <TextView
+            android:id="@+id/respond"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="40dp"
+            android:background="@drawable/ripple_button_pressed"
+            android:gravity="center"
+            android:text="@string/chooseOn"
+            android:theme="@style/TextStyleMedium"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </LinearLayout>
+
+
+</androidx.core.widget.NestedScrollView>

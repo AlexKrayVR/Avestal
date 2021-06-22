@@ -1,4 +1,4 @@
-package yelm.io.avestal.main.basket.adapter
+package yelm.io.avestal.main.offers.offer.details
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -13,8 +13,8 @@ import yelm.io.avestal.database.BasketItem
 import yelm.io.avestal.databinding.ItemBasketBinding
 import java.util.*
 
-class BasketAdapter(private var items: ArrayList<BasketItem>, var context: Context) :
-    RecyclerView.Adapter<BasketAdapter.BasketItemViewHolder>() {
+class StuffAdapter(private var items: ArrayList<BasketItem>, var context: Context) :
+    RecyclerView.Adapter<StuffAdapter.BasketItemViewHolder>() {
 
     private var listener: Listener? = null
 
@@ -31,7 +31,7 @@ class BasketAdapter(private var items: ArrayList<BasketItem>, var context: Conte
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): BasketAdapter.BasketItemViewHolder {
+    ): StuffAdapter.BasketItemViewHolder {
         val binding = ItemBasketBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return BasketItemViewHolder(binding)
     }

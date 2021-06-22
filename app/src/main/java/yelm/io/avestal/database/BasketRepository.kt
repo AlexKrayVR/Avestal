@@ -3,7 +3,7 @@ package yelm.io.avestal.database
 import androidx.annotation.WorkerThread
 import kotlinx.coroutines.flow.Flow
 
-class BasketRepository(val basketItemDao: BasketItemDao) {
+class BasketRepository(private val basketItemDao: BasketItemDao) {
 
     val allItems: Flow<List<BasketItem>> = basketItemDao.getBasketItems()
 

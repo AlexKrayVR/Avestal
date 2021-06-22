@@ -97,4 +97,11 @@ dependencies {
     //dependency for location by play services:
     implementation 'com.google.android.gms:play-services-location:18.0.0'
 
+    //Moxy
+    implementation "com.github.moxy-community:moxy:2.2.2"
+    kapt "com.github.moxy-community:moxy-compiler:2.2.2" //for annotation
+    implementation "com.github.moxy-community:moxy-androidx:2.2.2"
+    implementation "com.github.moxy-community:moxy-material:2.2.2"
+
+
 }

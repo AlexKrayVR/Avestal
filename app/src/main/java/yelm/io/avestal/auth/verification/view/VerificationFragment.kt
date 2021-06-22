@@ -22,13 +22,13 @@ import yelm.io.avestal.auth.verification.presenter.VerificationPresenter
 import yelm.io.avestal.rest.responses.AuthResponse
 import yelm.io.avestal.rest.responses.UserInfo
 
-class VerificationFragment : Fragment(), OnBackPressedListener, VerificationView {
+class VerificationFragment : Fragment(),  VerificationView {
 
     private lateinit var verificationPresenter: VerificationPresenter
 
     private var binding: FragmentVerificationBinding? = null
     var array = arrayOf(' ', ' ', ' ', ' ')
-    private var mHostAuth: HostAuth? = null
+    private var hostAuth: HostAuth? = null
     private lateinit var viewModel: UserViewModel
 
     override fun onCreateView(
@@ -42,16 +42,17 @@ class VerificationFragment : Fragment(), OnBackPressedListener, VerificationView
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         verificationPresenter = VerificationPresenter(this)
+        viewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
+
         fillUI()
         bindAction()
-        viewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
         viewModel.user.observe(requireActivity(), {
             Logging.logDebug(it.toString())
         })
     }
 
     private fun fillUI() {
-        val phone = arguments?.getString(PHONE)
+        val phone = viewModel.user.value?.phone
         val description = context?.getString(R.string.enterVerificationCode) + " " + phone
         binding?.description?.text = description
         val text = "<font color=${ContextCompat.getColor(requireContext(), R.color.color828282)}>" +
@@ -78,11 +79,11 @@ class VerificationFragment : Fragment(), OnBackPressedListener, VerificationView
         binding?.fourth?.let { addTextChangedListener(it, 3) }
 
         binding?.resend?.setOnClickListener {
-            verificationPresenter.resendPhone(arguments?.getString(PHONE) ?: "")
+            verificationPresenter.resendPhone(viewModel.user.value?.phone!!)
         }
 
         binding?.back?.setOnClickListener {
-            mHostAuth?.openLoginFragment()
+            hostAuth?.back()
         }
 
         binding?.enter?.setOnClickListener {
@@ -92,7 +93,7 @@ class VerificationFragment : Fragment(), OnBackPressedListener, VerificationView
                     (arguments?.getSerializable(RESPONSE) as AuthResponse).hash ?: ""
                 )
             } else {
-                mHostAuth?.showToast(R.string.codeIncorrect)
+                hostAuth?.showToast(R.string.codeIncorrect)
             }
         }
     }
@@ -152,20 +153,14 @@ class VerificationFragment : Fragment(), OnBackPressedListener, VerificationView
 
     companion object {
         @JvmStatic
-        fun newInstance(phone: String, response: AuthResponse) =
+        fun newInstance( response: AuthResponse) =
             VerificationFragment().apply {
                 arguments = Bundle().apply {
-                    putString(PHONE, phone)
                     putSerializable(RESPONSE, response)
                 }
             }
 
-        private const val PHONE = "PHONE"
         private const val RESPONSE = "RESPONSE"
-    }
-
-    override fun doBack() {
-        mHostAuth?.openLoginFragment()
     }
 
     override fun onDestroyView() {
@@ -177,7 +172,7 @@ class VerificationFragment : Fragment(), OnBackPressedListener, VerificationView
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (activity is HostAuth) {
-            mHostAuth = activity as HostAuth
+            hostAuth = activity as HostAuth
         } else {
             throw RuntimeException(activity.toString() + " must implement Communicator interface")
         }
@@ -185,7 +180,7 @@ class VerificationFragment : Fragment(), OnBackPressedListener, VerificationView
 
     override fun onDetach() {
         super.onDetach()
-        mHostAuth = null
+        hostAuth = null
     }
 
     override fun showLoading() {
@@ -197,13 +192,12 @@ class VerificationFragment : Fragment(), OnBackPressedListener, VerificationView
     }
 
     override fun loginPhoneError(error: Int) {
-        mHostAuth?.showToast(error)
+        hostAuth?.showToast(error)
     }
 
     override fun serverError(error: Int) {
-        mHostAuth?.showToast(error)
+        hostAuth?.showToast(error)
     }
-
 
     override fun loginPhoneSuccess(response: AuthResponse) {
         arguments?.putSerializable("RESPONSE", response)
@@ -213,11 +207,11 @@ class VerificationFragment : Fragment(), OnBackPressedListener, VerificationView
         if ((arguments?.getSerializable(RESPONSE) as AuthResponse).auth == true) {
             verificationPresenter.getBearerToken(viewModel.user.value?.phone!!)
         } else {
-            mHostAuth?.openWhatIsYourWorkFragment()
+            hostAuth?.openWhatIsYourWorkFragment()
         }
     }
 
     override fun startApp(userInfo: UserInfo) {
-        mHostAuth?.startApp(userInfo)
+        hostAuth?.startApp(userInfo)
     }
 }

@@ -17,7 +17,7 @@ import java.lang.RuntimeException
 class LoginFragment : Fragment(), LoginView {
     private lateinit var loginPresenter: LoginPresenter
     private var binding: FragmentLoginBinding? = null
-    private var mHostAuth: HostAuth? = null
+    private var hostAuth: HostAuth? = null
     private lateinit var viewModel: UserViewModel
 
     override fun onCreateView(
@@ -30,14 +30,13 @@ class LoginFragment : Fragment(), LoginView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         loginPresenter = LoginPresenter(this)
-        binding?.phone?.let { loginPresenter.setTextFormatter(it) }
-
         viewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
-        viewModel.user.observe(requireActivity(), {
-            Logging.logDebug(it.toString())
-        })
+
+        binding?.phone?.let {
+            loginPresenter.setTextFormatter(it)
+        }
+
         binding?.phone?.setText(viewModel.user.value?.phone)
 
         binding?.further?.setOnClickListener {
@@ -51,12 +50,12 @@ class LoginFragment : Fragment(), LoginView {
     }
 
     override fun loginPhoneError(error: Int) {
-        mHostAuth?.showToast(error)
+        hostAuth?.showToast(error)
     }
 
     override fun loginPhoneSuccess(phone: String, response: AuthResponse) {
         viewModel.setPhone(phone)
-        mHostAuth?.openVerificationFragment(phone, response)
+        hostAuth?.openVerificationFragment(response)
     }
 
     override fun onDestroyView() {
@@ -68,7 +67,7 @@ class LoginFragment : Fragment(), LoginView {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (activity is HostAuth) {
-            mHostAuth = activity as HostAuth
+            hostAuth = activity as HostAuth
         } else {
             throw RuntimeException(activity.toString() + " must implement Communicator interface")
         }
@@ -76,7 +75,7 @@ class LoginFragment : Fragment(), LoginView {
 
     override fun onDetach() {
         super.onDetach()
-        mHostAuth = null
+        hostAuth = null
     }
 
     override fun showLoading() {

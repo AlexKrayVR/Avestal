@@ -25,7 +25,7 @@ import yelm.io.avestal.auth.model.UserViewModel
 import yelm.io.avestal.auth.host.HostAuth
 import yelm.io.avestal.auth.registration.USER_PASSPORT_IMAGE_REQUEST_CODE
 import yelm.io.avestal.auth.registration.USER_SELFIE_IMAGE_REQUEST_CODE
-import yelm.io.avestal.auth.registration.UploadRequestBody
+import yelm.io.avestal.auth.registration.common.UploadRequestBody
 import yelm.io.avestal.auth.registration.getFileName
 import yelm.io.avestal.rest.KotlinAPI
 import yelm.io.avestal.rest.RestAPI
