@@ -9,7 +9,6 @@ class UserInfoModel() : ViewModel() {
 
    private var userInfo: MutableLiveData<UserInfo> = MutableLiveData<UserInfo>()
 
-
     fun setUserInfo(userInfo: UserInfo) {
         this.userInfo.value = userInfo
     }

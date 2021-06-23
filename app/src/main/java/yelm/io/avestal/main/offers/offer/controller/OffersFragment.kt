@@ -1,6 +1,7 @@
 package yelm.io.avestal.main.offers.offer.controller
 
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -20,16 +21,19 @@ import yelm.io.avestal.R
 import yelm.io.avestal.app_settings.SharedPreferencesSetting
 import yelm.io.avestal.databinding.FragmentOffersBinding
 import yelm.io.avestal.main.host.AppActivity
+import yelm.io.avestal.main.host.AppHost
 import yelm.io.avestal.main.offers.offer.adapter.OffersAdapter
 import yelm.io.avestal.rest.RestAPI
 import yelm.io.avestal.rest.RetrofitClient
-import yelm.io.avestal.rest.responses.Offer
-import yelm.io.avestal.rest.responses.OfferData
+import yelm.io.avestal.rest.responses.service.Service
+import yelm.io.avestal.rest.responses.service.ServiceData
+import java.lang.RuntimeException
 
 class OffersFragment : Fragment() {
 
     private var binding: FragmentOffersBinding? = null
     private var adapter: OffersAdapter? = null
+    private var appHost: AppHost? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,15 +59,25 @@ class OffersFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding?.searchOffer?.addTextChangedListener {
+            adapter?.filter?.filter(it)
+            binding?.recyclerOffers?.scrollToPosition(0)
+        }
+        getOffers()
+
+    }
+
+
+    private fun getOffers() {
         setOffersSize(0)
         showLoading()
         RetrofitClient.getClient(RestAPI.URL_API_MAIN)
             .create(RestAPI::class.java)
-            .getOrders("Bearer ${SharedPreferencesSetting.getDataString(SharedPreferencesSetting.BEARER_TOKEN)}")
-            .enqueue(object : Callback<Offer?> {
+            .getServices("Bearer ${SharedPreferencesSetting.getDataString(SharedPreferencesSetting.BEARER_TOKEN)}")
+            .enqueue(object : Callback<Service?> {
                 override fun onResponse(
-                    call: Call<Offer?>,
-                    response: Response<Offer?>
+                    call: Call<Service?>,
+                    response: Response<Service?>
                 ) {
                     hideLoading()
                     Logging.logDebug("response.code(): ${response.code()}")
@@ -73,27 +87,33 @@ class OffersFragment : Fragment() {
                     }
                 }
 
-                override fun onFailure(call: Call<Offer?>, t: Throwable) {
+                override fun onFailure(call: Call<Service?>, t: Throwable) {
                     Logging.logDebug("onFailure: ${t.message}")
                     hideLoading()
                 }
             })
-
-        binding?.searchOffer?.addTextChangedListener {
-            adapter?.filter?.filter(it)
-            binding?.recyclerOffers?.scrollToPosition(0)
-        }
     }
 
-    private fun initAdapter(offers: List<OfferData>) {
-        Logging.logDebug("offers size: ${offers.size}")
-        adapter = OffersAdapter(offers, requireContext())
+
+    override fun onResume() {
+        super.onResume()
+
+    }
+
+    private fun initAdapter(services: List<ServiceData>) {
+        Logging.logDebug("offers size: ${services.size}")
+        adapter = OffersAdapter(services, requireContext())
         adapter?.setListener(object : OffersAdapter.Listener {
-            override fun orderPressed(offerData: OfferData) {
-                //TODO make variants: showDialogNewOrder() or start Intent
+            override fun orderPressed(serviceData: ServiceData) {
+
+                //TODO return check
+                //if (appHost?.isVerified() == true){
                 val intent = Intent(requireContext(), OfferActivity::class.java)
-                intent.putExtra(OfferData::class.java.name, offerData)
+                intent.putExtra(ServiceData::class.java.name, serviceData)
                 requireContext().startActivity(intent)
+//                }else{
+//                    showDialogNewOrder()
+//                }
             }
         })
         adapter?.setOffersSizeListener(object : OffersAdapter.OffersSizeListener {
@@ -148,5 +168,19 @@ class OffersFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (activity is AppHost) {
+            appHost = activity as AppHost
+        } else {
+            throw RuntimeException(activity.toString() + " must implement AppHost interface")
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        appHost = null
     }
 }

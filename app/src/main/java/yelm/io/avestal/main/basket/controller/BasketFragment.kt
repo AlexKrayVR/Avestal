@@ -6,15 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.DiffUtil
 import yelm.io.avestal.Logging
 import yelm.io.avestal.database.BasketItem
 import yelm.io.avestal.database.BasketItemModelFactory
 import yelm.io.avestal.database.BasketItemViewModel
 import yelm.io.avestal.databinding.FragmentBasketBinding
-import yelm.io.avestal.main.basket.DiffCallback
 import yelm.io.avestal.main.basket.adapter.BasketAdapter
-import yelm.io.avestal.main.host.MainAppHost
+import yelm.io.avestal.main.host.AppHost
+import java.lang.RuntimeException
 import java.util.*
 
 
@@ -22,7 +21,7 @@ class BasketFragment : Fragment() {
 
     private lateinit var basketItemViewModel: BasketItemViewModel
     private var binding: FragmentBasketBinding? = null
-    private var mainAppHost: MainAppHost? = null
+    private var appHost: AppHost? = null
     private lateinit var basketAdapter: BasketAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -36,7 +35,7 @@ class BasketFragment : Fragment() {
 
     private fun initViewModel() {
         basketItemViewModel =
-            BasketItemModelFactory(mainAppHost?.getDBRepository()!!)
+            BasketItemModelFactory(appHost?.getDBRepository()!!)
                 .create(BasketItemViewModel::class.java)
 
         basketItemViewModel.allItems.observe(requireActivity(), { items ->
@@ -55,21 +54,21 @@ class BasketFragment : Fragment() {
                 for (item in it) {
                     Logging.logDebug("itemID: ${item.itemID}, count: ${item.count}")
                 }
-                mainAppHost?.setBadges(it.size)
+                appHost?.setBadges(it.size)
             }
         })
     }
 
 
     private fun initActions() {
-        binding?.button?.setOnClickListener {
-            val basketItem1 = BasketItem(0, "3", "name", 1)
-            val basketItem2 = BasketItem(0, "4", "name", 2)
-            val basketItem3 = BasketItem(0, "5", "name", 3)
-            basketItemViewModel.insert(basketItem1)
-            basketItemViewModel.insert(basketItem2)
-            basketItemViewModel.insert(basketItem3)
-        }
+//        binding?.button?.setOnClickListener {
+//            val basketItem1 = BasketItem(0, "3", "name", 1)
+//            val basketItem2 = BasketItem(0, "4", "name", 2)
+//            val basketItem3 = BasketItem(0, "5", "name", 3)
+//            basketItemViewModel.insert(basketItem1)
+//            basketItemViewModel.insert(basketItem2)
+//            basketItemViewModel.insert(basketItem3)
+//        }
 
         binding?.clean?.setOnClickListener {
             basketItemViewModel.deleteAll()
@@ -115,11 +114,15 @@ class BasketFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        mainAppHost = activity as MainAppHost
+        if (activity is AppHost) {
+            appHost = activity as AppHost
+        } else {
+            throw RuntimeException(activity.toString() + " must implement AppHost interface")
+        }
     }
 
     override fun onDetach() {
         super.onDetach()
-        mainAppHost = null
+        appHost = null
     }
 }

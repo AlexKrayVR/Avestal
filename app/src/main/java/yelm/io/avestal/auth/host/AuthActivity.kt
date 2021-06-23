@@ -49,8 +49,8 @@ class AuthActivity : AppCompatActivity(), HostAuth {
         SharedPreferencesSetting.initSharedPreferencesSettings(this)
 
         //todo test
-        openFullNameFragment()
-        //checkUser()
+            //openFullNameFragment()
+        checkUser()
     }
 
     /**

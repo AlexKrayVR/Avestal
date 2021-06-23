@@ -129,6 +129,10 @@
 
     <!--TotalActivity -->
     <string name="applyFor">Откликнуться за</string>
+    <string name="nameItemTitle">Наименование</string>
+    <string name="itemAmountTitle">Кол-во</string>
+    <string name="itemPriceTitle">Сумма</string>
+    <string name="responseSent">Отклик отправлен, ждите ответа в ближайшее время</string>
 
 
 

@@ -1,9 +1,9 @@
-package yelm.io.avestal.rest.responses
+package yelm.io.avestal.rest.responses.service
 
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-data class OfferData (
+data class ServiceData (
 
     @SerializedName("id") var id : String,
     @SerializedName("title") var title : String,
@@ -13,7 +13,7 @@ data class OfferData (
     @SerializedName("geolocation") var geolocation : List<Double>,
     @SerializedName("images") var images : List<String>,
     @SerializedName("files") var files : List<String>,
-    @SerializedName("items") var items : List<String>,
+    @SerializedName("items") var items : List<ServiceItem>,
     @SerializedName("user_id") var userId : String,
     @SerializedName("created_at") var createdAt : String,
     @SerializedName("updated_at") var updatedAt : String,

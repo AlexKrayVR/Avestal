@@ -12,7 +12,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import yelm.io.avestal.Logging
 import yelm.io.avestal.R
-import yelm.io.avestal.auth.model.UserViewModel
 import yelm.io.avestal.database.BasketItemModelFactory
 import yelm.io.avestal.database.BasketItemViewModel
 import yelm.io.avestal.database.BasketRepository
@@ -21,7 +20,7 @@ import yelm.io.avestal.databinding.ActivityAppBinding
 import yelm.io.avestal.main.model.UserInfoModel
 import yelm.io.avestal.rest.responses.UserInfo
 
-class AppActivity : AppCompatActivity(), MainAppHost {
+class AppActivity : AppCompatActivity(), AppHost {
 
     private lateinit var binding: ActivityAppBinding
     private lateinit var badges: BadgeDrawable
@@ -59,7 +58,10 @@ class AppActivity : AppCompatActivity(), MainAppHost {
 
         initNavigation()
         initBadges()
+    }
 
+    override fun isVerified(): Boolean {
+        return viewModel.getUserInfo()?.isVerified == true
     }
 
     private fun initNavigation() {
@@ -87,6 +89,4 @@ class AppActivity : AppCompatActivity(), MainAppHost {
     override fun getDBRepository(): BasketRepository {
         return repository
     }
-
-
 }

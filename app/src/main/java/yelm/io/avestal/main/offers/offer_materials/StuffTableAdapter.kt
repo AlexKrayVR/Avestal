@@ -7,37 +7,75 @@ import androidx.recyclerview.widget.RecyclerView
 import yelm.io.avestal.R
 import yelm.io.avestal.common.priceFormat
 import yelm.io.avestal.databinding.ItemStuffTableBinding
-import yelm.io.avestal.main.offers.offer_materials.mode.Stuff
+import yelm.io.avestal.databinding.ItemStuffTableTitleBinding
+import yelm.io.avestal.rest.responses.service.ServiceItem
 
-class StuffTableAdapter(private var items: List<Stuff>, var context: Context) :
-    RecyclerView.Adapter<StuffTableAdapter.StuffTableItemViewHolder>() {
+class StuffTableAdapter(private var items: List<ServiceItem>, var context: Context) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    private val TYPE_ITEM = 0
+    private val TYPE_HEADER = 1
+
+    fun getData(): List<ServiceItem> {
+        return items
+    }
 
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): StuffTableItemViewHolder {
-        val binding = ItemStuffTableBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return StuffTableItemViewHolder(binding)
+    ): RecyclerView.ViewHolder {
+        return if (viewType == TYPE_ITEM) {
+            val binding =
+                ItemStuffTableBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemViewHolder(binding)
+        } else {
+            val binding =
+                ItemStuffTableTitleBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
+            HeaderViewHolder(binding)
+        }
     }
 
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
-    override fun onBindViewHolder(holder: StuffTableItemViewHolder, position: Int) {
-        val current = items[position]
-        holder.binding.count.text = current.count.toString()
-        holder.binding.name.text = current.name
+        if (holder is ItemViewHolder) {
+            val current = items[position - 1]
+            holder.binding.count.text = current.quantity.toString()
+            holder.binding.name.text = current.description
 
-        val formattedPrice = priceFormat.format(current.price.toDouble())
-        (formattedPrice + " " +
-                context.getString(R.string.ruble)).also { holder.binding.price.text = it }
+            val formattedPrice = priceFormat.format(current.price.toDouble())
+            (formattedPrice + " " +
+                    context.getString(R.string.ruble)).also { holder.binding.price.text = it }
+        }
+        if (holder is HeaderViewHolder) {
+
+        }
+
+
     }
 
     override fun getItemCount(): Int {
-        return items.size
+        return items.size + 1
     }
 
-    class StuffTableItemViewHolder(var binding: ItemStuffTableBinding) :
+    class ItemViewHolder(var binding: ItemStuffTableBinding) :
         RecyclerView.ViewHolder(binding.root) {
     }
+
+    class HeaderViewHolder(binding: ItemStuffTableTitleBinding) :
+        RecyclerView.ViewHolder(binding.root)
+
+    override fun getItemViewType(position: Int): Int {
+        return if (position == 0) {
+            TYPE_HEADER
+        } else {
+            TYPE_ITEM
+        }
+    }
+
+
 }

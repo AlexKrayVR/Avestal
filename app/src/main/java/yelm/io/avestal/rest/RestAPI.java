@@ -11,12 +11,21 @@ import retrofit2.http.Header;
 import retrofit2.http.POST;
 import yelm.io.avestal.rest.responses.AccessToken;
 import yelm.io.avestal.rest.responses.AuthResponse;
-import yelm.io.avestal.rest.responses.Offer;
+import yelm.io.avestal.rest.responses.service.Service;
 import yelm.io.avestal.rest.responses.UserInfo;
 
 public interface RestAPI {
 
     String URL_API_MAIN = "https://api.avestal.ru/api/";
+
+
+    @FormUrlEncoded
+    @POST("response?")
+    Call<ResponseBody> response(
+            @Header("Authorization") String authHeader,
+            @Field("service_id") String id
+    );
+
 
     @FormUrlEncoded
     @POST("code?")
@@ -25,7 +34,7 @@ public interface RestAPI {
     );
 
     @GET("services?")
-    Call<Offer> getOrders(
+    Call<Service> getServices(
             @Header("Authorization") String authHeader
     );
 

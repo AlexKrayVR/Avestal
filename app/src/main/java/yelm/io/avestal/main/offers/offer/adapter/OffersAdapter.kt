@@ -13,20 +13,20 @@ import yelm.io.avestal.R
 import yelm.io.avestal.common.serverFormatterDate
 import yelm.io.avestal.common.printedFormatterDate
 import yelm.io.avestal.databinding.ItemOfferBinding
-import yelm.io.avestal.rest.responses.OfferData
+import yelm.io.avestal.rest.responses.service.ServiceData
 import java.text.DecimalFormat
 import java.text.ParseException
 import java.util.*
 
-class OffersAdapter(private var offers: List<OfferData>, var context: Context) :
+class OffersAdapter(private var services: List<ServiceData>, var context: Context) :
     RecyclerView.Adapter<OffersAdapter.OfferItemViewHolder>(), Filterable {
 
-    var offersSort = offers.toMutableList()
+    var offersSort = services.toMutableList()
 
     private var listener: Listener? = null
 
     interface Listener {
-        fun orderPressed(offerData: OfferData)
+        fun orderPressed(serviceData: ServiceData)
     }
 
     fun setListener(listener: Listener?) {
@@ -57,30 +57,29 @@ class OffersAdapter(private var offers: List<OfferData>, var context: Context) :
         initActions(holder, offersSort[position])
     }
 
-    private fun initViews(holder: OfferItemViewHolder, offerData: OfferData) {
-        holder.binding.offerTitle.text = offerData.title
-        holder.binding.city.text = offerData.address
-        val formattedPrice = DecimalFormat("###,###").format(offerData.price.toDouble())
+    private fun initViews(holder: OfferItemViewHolder, serviceData: ServiceData) {
+        holder.binding.offerTitle.text = serviceData.title
+        holder.binding.city.text = serviceData.address
+        val formattedPrice = DecimalFormat("###,###").format(serviceData.price.toDouble())
         (context.getString(R.string.before) + " " + formattedPrice + " " +
                 context.getString(R.string.ruble)).also { holder.binding.price.text = it }
 
-        fillStars(holder.binding.layoutStars, offerData.rating.toInt())
+        fillStars(holder.binding.layoutStars, serviceData.rating.toInt())
 
         val currentCalendar = GregorianCalendar.getInstance()
         try {
             currentCalendar.time =
-                Objects.requireNonNull(serverFormatterDate.parse(offerData.updatedAt))
+                Objects.requireNonNull(serverFormatterDate.parse(serviceData.updatedAt))
         } catch (e: ParseException) {
             e.printStackTrace()
         }
         holder.binding.date.text = printedFormatterDate.format(currentCalendar.time)
     }
 
-    private fun initActions(holder: OfferItemViewHolder, offerData: OfferData) {
+    private fun initActions(holder: OfferItemViewHolder, serviceData: ServiceData) {
         holder.binding.root.setOnClickListener {
-            listener?.orderPressed(offerData)
+            listener?.orderPressed(serviceData)
         }
-
     }
 
     private fun fillStars(layout: LinearLayout, count: Int) {
@@ -133,7 +132,6 @@ class OffersAdapter(private var offers: List<OfferData>, var context: Context) :
         }
     }
 
-
     override fun getItemCount(): Int {
         return offersSort.size
     }
@@ -145,11 +143,11 @@ class OffersAdapter(private var offers: List<OfferData>, var context: Context) :
         return object : Filter() {
             //run back
             override fun performFiltering(charSequence: CharSequence): FilterResults {
-                val filtered: MutableList<OfferData> = mutableListOf()
+                val filtered: MutableList<ServiceData> = mutableListOf()
                 if (charSequence.toString().isEmpty()) {
-                    filtered.addAll(offers)
+                    filtered.addAll(services)
                 } else {
-                    for (offer in offers) {
+                    for (offer in services) {
                         val search = charSequence.toString().lowercase(Locale.ROOT)
                         if (offer.text.lowercase(Locale.ROOT)
                                 .contains(search) ||
@@ -170,7 +168,7 @@ class OffersAdapter(private var offers: List<OfferData>, var context: Context) :
 
             //run ui
             override fun publishResults(charSequence: CharSequence, filterResults: FilterResults) {
-                offersSort = filterResults.values as MutableList<OfferData>
+                offersSort = filterResults.values as MutableList<ServiceData>
                 offersSizeListener?.offersSize(offersSort.size)
                 notifyDataSetChanged()
             }

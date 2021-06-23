@@ -10,22 +10,18 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import yelm.io.avestal.Logging
 import yelm.io.avestal.R
 import yelm.io.avestal.common.priceFormat
-import yelm.io.avestal.database.BasketItem
-import yelm.io.avestal.databinding.ItemBasketBinding
 import yelm.io.avestal.databinding.ItemStuffBinding
-import yelm.io.avestal.main.offers.offer_materials.mode.Stuff
-import java.text.DecimalFormat
+import yelm.io.avestal.rest.responses.service.ServiceItem
+import java.math.BigDecimal
 import java.util.*
 
-class StuffAdapter(private var items: List<Stuff>, var context: Context) :
+class StuffAdapter(private var items: MutableList<ServiceItem>, var context: Context) :
     RecyclerView.Adapter<StuffAdapter.StuffItemViewHolder>() {
 
     private var listener: Listener? = null
 
     interface Listener {
-        fun increase(itemID: String)
-        fun reduce(itemID: String)
-        fun deleteByID(itemID: String)
+        fun changed()
     }
 
     fun setListener(listener: Listener?) {
@@ -40,7 +36,7 @@ class StuffAdapter(private var items: List<Stuff>, var context: Context) :
         return StuffItemViewHolder(binding)
     }
 
-    fun setData(items: ArrayList<Stuff>) {
+    fun setData(items: ArrayList<ServiceItem>) {
         this.items = items
         //notifyDataSetChanged()
     }
@@ -59,38 +55,53 @@ class StuffAdapter(private var items: List<Stuff>, var context: Context) :
             )
             .into(holder.binding.image)
 
-        holder.binding.count.text = current.count.toString()
-        holder.binding.name.text = current.name
+        holder.binding.count.text = current.quantity
+        holder.binding.name.text = current.description
 
         val formattedPrice = priceFormat.format(current.price.toDouble())
-        (context.getString(R.string.before) + " " + formattedPrice + " " +
+        (formattedPrice + " " +
                 context.getString(R.string.ruble)).also { holder.binding.price.text = it }
 
 
         holder.binding.reduce.setOnClickListener {
-            if (current.count == 1) {
-                //notifyItemRemoved(position);
-                //notifyItemRangeChanged(position, favorites.size());
-                listener?.deleteByID(current.itemID)
-            } else {
-                listener?.reduce(current.itemID)
-            }
+            reduceItemQuantity(position)
         }
 
         holder.binding.increase.setOnClickListener {
-            listener?.increase(current.itemID)
+            addItemQuantity(position)
         }
+    }
+
+    private fun addItemQuantity(position: Int) {
+        items[position].quantity = BigDecimal(items[position].quantity).add(BigDecimal("1")).toString()
+        //notifyItemChanged(position)
+        notifyDataSetChanged()
+        listener?.changed()
+    }
+
+    private fun reduceItemQuantity(position: Int) {
+
+        if (items[position].quantity == "1") {
+            items.removeAt(position)
+            //notifyItemRemoved(position);
+            //notifyItemRangeChanged(position, items.size);
+        }else{
+            items[position].quantity = BigDecimal(items[position].quantity).subtract(BigDecimal("1")).toString()
+            //notifyItemChanged(position)
+        }
+        notifyDataSetChanged()
+
+        listener?.changed()
     }
 
     override fun getItemCount(): Int {
         return items.size
     }
 
-    fun getData(): List<Stuff> {
+    fun getData(): List<ServiceItem> {
         return items
     }
 
     class StuffItemViewHolder(var binding: ItemStuffBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-    }
+        RecyclerView.ViewHolder(binding.root)
 }
