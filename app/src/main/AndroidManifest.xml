@@ -19,23 +19,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Avestal"
         tools:ignore="LockedOrientationActivity">
-        <activity android:name=".main.offers.offer_materials.TotalActivity" android:screenOrientation="portrait">
-
-
-
-        </activity>
-
-
-
         <activity
-            android:name=".main.offers.offer_materials.ChooseMaterialActivity"
-            android:screenOrientation="portrait">
-
-        </activity>
-        <activity android:name=".order.OrderActivity" />
-        <activity
-            android:name=".main.offers.offer.controller.OfferActivity"
+            android:name=".main.services.service.host.ServiceHostActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".main.user.settings.ActivitySettings"
             android:screenOrientation="portrait" />
@@ -64,13 +51,11 @@
             android:name=".auth.host.AuthActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
     </application>
 

@@ -1,3 +1,3 @@
-package yelm.io.avestal.main.offers.offer.model
+package yelm.io.avestal.main.services
 
 data class OfferDetails (var item: String, var value: String)

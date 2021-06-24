@@ -1,4 +1,4 @@
-package yelm.io.avestal.main.offers.offer.adapter
+package yelm.io.avestal.main.services.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -18,8 +18,8 @@ import java.text.DecimalFormat
 import java.text.ParseException
 import java.util.*
 
-class OffersAdapter(private var services: List<ServiceData>, var context: Context) :
-    RecyclerView.Adapter<OffersAdapter.OfferItemViewHolder>(), Filterable {
+class ServicesAdapter(private var services: MutableList<ServiceData>, var context: Context) :
+    RecyclerView.Adapter<ServicesAdapter.OfferItemViewHolder>(), Filterable {
 
     var offersSort = services.toMutableList()
 
@@ -32,6 +32,12 @@ class OffersAdapter(private var services: List<ServiceData>, var context: Contex
     fun setListener(listener: Listener?) {
         this.listener = listener
     }
+
+    fun clear(){
+        offersSort.clear()
+        notifyDataSetChanged()
+    }
+
 
     private var offersSizeListener: OffersSizeListener? = null
 

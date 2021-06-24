@@ -4,8 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root"
     android:layout_width="match_parent"
+    android:background="@color/white"
+    android:clickable="true"
+    android:focusable="true"
     android:layout_height="match_parent"
-    tools:context=".main.offers.offer_materials.TotalActivity">
+    >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintTitle"
@@ -13,11 +16,10 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/white"
 
-        android:elevation="4dp"
+        android:elevation="2dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:context=".main.offers.offer.controller.OfferActivity">
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/back"
@@ -82,6 +84,17 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:itemCount="2"
                 tools:listitem="@layout/item_stuff_table" />
+
+            <TextView
+                android:id="@+id/materialsCost"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16sp"
+                android:gravity="end"
+                android:textSize="16sp"
+                android:theme="@style/TextStyleRegular"
+                tools:text="Material costs : 2000" />
 
 
         </LinearLayout>

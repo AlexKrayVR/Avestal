@@ -1,43 +1,65 @@
-package yelm.io.avestal.main.offers.offer_materials
+package yelm.io.avestal.main.services.service.fragments
 
-import android.content.Intent
+import android.content.Context
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import kotlinx.coroutines.*
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import yelm.io.avestal.Logging
 import yelm.io.avestal.R
 import yelm.io.avestal.common.priceFormat
-import yelm.io.avestal.databinding.ActivityChooseMaterialBinding
+import yelm.io.avestal.databinding.FragmentServiceMaterialsBinding
+import yelm.io.avestal.main.services.service.common.DataWrapper
+import yelm.io.avestal.main.services.service.host.HostService
+import yelm.io.avestal.main.services.service.adapters.StuffAdapter
 import yelm.io.avestal.rest.responses.service.ServiceData
 import yelm.io.avestal.rest.responses.service.ServiceItem
+import java.lang.RuntimeException
 import java.math.BigDecimal
 
-class ChooseMaterialActivity : AppCompatActivity() {
-    lateinit var binding: ActivityChooseMaterialBinding
+
+class ServiceMaterialsFragment : Fragment() {
+    private lateinit var serviceData: ServiceData
+    private var _binding: FragmentServiceMaterialsBinding? = null
+    private val binding get() = _binding!!
+    private var hostService: HostService? = null
 
     lateinit var adapterMaterials: StuffAdapter
     lateinit var adapterInstruments: StuffAdapter
-lateinit var service: ServiceData
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityChooseMaterialBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        arguments?.let {
+            serviceData = it.get(ServiceData::class.java.name) as ServiceData
+        }
+    }
 
-        service = intent.extras?.get(ServiceData::class.java.name) as ServiceData
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = FragmentServiceMaterialsBinding.inflate(inflater, container, false)
+        return _binding?.root
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initAdapter()
 
         binding.totalPrice.setOnClickListener {
             val items = adapterMaterials.getData() as MutableList
             items.addAll(adapterInstruments.getData())
-            val intent = Intent(this@ChooseMaterialActivity, TotalActivity::class.java)
-            intent.putExtra("items", DataWrapper(items))
-            intent.putExtra("id", service.id)
-            startActivity(intent)
+
+            hostService?.openServiceTotal(serviceData.id, DataWrapper(items))
+
         }
 
         binding.back.setOnClickListener {
-            finish()
+            hostService?.back()
         }
 
         getTotalPrice()
@@ -45,16 +67,14 @@ lateinit var service: ServiceData
     }
 
     private fun initAdapter() {
-
-        adapterMaterials = StuffAdapter(service.items.filter { it.statusMaterial == "1" }
-                as MutableList<ServiceItem>, this)
+        adapterMaterials = StuffAdapter(serviceData.items.filter { it.statusMaterial == "1" }
+                as MutableList<ServiceItem>, requireContext())
         adapterInstruments =
-            StuffAdapter(service.items.filter { it.statusMaterial == "2" } as MutableList<ServiceItem>,
-                this)
+            StuffAdapter(serviceData.items.filter { it.statusMaterial == "2" } as MutableList<ServiceItem>,
+                requireContext())
 
         binding.recyclerInstrumentlRent.adapter = adapterInstruments
         binding.recyclerPurchaseOfMaterials.adapter = adapterMaterials
-
 
         adapterMaterials.setListener(object : StuffAdapter.Listener {
             override fun changed() {
@@ -67,9 +87,7 @@ lateinit var service: ServiceData
                 getTotalPrice()
             }
         })
-
     }
-
 
     private fun getTotalPrice() {
         CoroutineScope(Dispatchers.IO).launch {
@@ -107,4 +125,35 @@ lateinit var service: ServiceData
 
         return price
     }
+
+
+    companion object {
+        @JvmStatic
+        fun newInstance(serviceData: ServiceData) =
+            ServiceMaterialsFragment().apply {
+                arguments = Bundle().apply {
+                    putSerializable(ServiceData::class.java.name, serviceData)
+                }
+            }
+    }
+
+    override fun onDestroyView() {
+        _binding = null
+        super.onDestroyView()
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (activity is HostService) {
+            hostService = activity as HostService
+        } else {
+            throw RuntimeException(activity.toString() + " must implement HostService interface")
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        hostService = null
+    }
+
 }

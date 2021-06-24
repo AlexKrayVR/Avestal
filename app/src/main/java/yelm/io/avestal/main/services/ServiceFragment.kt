@@ -1,4 +1,4 @@
-package yelm.io.avestal.main.offers.offer.controller
+package yelm.io.avestal.main.services
 
 import android.app.AlertDialog
 import android.content.Context
@@ -22,17 +22,18 @@ import yelm.io.avestal.app_settings.SharedPreferencesSetting
 import yelm.io.avestal.databinding.FragmentOffersBinding
 import yelm.io.avestal.main.host.AppActivity
 import yelm.io.avestal.main.host.AppHost
-import yelm.io.avestal.main.offers.offer.adapter.OffersAdapter
+import yelm.io.avestal.main.services.adapters.ServicesAdapter
+import yelm.io.avestal.main.services.service.host.ServiceHostActivity
 import yelm.io.avestal.rest.RestAPI
 import yelm.io.avestal.rest.RetrofitClient
 import yelm.io.avestal.rest.responses.service.Service
 import yelm.io.avestal.rest.responses.service.ServiceData
 import java.lang.RuntimeException
 
-class OffersFragment : Fragment() {
+class ServiceFragment : Fragment() {
 
     private var binding: FragmentOffersBinding? = null
-    private var adapter: OffersAdapter? = null
+    private var adapter: ServicesAdapter? = null
     private var appHost: AppHost? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,12 +64,10 @@ class OffersFragment : Fragment() {
             adapter?.filter?.filter(it)
             binding?.recyclerOffers?.scrollToPosition(0)
         }
-        getOffers()
-
     }
 
-
     private fun getOffers() {
+        adapter?.clear()
         setOffersSize(0)
         showLoading()
         RetrofitClient.getClient(RestAPI.URL_API_MAIN)
@@ -95,20 +94,24 @@ class OffersFragment : Fragment() {
     }
 
 
+    override fun onStart() {
+        super.onStart()
+        getOffers()
+    }
+
     override fun onResume() {
         super.onResume()
-
     }
 
     private fun initAdapter(services: List<ServiceData>) {
         Logging.logDebug("offers size: ${services.size}")
-        adapter = OffersAdapter(services, requireContext())
-        adapter?.setListener(object : OffersAdapter.Listener {
+        adapter = ServicesAdapter(services as MutableList<ServiceData>, requireContext())
+        adapter?.setListener(object : ServicesAdapter.Listener {
             override fun orderPressed(serviceData: ServiceData) {
 
                 //TODO return check
                 //if (appHost?.isVerified() == true){
-                val intent = Intent(requireContext(), OfferActivity::class.java)
+                val intent = Intent(requireContext(), ServiceHostActivity::class.java)
                 intent.putExtra(ServiceData::class.java.name, serviceData)
                 requireContext().startActivity(intent)
 //                }else{
@@ -116,7 +119,7 @@ class OffersFragment : Fragment() {
 //                }
             }
         })
-        adapter?.setOffersSizeListener(object : OffersAdapter.OffersSizeListener {
+        adapter?.setOffersSizeListener(object : ServicesAdapter.OffersSizeListener {
             override fun offersSize(offersSize: Int) {
                 setOffersSize(offersSize)
             }
@@ -158,7 +161,7 @@ class OffersFragment : Fragment() {
     companion object {
         @JvmStatic
         fun newInstance() =
-            OffersFragment().apply {
+            ServiceFragment().apply {
                 arguments = Bundle().apply {
 
                 }

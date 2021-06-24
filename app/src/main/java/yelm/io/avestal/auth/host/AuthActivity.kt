@@ -29,7 +29,6 @@ import yelm.io.avestal.rest.responses.AccessToken
 import yelm.io.avestal.rest.responses.AuthResponse
 import yelm.io.avestal.rest.responses.UserInfo
 
-
 class AuthActivity : AppCompatActivity(), HostAuth {
     private lateinit var binding: RegVerActivityBinding
 
@@ -192,6 +191,8 @@ class AuthActivity : AppCompatActivity(), HostAuth {
 
     override fun onBackPressed() {
         val fragmentList = supportFragmentManager.fragments
+        Logging.logDebug("size: ${fragmentList.size}")
+
         if (fragmentList.size == 1) {
             finish()
         }

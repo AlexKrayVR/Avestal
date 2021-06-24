@@ -1,4 +1,4 @@
-package yelm.io.avestal.main.offers.offer_materials
+package yelm.io.avestal.main.services.service.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import yelm.io.avestal.Logging
 import yelm.io.avestal.R
 import yelm.io.avestal.common.priceFormat
 import yelm.io.avestal.databinding.ItemStuffBinding
@@ -46,7 +45,7 @@ class StuffAdapter(private var items: MutableList<ServiceItem>, var context: Con
         val current = items[position]
 
         Glide.with(context)
-            .load("https://img3.goodfon.ru/original/1152x864/f/dc/cvet-pyatno-relef-kraski-4336.jpg")
+            .load(current.images[0])
             .transform(
                 CenterCrop(), RoundedCorners(
                     context.resources.getDimension(R.dimen.dimens_16dp)
@@ -73,7 +72,8 @@ class StuffAdapter(private var items: MutableList<ServiceItem>, var context: Con
     }
 
     private fun addItemQuantity(position: Int) {
-        items[position].quantity = BigDecimal(items[position].quantity).add(BigDecimal("1")).toString()
+        items[position].quantity =
+            BigDecimal(items[position].quantity).add(BigDecimal("1")).toString()
         //notifyItemChanged(position)
         notifyDataSetChanged()
         listener?.changed()
@@ -85,8 +85,9 @@ class StuffAdapter(private var items: MutableList<ServiceItem>, var context: Con
             items.removeAt(position)
             //notifyItemRemoved(position);
             //notifyItemRangeChanged(position, items.size);
-        }else{
-            items[position].quantity = BigDecimal(items[position].quantity).subtract(BigDecimal("1")).toString()
+        } else {
+            items[position].quantity =
+                BigDecimal(items[position].quantity).subtract(BigDecimal("1")).toString()
             //notifyItemChanged(position)
         }
         notifyDataSetChanged()

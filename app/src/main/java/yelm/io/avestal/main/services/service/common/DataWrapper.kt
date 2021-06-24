@@ -1,4 +1,4 @@
-package yelm.io.avestal.main.offers.offer_materials
+package yelm.io.avestal.main.services.service.common
 
 import yelm.io.avestal.rest.responses.service.ServiceItem
 import java.io.Serializable

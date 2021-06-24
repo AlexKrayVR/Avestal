@@ -83,6 +83,12 @@
     <string name="user">user</string>
     <string name="responses">responses</string>
 
+    <!--ResponsesFragment -->
+    <string name="myResponses">Мои отклики</string>
+
+
+
+
     <!--BasketFragment -->
     <string name="basket">Корзина</string>
     <string name="clearBasket">Очистить</string>
@@ -110,7 +116,7 @@
     <string name="photoReady">Готово</string>
     <string name="photoIsEmpty">Прикрепите фотографию профиля</string>
 
-    <!--OffersFragment -->
+    <!--ServiceFragment -->
     <string name="fromQuestionnaire">По услугам из анкеты</string>
     <string name="searchOffers">Поиск заказа</string>
     <string name="before">до</string>
@@ -119,7 +125,7 @@
     <string name="beforeTakeOrderVerifyPersonality">Извините, вы пока не можете выбрать этот заказ, вам необходимо подтвердить личность</string>
 
 
-    <!--ChooseMaterialActivity -->
+    <!--FragmentServiceMaterials -->
     <string name="chooseMaterial">Выбрать материалы</string>
     <string name="youNeedIt">Вам это понадобится</string>
     <string name="chooseOn">Выбрать на</string>
@@ -127,16 +133,13 @@
     <string name="purchaseOfMaterials">Покупка материалов</string>
     <string name="chooseMaterialDescription">Здесь подобраны материалы, которые могут понадобится для выполнения этого заказа. При необходимости нажмите “ + ” чтобы добавить материал/инструмент, или “ - ” если материал вам не понадобится или вы имеете свой. Затраты вычитаются из указанной суммы.</string>
 
-    <!--TotalActivity -->
+    <!--FragmentServiceTotal -->
     <string name="applyFor">Откликнуться за</string>
     <string name="nameItemTitle">Наименование</string>
     <string name="itemAmountTitle">Кол-во</string>
     <string name="itemPriceTitle">Сумма</string>
+    <string name="materialsCost">Затраты на материалы:</string>
     <string name="responseSent">Отклик отправлен, ждите ответа в ближайшее время</string>
-
-
-
-
 
     <!--SettingsActivity -->
     <string name="settingsTitle">Настройки</string>
@@ -161,7 +164,6 @@
     <string name="settingsMailSaved">Электронная почта сохранена</string>
     <string name="settingsMailDoesNotExist">Данная электронная почта не существует</string>
 
-    <string name="internal_storage">Internal storage</string>
 
     <!--OfferActivity -->
     <string name="offerDescription">Описание</string>
@@ -170,8 +172,10 @@
     <string name="offerRespond">Откликнуться</string>
     <string name="offerPriceIncludingMaterial">сумма с учетом\nматериалов</string>
 
-
+    <!--Common -->
+    <string name="internal_storage">Internal storage</string>
     <string name="serverError">Ошиба соединения с сервером, повторите попытку позже</string>
+
 
 
 </resources>

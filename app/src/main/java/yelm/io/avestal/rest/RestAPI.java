@@ -2,6 +2,8 @@ package yelm.io.avestal.rest;
 
 import org.json.JSONObject;
 
+import java.util.List;
+
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -13,6 +15,7 @@ import yelm.io.avestal.rest.responses.AccessToken;
 import yelm.io.avestal.rest.responses.AuthResponse;
 import yelm.io.avestal.rest.responses.service.Service;
 import yelm.io.avestal.rest.responses.UserInfo;
+import yelm.io.avestal.rest.responses.user_responses.UserResponse;
 
 public interface RestAPI {
 
@@ -24,6 +27,12 @@ public interface RestAPI {
     Call<ResponseBody> response(
             @Header("Authorization") String authHeader,
             @Field("service_id") String id
+    );
+
+
+    @GET("responses?")
+    Call<List<UserResponse>> getResponses(
+            @Header("Authorization") String authHeader
     );
 
 

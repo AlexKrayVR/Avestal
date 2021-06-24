@@ -1,12 +1,16 @@
-package yelm.io.avestal.main.offers.offer.controller
+package yelm.io.avestal.main.services.service.fragments
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.PointF
 import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
@@ -20,42 +24,56 @@ import yelm.io.avestal.common.ItemOffsetDecoration
 import yelm.io.avestal.common.priceFormat
 import yelm.io.avestal.common.printedFormatterDateOfferActivity
 import yelm.io.avestal.common.serverFormatterDate
-import yelm.io.avestal.databinding.ActivityOfferBinding
-import yelm.io.avestal.main.offers.offer.adapter.OfferImagesAdapter
-import yelm.io.avestal.main.offers.offer_materials.ChooseMaterialActivity
+import yelm.io.avestal.databinding.FragmentServiceInfoBinding
+import yelm.io.avestal.main.services.service.host.HostService
+import yelm.io.avestal.main.services.service.adapters.OfferImagesAdapter
 import yelm.io.avestal.rest.responses.service.ServiceData
+import java.lang.RuntimeException
 import java.text.ParseException
 import java.util.*
 
+class ServiceInfoFragment : Fragment() {
+    private lateinit var serviceData: ServiceData
+    private var _binding: FragmentServiceInfoBinding? = null
+    private val binding get() = _binding!!
 
-class OfferActivity : AppCompatActivity() {
-
-    lateinit var binding: ActivityOfferBinding
+    private var hostService: HostService? = null
     private lateinit var mapObjects: MapObjectCollection
 
     override fun onCreate(savedInstanceState: Bundle?) {
         MapKitFactory.setApiKey(getString(R.string.yandex_maps_API_key))
-        MapKitFactory.initialize(this)
+        MapKitFactory.initialize(requireContext())
         super.onCreate(savedInstanceState)
-        binding = ActivityOfferBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        val offer = intent.extras?.get(ServiceData::class.java.name) as ServiceData
-
-        initMap(offer)
-        initViews(offer)
-        initActions()
-        binding.respond.setOnClickListener {
-            val intent = Intent(this@OfferActivity, ChooseMaterialActivity::class.java)
-            intent.putExtra(ServiceData::class.java.name, offer)
-            startActivity(intent)
-        }
-        binding.back.setOnClickListener {
-            finish()
+        arguments?.let {
+            serviceData = it.get(ServiceData::class.java.name) as ServiceData
         }
     }
 
-    private fun initMap(service: ServiceData) {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = FragmentServiceInfoBinding.inflate(inflater, container, false)
+        return _binding?.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        initMap()
+
+        initViews()
+        fillLayoutOfferDescription()
+
+        binding.respond.setOnClickListener {
+            hostService?.openServiceMaterials()
+        }
+        binding.back.setOnClickListener {
+            hostService?.back()
+        }
+    }
+
+    private fun initMap() {
         mapObjects = binding.mapView.map.mapObjects.addCollection()
 
         binding.mapView.map.isScrollGesturesEnabled = false
@@ -65,8 +83,8 @@ class OfferActivity : AppCompatActivity() {
         binding.mapView.map.move(
             CameraPosition(
                 Point(
-                    service.geolocation[0],
-                    service.geolocation[1]
+                    serviceData.geolocation[0],
+                    serviceData.geolocation[1]
                 ),
                 16f,
                 0.0f,
@@ -79,14 +97,14 @@ class OfferActivity : AppCompatActivity() {
         val mark: PlacemarkMapObject = mapObjects
             .addEmptyPlacemark(
                 Point(
-                    service.geolocation[0],
-                    service.geolocation[1]
+                    serviceData.geolocation[0],
+                    serviceData.geolocation[1]
                 )
             )
 
         mark.setIcon(
             ImageProvider.fromResource(
-                this@OfferActivity,
+                requireContext(),
                 R.drawable.mark
             ),
             IconStyle().setAnchor(PointF(0f, 0f))
@@ -94,19 +112,17 @@ class OfferActivity : AppCompatActivity() {
                 .setZIndex(0f)
                 .setScale(0.1f)
         )
-
-
     }
 
-    private fun initViews(service: ServiceData) {
-        binding.title.text = service.title
-        binding.offerDescription.text = service.text
+    private fun initViews() {
+        binding.title.text = serviceData.title
+        binding.offerDescription.text = serviceData.text
 
-        val formattedPrice = priceFormat.format(service.price.toDouble())
+        val formattedPrice = priceFormat.format(serviceData.price.toDouble())
         (getString(R.string.before) + " " + formattedPrice + " " +
                 getString(R.string.ruble)).also { binding.price.text = it }
 
-        binding.address.text = service.address
+        binding.address.text = serviceData.address
 
         binding.recyclerImage.addItemDecoration(
             ItemOffsetDecoration(
@@ -115,35 +131,31 @@ class OfferActivity : AppCompatActivity() {
                 resources.getDimension(R.dimen.dimens_8dp).toInt()
             )
         )
-        binding.recyclerImage.adapter = OfferImagesAdapter(service.images, this)
+        binding.recyclerImage.adapter = OfferImagesAdapter(serviceData.images, requireContext())
 
         val currentCalendar = GregorianCalendar.getInstance()
         try {
             currentCalendar.time =
-                Objects.requireNonNull(serverFormatterDate.parse(service.updatedAt))
+                Objects.requireNonNull(serverFormatterDate.parse(serviceData.updatedAt))
         } catch (e: ParseException) {
             e.printStackTrace()
         }
 
-        binding.date.text = printedFormatterDateOfferActivity.format(currentCalendar.time)
-
-        fillLayoutOfferDescription(service)
-
-
+        _binding?.date?.text = printedFormatterDateOfferActivity.format(currentCalendar.time)
     }
 
-    private fun fillLayoutOfferDescription(service: ServiceData) {
-        for (file in service.files) {
-            val textView = TextView(this)
+    private fun fillLayoutOfferDescription() {
+        for (file in serviceData.files) {
+            val textView = TextView(requireContext())
             textView.text = file
-            textView.setTextColor(ContextCompat.getColor(this, R.color.colorBDBDBD))
+            textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.colorBDBDBD))
             textView.includeFontPadding = false
             textView.compoundDrawablePadding = resources.getDimension(R.dimen.dimens_6dp).toInt()
             textView.isSingleLine = true
-            textView.typeface = ResourcesCompat.getFont(this, R.font.golos_regular)
+            textView.typeface = ResourcesCompat.getFont(requireContext(), R.font.golos_regular)
             textView.ellipsize = TextUtils.TruncateAt.END
             textView.setCompoundDrawablesWithIntrinsicBounds(
-                AppCompatResources.getDrawable(this, R.drawable.ic_attachment),
+                AppCompatResources.getDrawable(requireContext(), R.drawable.ic_attachment),
                 null,
                 null,
                 null
@@ -156,17 +168,37 @@ class OfferActivity : AppCompatActivity() {
         }
     }
 
-    private fun initActions() {
-        binding.back.setOnClickListener {
-            finish()
-        }
-        binding.respond.setOnClickListener {
+    companion object {
+        @JvmStatic
+        fun newInstance(serviceData: ServiceData) =
+            ServiceInfoFragment().apply {
+                arguments = Bundle().apply {
+                    putSerializable(ServiceData::class.java.name, serviceData)
+                }
+            }
+    }
 
+    override fun onDestroyView() {
+        _binding = null
+        super.onDestroyView()
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (activity is HostService) {
+            hostService = activity as HostService
+        } else {
+            throw RuntimeException(activity.toString() + " must implement HostService interface")
         }
     }
 
+    override fun onDetach() {
+        super.onDetach()
+        hostService = null
+    }
+
     override fun onStop() {
-        binding.mapView.onStop()
+        _binding?.mapView?.onStop()
         MapKitFactory.getInstance().onStop()
         super.onStop()
     }
@@ -174,6 +206,6 @@ class OfferActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         MapKitFactory.getInstance().onStart()
-        binding.mapView.onStart()
+        _binding?.mapView?.onStart()
     }
 }
