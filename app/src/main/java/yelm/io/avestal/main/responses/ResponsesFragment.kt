@@ -10,7 +10,9 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import yelm.io.avestal.Logging
+import yelm.io.avestal.R
 import yelm.io.avestal.app_settings.SharedPreferencesSetting
+import yelm.io.avestal.common.ItemOffsetTopBottomDecoration
 import yelm.io.avestal.databinding.FragmentResponsesBinding
 import yelm.io.avestal.main.host.AppHost
 import yelm.io.avestal.rest.RestAPI
@@ -22,15 +24,9 @@ class ResponsesFragment : Fragment() {
     private var _binding: FragmentResponsesBinding? = null
     private val binding get() = _binding!!
     private var appHost: AppHost? = null
+    private var adapter: ResponsesAdapter? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-
-        }
-    }
-
-    override fun onCreateView(
+       override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
@@ -40,10 +36,16 @@ class ResponsesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getResponses()
+        binding.recyclerResponses.addItemDecoration(
+            ItemOffsetTopBottomDecoration(
+                resources.getDimension(R.dimen.dimens_12dp).toInt(),
+                resources.getDimension(R.dimen.dimens_8dp).toInt()
+                )
+        )
     }
 
     private fun getResponses() {
+        adapter?.clear()
         showLoading()
         RetrofitClient.getClient(RestAPI.URL_API_MAIN)
             .create(RestAPI::class.java)
@@ -56,11 +58,12 @@ class ResponsesFragment : Fragment() {
                     hideLoading()
                     Logging.logDebug("response.code(): ${response.code()}")
                     if (response.isSuccessful) {
-                        //initAdapter(response.body()!!.data)
                         Logging.logDebug("size: ${response.body()?.size}")
-                        binding.recyclerResponses.adapter =
-                            ResponsesAdapter(response.body()!!, requireContext())
-
+                        adapter = ResponsesAdapter(
+                            response.body()!! as MutableList<UserResponse>,
+                            requireContext()
+                        )
+                        binding.recyclerResponses.adapter = adapter
                     }
                 }
 
@@ -78,6 +81,16 @@ class ResponsesFragment : Fragment() {
     fun hideLoading() {
         binding.progressBar.visibility = View.GONE
     }
+
+    override fun onStart() {
+        super.onStart()
+        getResponses()
+    }
+
+    override fun onResume() {
+        super.onResume()
+    }
+
 
     companion object {
 

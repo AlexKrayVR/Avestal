@@ -16,18 +16,21 @@ import yelm.io.avestal.Logging
 import yelm.io.avestal.R
 import yelm.io.avestal.app_settings.SharedPreferencesSetting
 import yelm.io.avestal.auth.login.LoginFragment
-import yelm.io.avestal.auth.registration.*
 import yelm.io.avestal.auth.registration.common.finishFragmentTag
 import yelm.io.avestal.auth.registration.common.whatIsYourWorkFragmentTag
 import yelm.io.avestal.auth.registration.fragments.*
 import yelm.io.avestal.auth.verification.view.VerificationFragment
+import yelm.io.avestal.common.CAMERA_PERMISSIONS
+import yelm.io.avestal.common.READ_WRITE_EXTERNAL_PERMISSIONS
+import yelm.io.avestal.common.REQUEST_PERMISSIONS_CAMERA_CODE
+import yelm.io.avestal.common.REQUEST_PERMISSIONS_READ_WRITE_STORAGE_CODE
 import yelm.io.avestal.databinding.RegVerActivityBinding
 import yelm.io.avestal.main.host.AppActivity
 import yelm.io.avestal.rest.RestAPI
 import yelm.io.avestal.rest.RetrofitClient
 import yelm.io.avestal.rest.responses.AccessToken
 import yelm.io.avestal.rest.responses.AuthResponse
-import yelm.io.avestal.rest.responses.UserInfo
+import yelm.io.avestal.rest.responses.user.UserInfo
 
 class AuthActivity : AppCompatActivity(), HostAuth {
     private lateinit var binding: RegVerActivityBinding

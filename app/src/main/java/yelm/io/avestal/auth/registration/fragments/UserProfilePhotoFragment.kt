@@ -23,7 +23,7 @@ import yelm.io.avestal.R
 import yelm.io.avestal.databinding.FragmentUserPhotoBinding
 import yelm.io.avestal.auth.host.HostAuth
 import yelm.io.avestal.auth.model.UserViewModel
-import yelm.io.avestal.auth.registration.PROFILE_IMAGE_REQUEST_CODE
+import yelm.io.avestal.common.PROFILE_IMAGE_REQUEST_CODE
 import yelm.io.avestal.auth.registration.common.UploadRequestBody
 import yelm.io.avestal.auth.registration.getFileName
 import yelm.io.avestal.rest.KotlinAPI

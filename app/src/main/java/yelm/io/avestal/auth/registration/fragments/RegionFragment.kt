@@ -13,7 +13,7 @@ import yelm.io.avestal.auth.model.UserViewModel
 import yelm.io.avestal.auth.registration.interfaces.RegionView
 import yelm.io.avestal.auth.registration.presenters.RegionPresenter
 import yelm.io.avestal.databinding.FragmentRegionBinding
-import yelm.io.avestal.rest.responses.UserInfo
+import yelm.io.avestal.rest.responses.user.UserInfo
 
 class RegionFragment : MvpAppCompatFragment(), RegionView {
     private var hostAuth: HostAuth? = null

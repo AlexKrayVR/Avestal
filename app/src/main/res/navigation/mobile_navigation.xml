@@ -19,8 +19,8 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="yelm.io.avestal.main.home.HomeFragment"
-        tools:layout="@layout/fragment_home" />
+        android:name="yelm.io.avestal.main.shop.ShopFragment"
+        tools:layout="@layout/fragment_shop" />
 
 
     <fragment

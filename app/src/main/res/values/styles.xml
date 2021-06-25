@@ -16,11 +16,15 @@
     </style>
 
     <style name="ProgressBarStyle">
-        <item name="colorAccent">@color/white</item>
+        <item name="colorAccent">@color/colorWhite</item>
     </style>
 
     <style name="ProgressBarRed">
         <item name="colorAccent">@color/mainColor</item>
+    </style>
+
+    <style name="ProgressBarWhite">
+        <item name="colorAccent">@color/colorWhite</item>
     </style>
 
 
@@ -29,7 +33,7 @@
         <item name="colorControlActivated">@color/mainColor</item>
 
         <!-- неактивное состояние ползунка -->
-        <item name="colorSwitchThumbNormal">@color/white</item>
+        <item name="colorSwitchThumbNormal">@color/colorWhite</item>
 <!--        <item name="colorAccent">#e91e63</item>-->
 
 <!--        <item name="trackTint">@color/color26DF252C</item>-->

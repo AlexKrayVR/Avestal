@@ -66,7 +66,7 @@ class ServiceFragment : Fragment() {
         }
     }
 
-    private fun getOffers() {
+    private fun getServices() {
         adapter?.clear()
         setOffersSize(0)
         showLoading()
@@ -96,7 +96,7 @@ class ServiceFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        getOffers()
+        getServices()
     }
 
     override fun onResume() {

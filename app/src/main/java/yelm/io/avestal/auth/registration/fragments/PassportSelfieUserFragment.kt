@@ -25,8 +25,8 @@ import yelm.io.avestal.Logging
 import yelm.io.avestal.R
 import yelm.io.avestal.auth.host.HostAuth
 import yelm.io.avestal.auth.model.UserViewModel
-import yelm.io.avestal.auth.registration.USER_PASSPORT_IMAGE_REQUEST_CODE
-import yelm.io.avestal.auth.registration.USER_SELFIE_IMAGE_REQUEST_CODE
+import yelm.io.avestal.common.USER_PASSPORT_IMAGE_REQUEST_CODE
+import yelm.io.avestal.common.USER_SELFIE_IMAGE_REQUEST_CODE
 import yelm.io.avestal.auth.registration.common.PHOTO_FILE_NAME
 import yelm.io.avestal.auth.registration.common.SUFFIX
 import yelm.io.avestal.auth.registration.common.UploadRequestBody
@@ -195,10 +195,10 @@ class PassportSelfieUserFragment : Fragment(), UploadRequestBody.UploadCallback 
         binding?.takeUserIDPhoto?.setTextColor(
             ContextCompat.getColor(
                 requireContext(),
-                R.color.white
+                R.color.colorWhite
             )
         )
-        binding?.number1?.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+        binding?.number1?.setTextColor(ContextCompat.getColor(requireContext(), R.color.colorWhite))
     }
 
     private fun setLayoutSelfie() {
@@ -207,10 +207,10 @@ class PassportSelfieUserFragment : Fragment(), UploadRequestBody.UploadCallback 
         binding?.takeUserSelfie?.setTextColor(
             ContextCompat.getColor(
                 requireContext(),
-                R.color.white
+                R.color.colorWhite
             )
         )
-        binding?.number2?.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+        binding?.number2?.setTextColor(ContextCompat.getColor(requireContext(), R.color.colorWhite))
     }
 
     private fun getPhotoFile(): File {

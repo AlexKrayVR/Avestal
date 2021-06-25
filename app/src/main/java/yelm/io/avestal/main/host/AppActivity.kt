@@ -1,7 +1,10 @@
 package yelm.io.avestal.main.host
 
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
@@ -12,13 +15,15 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import yelm.io.avestal.Logging
 import yelm.io.avestal.R
+import yelm.io.avestal.common.LOCATION_PERMISSIONS
+import yelm.io.avestal.common.LOCATION_PERMISSION_REQUEST_CODE
 import yelm.io.avestal.database.BasketItemModelFactory
 import yelm.io.avestal.database.BasketItemViewModel
 import yelm.io.avestal.database.BasketRepository
 import yelm.io.avestal.database.BasketRoomDatabase
 import yelm.io.avestal.databinding.ActivityAppBinding
 import yelm.io.avestal.main.model.UserInfoModel
-import yelm.io.avestal.rest.responses.UserInfo
+import yelm.io.avestal.rest.responses.user.UserInfo
 
 class AppActivity : AppCompatActivity(), AppHost {
 
@@ -29,6 +34,7 @@ class AppActivity : AppCompatActivity(), AppHost {
     private lateinit var db: BasketRoomDatabase
     private lateinit var basketItemViewModel: BasketItemViewModel
     private lateinit var repository: BasketRepository
+    private var toast: Toast? = null
 
     private lateinit var viewModel: UserInfoModel
 
@@ -86,7 +92,19 @@ class AppActivity : AppCompatActivity(), AppHost {
         }
     }
 
+    override fun showToast(message: Int) {
+        toast?.cancel()
+        toast = Toast.makeText(this, resources?.getString(message), Toast.LENGTH_LONG)
+        toast?.show()
+    }
+
     override fun getDBRepository(): BasketRepository {
         return repository
     }
+
+
+
+
+
+
 }

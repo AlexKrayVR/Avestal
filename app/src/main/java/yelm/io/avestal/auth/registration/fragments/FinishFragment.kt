@@ -19,7 +19,7 @@ import yelm.io.avestal.auth.model.UserViewModel
 import yelm.io.avestal.rest.RestAPI
 import yelm.io.avestal.rest.RetrofitClient
 import yelm.io.avestal.rest.responses.AccessToken
-import yelm.io.avestal.rest.responses.UserInfo
+import yelm.io.avestal.rest.responses.user.UserInfo
 
 
 class FinishFragment : Fragment() {

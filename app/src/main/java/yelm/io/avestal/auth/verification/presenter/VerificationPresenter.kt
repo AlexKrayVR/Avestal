@@ -11,7 +11,7 @@ import yelm.io.avestal.rest.RestAPI
 import yelm.io.avestal.rest.RetrofitClient
 import yelm.io.avestal.rest.responses.AccessToken
 import yelm.io.avestal.rest.responses.AuthResponse
-import yelm.io.avestal.rest.responses.UserInfo
+import yelm.io.avestal.rest.responses.user.UserInfo
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 

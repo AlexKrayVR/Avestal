@@ -12,7 +12,7 @@ import yelm.io.avestal.auth.registration.interfaces.RegionView
 import yelm.io.avestal.rest.RestAPI
 import yelm.io.avestal.rest.RetrofitClient
 import yelm.io.avestal.rest.responses.AccessToken
-import yelm.io.avestal.rest.responses.UserInfo
+import yelm.io.avestal.rest.responses.user.UserInfo
 
 
 @InjectViewState

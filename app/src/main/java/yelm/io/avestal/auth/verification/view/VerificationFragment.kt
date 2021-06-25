@@ -20,7 +20,7 @@ import yelm.io.avestal.auth.host.HostAuth
 import yelm.io.avestal.auth.model.UserViewModel
 import yelm.io.avestal.auth.verification.presenter.VerificationPresenter
 import yelm.io.avestal.rest.responses.AuthResponse
-import yelm.io.avestal.rest.responses.UserInfo
+import yelm.io.avestal.rest.responses.user.UserInfo
 
 class VerificationFragment : Fragment(),  VerificationView {
 

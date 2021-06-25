@@ -1,4 +1,4 @@
-package yelm.io.avestal.rest.responses
+package yelm.io.avestal.rest.responses.user
 
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable

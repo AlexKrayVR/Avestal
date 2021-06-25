@@ -9,3 +9,4 @@ var serverFormatterDate = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.
 var printedFormatterDate = SimpleDateFormat("HH:mm", Locale.getDefault())
 
 var printedFormatterDateOfferActivity = SimpleDateFormat("dd MMMM", Locale.getDefault())
+var printedFormatterDateResponseMessage = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())

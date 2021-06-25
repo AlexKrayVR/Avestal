@@ -87,8 +87,6 @@
     <string name="myResponses">Мои отклики</string>
 
 
-
-
     <!--BasketFragment -->
     <string name="basket">Корзина</string>
     <string name="clearBasket">Очистить</string>
@@ -175,7 +173,6 @@
     <!--Common -->
     <string name="internal_storage">Internal storage</string>
     <string name="serverError">Ошиба соединения с сервером, повторите попытку позже</string>
-
 
 
 </resources>

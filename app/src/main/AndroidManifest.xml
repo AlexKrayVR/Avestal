@@ -20,9 +20,11 @@
         android:theme="@style/Theme.Avestal"
         tools:ignore="LockedOrientationActivity">
         <activity
+            android:name=".main.responses.response_messages.ResponseMessagesActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".main.services.service.host.ServiceHostActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".main.user.settings.ActivitySettings"
             android:screenOrientation="portrait" />

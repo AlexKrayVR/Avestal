@@ -1,7 +1,7 @@
 package yelm.io.avestal.auth.verification.view
 
 import yelm.io.avestal.rest.responses.AuthResponse
-import yelm.io.avestal.rest.responses.UserInfo
+import yelm.io.avestal.rest.responses.user.UserInfo
 
 interface VerificationView {
     fun showLoading();

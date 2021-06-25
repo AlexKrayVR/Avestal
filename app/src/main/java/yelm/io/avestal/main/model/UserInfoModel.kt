@@ -2,8 +2,7 @@ package yelm.io.avestal.main.model
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import yelm.io.avestal.auth.model.User
-import yelm.io.avestal.rest.responses.UserInfo
+import yelm.io.avestal.rest.responses.user.UserInfo
 
 class UserInfoModel() : ViewModel() {
 
